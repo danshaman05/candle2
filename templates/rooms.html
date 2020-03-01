@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ROOMS</title>
+</head>
+<body>
+
+<!--
+    <div id="obsah_in">
+    <div id="panel_toggle_spacer"></div>
+        <div id="web_header">
+        <h1>Rozvrhy miestností</h1>
+    </div>
+-->
+    <p>
+
+
+        {% for room_group in rooms_dict %}
+        <a href="#{{ room_group }}"> {{ room_group }} </a>
+        {% endfor %}
+
+    </p>
+
+{#    <h2 id="A">A</h2>#}
+{##}
+{#    <ul>#}
+{#                <li><a href="/2016-2017-zima/miestnosti/A">A</a></li>#}
+{#            </ul>#}
+{#    <h2 id="B">B</h2>#}
+
+</body>
+</html>

@@ -1,4 +1,5 @@
 from flask import Flask
+from flask import render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -6,16 +7,46 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:SuperBakalarka1.@l
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
+'''
+Autor: Daniel Grohol
+Candle2 (prototyp). In this prototype I am reading data from MySQL DB and processing them and printing in same format as in old Candle. 
+'''
+
+
+
 ''' TODO:
 1. vypisat z DB nieco (napr. rooms) - OK 
     1.1 trieda Room - namapovana na tabulku room - OK
     1.2 vytvorit dictionaries - podla pomlciek (vid funkcia Candle::groupSortedByDashes )
-    
-
-2.  treba template? - pre kazdy kruzok? .. pre kazdy rocnik?
-3. trieda Kruzok
-3. vypisat tie kruzky...
 '''
+
+
+
+
+
+class Room(db.Model):
+    __tablename__ = 'room'
+    id = db.Column('id', db.BIGINT, primary_key=True)
+    name = db.Column('name', db.String(30))
+    room_type_id = db.Column("room_type_id", db.BIGINT)
+    capacity = db.Column("capacity", db.BIGINT)
+
+    def __repr__(self):
+        return "<Room %r>" % self.name
+
+#
+# @app.route('/')
+# def hello_world():
+#     return 'Hello World!'
+
+
+@app.route('/')
+def list_all_rooms():
+    rooms = Room.query.all()
+    rooms_dict = getRoomsSortedByDashes_dict(rooms)  # ucebne su v jednom dictionary rozdelene podla prefixu
+
+    return render_template('rooms.html', rooms_dict=rooms_dict)
+
 
 
 '''
@@ -44,7 +75,6 @@ def getRoomsSortedByDashes_dict(rooms_lst) -> dict:
         # ak su data v zlom formate:
         # raise Exception("Bad data format for room. Room must be in format 'prefix-suffix', for example: 'F1-208'")
 
-        print("prefix, suffix : " + prefix, suffix)
         if prefix not in d:
             d[prefix] = []
         if prefix == suffix:
@@ -56,30 +86,8 @@ def getRoomsSortedByDashes_dict(rooms_lst) -> dict:
 
 
 
-
-class Room(db.Model):
-    __tablename__ = 'room'
-    id = db.Column('id', db.BIGINT, primary_key=True)
-    name = db.Column('name', db.String(30))
-    room_type_id = db.Column("room_type_id", db.BIGINT)
-    capacity = db.Column("capacity", db.BIGINT)
-
-    def __repr__(self):
-        return "<Room %r>" % self.name
-
-rooms = Room.query.all()
-rooms_dict = getRoomsSortedByDashes_dict(rooms) #  ucebne su v jednom dictionary rozdelene podla prefixu
-print("nieco")
-print(rooms_dict)
-
-
-@app.route('/')
-def hello_world():
-    return 'Hello World!'
-
-@app.route('/about')
-def hello_daniel():
-    return 'About page!'
-
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, use_reloader=False)
+
+
+
