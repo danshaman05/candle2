@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:SuperBakalarka1.@localhost/candle_2016_2017_zima'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-db = SQLAlchemy(app)
+db = SQLAlchemy(app)        # TODO osamostatni do triedy napr. DBService
 
 '''
 Autor: Daniel Grohol
@@ -23,7 +23,7 @@ Candle2 (prototyp). In this prototype I am reading data from MySQL DB and proces
 
 
 
-
+# TODO osamostatni napr. do Models
 class Room(db.Model):
     __tablename__ = 'room'
     id = db.Column('id', db.BIGINT, primary_key=True)
@@ -40,6 +40,7 @@ class Room(db.Model):
 #     return 'Hello World!'
 
 
+# TODO osamostatnit do routes ??
 @app.route('/')
 def list_all_rooms():
     rooms = Room.query.all()
@@ -75,7 +76,12 @@ def getRoomsSortedByDashes_dict(rooms_lst) -> dict:
         # ak su data v zlom formate:
         # raise Exception("Bad data format for room. Room must be in format 'prefix-suffix', for example: 'F1-208'")
 
+        if 'xMieRez' in prefix:
+            suffix = prefix
+            prefix = "Ostatné"
+
         if prefix not in d:
+            print('prefix: ', prefix)
             d[prefix] = []
         if prefix == suffix:
             d[prefix].append(suffix)
