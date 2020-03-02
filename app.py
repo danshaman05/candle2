@@ -14,15 +14,6 @@ Candle2 (prototyp). In this prototype I am reading data from MySQL DB and proces
 
 
 
-''' TODO:
-1. vypisat z DB nieco (napr. rooms) - OK 
-    1.1 trieda Room - namapovana na tabulku room - OK
-    1.2 vytvorit dictionaries - podla pomlciek (vid funkcia Candle::groupSortedByDashes )
-'''
-
-
-
-
 # TODO osamostatni napr. do Models
 class Room(db.Model):
     __tablename__ = 'room'
@@ -76,20 +67,22 @@ def getRoomsSortedByDashes_dict(rooms_lst) -> dict:
         # ak su data v zlom formate:
         # raise Exception("Bad data format for room. Room must be in format 'prefix-suffix', for example: 'F1-208'")
 
+        #xMieRez je specialny pripad:
         if 'xMieRez' in prefix:
             suffix = prefix
             prefix = "Ostatné"
-
-        if prefix not in d:
-            print('prefix: ', prefix)
-            d[prefix] = []
-        if prefix == suffix:
+            if prefix not in d:
+                d[prefix] = []
             d[prefix].append(suffix)
         else:
-            d[prefix].append('-'.join([prefix, suffix]))
+            if prefix not in d:
+                d[prefix] = []
+            if prefix == suffix:
+                d[prefix].append(suffix)
+            else:
+                d[prefix].append('-'.join([prefix, suffix]))
 
     return d
-
 
 
 if __name__ == '__main__':
