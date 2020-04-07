@@ -36,7 +36,7 @@ udržateľnosti a rozširovateľnosti.
 |4. | 9/3 | 15/3 | Štúdium zdrojov - tutoriál "Python Flask Tutorial: Full-Featured Web App" časti 1-3. |
 |5. | 16/3 | 22/3 | Štúdium zdrojov - tutoriál "Python Flask Tutorial: Full-Featured Web App" časť 4-5. |
 |6. | 23/3 | 29/3 | Zmena súborovej štruktúry projektu. Osamostatnenie models, templates, routes. Vytvorenie package-u. Init push do Github adresára. |
-|7. | 30/3 | 5/4 | Úprava endpointov pre "miestnosti".|
+|7. | 30/3 | 5/4 | Úprava endpointov pre "miestnosti". Testovanie endpointov "miestnosti".|
 |8. | 6/4 | 12/4 | |
 |9. | 13/4 | 19/4 | |
 |10. | 20/4 | 25/5 | |
