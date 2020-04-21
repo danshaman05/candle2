@@ -37,7 +37,7 @@ udržateľnosti a rozširovateľnosti.
 |5. | 16/3 | 22/3 | Štúdium zdrojov - tutoriál "Python Flask Tutorial: Full-Featured Web App" časť 4-5. |
 |6. | 23/3 | 29/3 | Zmena súborovej štruktúry projektu. Osamostatnenie models, templates, routes. Vytvorenie package-u. Init push do Github adresára. |
 |7. | 30/3 | 5/4 | Úprava endpointov pre "miestnosti". Testovanie endpointov "miestnosti".|
-|8. | 6/4 | 12/4 | Riešenie problému tabuľkového zobrazenia rozvrhu vo Flask-u.  |
+|8. | 6/4 | 12/4 | Riešenie problému tabuľkového zobrazenia rozvrhu vo Flask-u - Implementácia frameworku Flask Table. |
 |9. | 20/4 | 25/5 | |
 |10. | 27/4 | 3/5 | |
 |11. | 4/5 | 10/5 | |
