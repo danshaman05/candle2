@@ -39,7 +39,7 @@ udržateľnosti a rozširovateľnosti.
 |7. | 30/3 | 5/4 | Úprava endpointov pre "miestnosti". Testovanie endpointov "miestnosti".|
 |8. | 6/4 | 12/4 | Riešenie problému tabuľkového zobrazenia rozvrhu vo Flask-u - Implementácia frameworku Flask Table. |
 |9. | 20/4 | 25/5 | Reverse engineering Candlu: modul timetable. Pomocou MySQL Workbench som získal dátový model súčasnej databázy Candl-u. |
-|10. | 27/4 | 3/5 | |
+|10. | 27/4 | 3/5 | Reverse engineering Candlu: moduly timetable, freeRoom. Tabuľka free_room_interval slúži k vyhľadávaniu voľných miestností.|
 |11. | 4/5 | 10/5 | |
 |12. | 11/5 | 17/5 | |
 |13. | 18/5 | 24/5 | |
