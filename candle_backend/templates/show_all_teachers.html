@@ -1,0 +1,47 @@
+{# Vypise vsetkych ucitelov #}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Miestnosti</title>
+</head>
+<body>
+
+    <div id="obsah_in">
+        <div id="panel_toggle_spacer">
+        </div>
+
+        <div id="web_header">
+            <h1>Rozvrhy učiteľov</h1>
+        </div>
+
+        <p>
+            {% for first_letter in teachers_dict %}
+            <a href="#{{ first_letter }}">{{ first_letter }}</a>
+            {% endfor %}
+        </p>
+
+    {# Kategorie miestnosti: #}
+        {% for category_key in teachers_dict %}
+        <h2 id="{{ category_key }}">{{ category_key }}</h2>
+
+            <ul>
+                {% for teacher in teachers_dict[category_key] -%}
+                {#  TODO treba zmenit na url_for !!!  url_for('teacherTimetable', teacher_slug=teacher.slug) }} #}
+                    <li><a href="/ucitelia/{{ teacher.slug }}">{{ teacher.family_name }}
+                    {%- if teacher.given_name -%}
+                        {{ ', ' }}{{ teacher.given_name }}
+                    {%- endif -%}
+                    </a></li>
+                {%-  endfor %}
+            </ul>
+
+        {% endfor %}
+
+
+    </div>
+
+</body>
+</html>

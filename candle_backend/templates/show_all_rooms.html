@@ -1,0 +1,41 @@
+{# Vypise vsetky miestnosti #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Miestnosti</title>
+</head>
+<body>
+
+    <div id="obsah_in">
+        <div id="panel_toggle_spacer">
+        </div>
+
+        <div id="web_header">
+            <h1>Rozvrhy miestností</h1>
+        </div>
+
+        <p>
+            {% for room_prefix in rooms_dict %}
+            <a href="#{{ room_prefix }}">{{ room_prefix }}</a>
+            {% endfor %}
+        </p>
+
+    {# Kategorie miestnosti: #}
+        {% for room_prefix in rooms_dict %}
+        <h2 id="{{ room_prefix }}">{{ room_prefix }}</h2>
+
+            <ul>
+                {% for room in rooms_dict[room_prefix] %}
+                <li><a href="{{ url_for('roomTimetable', room_name = room) }}">{{ room }}</a></li>
+                {%  endfor %}
+            </ul>
+
+        {% endfor %}
+
+
+    </div>
+
+</body>
+</html>
