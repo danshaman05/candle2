@@ -13,7 +13,7 @@
         </div>
 
             <div id="web_header">
-                <h1>Rozvrh miestnosti {{ room_name }}</h1>
+                <h1>{{ teacher_name }}</h1>
             </div>
 
     {# TODO TIMETABLE#}
@@ -55,18 +55,18 @@
                             {{ lesson['subject'] }}
                         {% endif %}
                     </td>
-                    <td>
-                        {% if lesson['teachers_dict'] %}
-                            {%  for slug, short_name in lesson['teachers_dict'].items() -%}
-                                <a href="{{ url_for('teacherTimetable', teacher_slug=slug) }}">{{ short_name }}</a>
-                                {%- if not loop.last -%}
-                                    {{ ', ' }}
-                                {%- endif %}
-                            {%- endfor %}
-                        {% endif %}
-                    </td>
                     <td>{{ lesson['note'] }}</td>
-                </tr>
+                <td>
+                    {% if lesson['teachers_dict'] %}
+                        {%  for slug, short_name in lesson['teachers_dict'].items() -%}
+                            <a href="{{ url_for('teacherTimetable', teacher_slug=slug) }}">{{ short_name }}</a>
+                            {%- if not loop.last -%}
+                                {{ ', ' }}
+                            {%- endif %}
+                        {%- endfor %}
+                    {% endif %}
+            </td>
+            </tr>
             {% endfor %}
             </tbody>
         </table>
