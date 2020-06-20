@@ -1,0 +1,54 @@
+{# base_timetable.html #}
+{# super-template pre vypisanie rozvrhu #}
+{% extends "base.html" %}
+
+{% block obsah_in %}
+    {{ super() }}
+    {% block rozvrhList %}
+        <table id="rozvrhList" class="vysledky_podrobneho_hladania">
+        <tbody>
+        <tr>
+            <th>Deň</th>
+            <th>Od</th>
+            <th>Do</th>
+            <th>Miestnosť</th>
+            <th>Typ</th>
+            <th>Kód</th>
+            <th>Predmet</th>
+            <th>Vyučujúci</th>
+            <th>Poznámka</th>
+        </tr>
+
+        {% for lesson in lessons %}
+            <tr>
+                <td>{{  lesson['day'] }}</td>
+                <td>{{  lesson['start'] }}</td>
+                <td>{{  lesson['end'] }}</td>
+                <td><a href="{{ url_for('roomTimetable', room_name=lesson['room']) }}">{{ lesson['room'] }}</a></td>
+                <td>{{ lesson['type'] }}</td>
+                <td>{{ lesson['code'] }}</td>
+                <td>
+                    {% if lesson['type'] != 'Nezadaný typ' %}
+                        <a href="https://sluzby.fmph.uniba.sk/infolist/SK/{{ lesson['code'] }}.html">{{ lesson['subject'] }}</a>
+                    {% else %}
+                        {{ lesson['subject'] }}
+                    {% endif %}
+                </td>
+                <td>{{ lesson['note'] }}</td>
+            <td>
+                {% if lesson['teachers_dict'] %}
+                    {%  for slug, short_name in lesson['teachers_dict'].items() -%}
+                        <a href="{{ url_for('teacherTimetable', teacher_slug=slug) }}">{{ short_name }}</a>
+                        {%- if not loop.last -%}
+                            {{ ', ' }}
+                        {%- endif %}
+                    {%- endfor %}
+                {% endif %}
+            </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+        </table>
+    {% endblock %}
+
+{% endblock %}
