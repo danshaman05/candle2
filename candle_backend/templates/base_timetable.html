@@ -2,8 +2,7 @@
 {# super-template pre vypisanie rozvrhu #}
 {% extends "base.html" %}
 
-{% block obsah_in %}
-    {{ super() }}
+
     {% block rozvrhList %}
         <table id="rozvrhList" class="vysledky_podrobneho_hladania">
         <tbody>
@@ -50,5 +49,3 @@
         </tbody>
         </table>
     {% endblock %}
-
-{% endblock %}
