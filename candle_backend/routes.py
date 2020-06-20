@@ -77,7 +77,7 @@ def getLessons_list(lessons_objects) -> List:
         lesson_dict['start'] = minutes2time(lo.start)
         lesson_dict['end'] = minutes2time(lo.end)
         lesson_dict['room'] = lo.room.name
-        lesson_dict['type'] = LessonType.query.get(lo.lesson_type_id)
+        lesson_dict['type'] = LessonType.query.get(lo.lesson_type_id).name
         lesson_dict['code'] = subject.short_code
         lesson_dict['subject'] = subject.name
         lesson_dict['note'] = lo.note if lo.note is not None else ''

@@ -1,20 +1,11 @@
 {# Vypise vsetky miestnosti #}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Miestnosti</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}Rozvrhy miestností{% endblock %}
 
-    <div id="obsah_in">
-        <div id="panel_toggle_spacer">
-        </div>
-
-        <div id="web_header">
-            <h1>Rozvrhy miestností</h1>
-        </div>
+{% block web_header %}Rozvrhy miestností{% endblock %}
+{% block obsah_in %}
+    {{ super() }}
 
         <p>
             {% for room_prefix in rooms_dict %}
@@ -34,8 +25,4 @@
 
         {% endfor %}
 
-
-    </div>
-
-</body>
-</html>
+{% endblock %}

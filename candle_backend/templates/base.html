@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Rozvrh pre FMFI UK</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/dark.css" title="Tmavé farby" />
+    <link rel="alternate stylesheet" type="text/css" media="screen" href="/static/css/light.css" title="Svetlé farby" />
+
+    <script type="text/javascript" src="/static/js/mootools-1.2.4-core.js"></script>
+    <script type="text/javascript" src="/static/js/element.js"></script>
+    <script type="text/javascript" src="/static/js/layout.js"></script>
+    <script type="text/javascript" src="/static/js/timetable_editor.js"></script>
+    <script type="text/javascript" src="/static/js/timetable.js"></script>
+    <script type="text/javascript" src="/static/js/search.js"></script>
+    <script type="text/javascript" src="/static/js/styles.js"></script>
+
+</head>
+
+<body>
+    <div id="vrch_logo">
+        <a href="/">Rozvrh</a>
+    </div>
+
+    <div id="hlavny">
+        <div id="obsah_wrap">
+            <div id="obsah_vrch">
+                <div id="obsah_vrch_lavy">
+                    <div id="obsah_in">
+                        {% block obsah_in %}
+
+                        <div id="panel_togge_spacer">
+                        </div>
+
+                        <div id="web_header">
+                            <h1>{% block web_header %}{% endblock %}</h1>
+                        </div>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

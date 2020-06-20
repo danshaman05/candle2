@@ -1,20 +1,12 @@
-{# Vypise rozvrh pre danu miestnost. #}
+{# Vypise rozvrh pre daneho ucitela. #}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Miestnosti</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block title %}{{ teacher_name }}{% endblock %}
 
-    <div id="obsah_in">
-        <div id="panel_toggle_spacer">
-        </div>
+{% block web_header %}{{ teacher_name }}{% endblock %}
+{% block obsah_in %}
+    {{ super() }}
 
-            <div id="web_header">
-                <h1>{{ teacher_name }}</h1>
-            </div>
 
     {# TODO TIMETABLE#}
 
@@ -71,8 +63,4 @@
             </tbody>
         </table>
 
-
-    </div>
-
-</body>
-</html>
+{% endblock %}
