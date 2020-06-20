@@ -2,4 +2,3 @@
 .directory
 venv/
 __pycache__/
-static/js/
