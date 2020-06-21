@@ -1,7 +1,10 @@
 {# base_timetable.html #}
 {# super-template pre vypisanie rozvrhu #}
-
 {% extends "base.html" %}
+
+{% block title %}{{ title }}{% endblock %}
+{% block web_header %}{{ web_header }}{% endblock %}
+
     {% block rozvrhList %}
         <table id="rozvrhList" class="vysledky_podrobneho_hladania">
         <tbody>
@@ -32,8 +35,7 @@
                         {{ lesson['subject'] }}
                     {% endif %}
                 </td>
-                <td>{{ lesson['note'] }}</td>
-            <td>
+                <td>
                 {% if lesson['teachers_dict'] %}
                     {%  for slug, short_name in lesson['teachers_dict'].items() -%}
                         <a href="{{ url_for('teacherTimetable', teacher_slug=slug) }}">{{ short_name }}</a>
@@ -42,7 +44,8 @@
                         {%- endif %}
                     {%- endfor %}
                 {% endif %}
-            </td>
+                </td>
+                <td>{{ lesson['note'] }}</td>
             </tr>
         {% endfor %}
         </tbody>

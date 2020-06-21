@@ -28,7 +28,8 @@ def roomTimetable(room_name):
     room = Room.query.filter_by(name=room_name).first()
     lessons_objects = room.lessons.order_by(Lesson.day, Lesson.start)
     lessons_list = getLessons_list(lessons_objects)
-    return render_template('timetable_room.html', room_name=room_name, lessons=lessons_list)
+    web_header = "Rozvrh miestnosti " + room_name
+    return render_template('timetable.html', room_name=room_name, lessons=lessons_list, title=room_name, web_header=web_header)
 
 
 
@@ -53,7 +54,7 @@ def teacherTimetable(teacher_slug):
     lessons_objects = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
     lessons_list = getLessons_list(lessons_objects)
 
-    return render_template('timetable_teacher.html', teacher_name=teacher_name, lessons=lessons_list)
+    return render_template('timetable.html', teacher_name=teacher_name, lessons=lessons_list, title=teacher_name, web_header=teacher_name)
 
 
 def getLessons_list(lessons_objects) -> List:
