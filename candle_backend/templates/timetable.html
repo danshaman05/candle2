@@ -29,7 +29,7 @@
                 <td>{{ lesson['type'] }}</td>
                 <td>{{ lesson['code'] }}</td>
                 <td>
-                    {% if lesson['type'] != 'Nezadaný typ' %}
+                    {% if lesson['code'] %}
                         <a href="https://sluzby.fmph.uniba.sk/infolist/SK/{{ lesson['code'] }}.html">{{ lesson['subject'] }}</a>
                     {% else %}
                         {{ lesson['subject'] }}
