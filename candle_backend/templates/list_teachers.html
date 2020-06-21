@@ -15,7 +15,6 @@
     {# Kategorie miestnosti: #}
         {% for category_key in teachers_dict %}
         <h2 id="{{ category_key }}">{{ category_key }}</h2>
-
             <ul>
                 {% for teacher in teachers_dict[category_key] -%}
                     <li><a href="{{ url_for('teacherTimetable', teacher_slug=teacher.slug) }}">{{ teacher.family_name }}
@@ -26,6 +25,4 @@
                 {%-  endfor %}
             </ul>
         {% endfor %}
-
-
 {% endblock %}

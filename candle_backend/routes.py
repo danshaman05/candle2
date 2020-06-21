@@ -19,7 +19,7 @@ def list_rooms():
     rooms = Room.query.all()
     rooms_dict = getRoomsSortedByDashes_dict(rooms)  # ucebne su v jednom dictionary rozdelene podla prefixu
 
-    return render_template('show_all_rooms.html', rooms_dict=rooms_dict)
+    return render_template('list_rooms.html', rooms_dict=rooms_dict)
 
 
 @app.route('/miestnosti/<room_name>')
@@ -41,7 +41,7 @@ def list_teachers():
     teachers = Teacher.query.order_by(Teacher.family_name)
     teachers_dict = getTeachersSortedByLastname_dict(teachers)  # ucebne su v jednom dictionary rozdelene podla prefixu
 
-    return render_template('show_all_teachers.html', teachers_dict=teachers_dict)
+    return render_template('list_teachers.html', teachers_dict=teachers_dict)
 
 
 @app.route('/ucitelia/<teacher_slug>')
