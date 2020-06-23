@@ -18,7 +18,7 @@
         <h2 id="{{ category }}">{{ category }}</h2>
             <ul>
                 {% for group in student_groups_dict[category] -%}
-                    <li><a href="{{ url_for('studentGroupTimetable', student_group_name=group.name) }}">{{ group.name }}</a></li>
+                    <li><a href="{{ url_for('timetable_student_group', student_group_name=group.name) }}">{{ group.name }}</a></li>
                 {%-  endfor %}
             </ul>
         {% endfor %}

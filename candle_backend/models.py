@@ -47,7 +47,7 @@ class Lesson(db.Model):
     note = db.Column(db.VARCHAR, nullable=True)
 
 
-    def getDayAbbreviation(self) -> str:
+    def get_day_abbreviation(self) -> str:
         '''Vrati skratku dna v tyzdni.'''
 
         days = ['Po', 'Ut', 'St', 'Št', 'Pi']

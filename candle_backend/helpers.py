@@ -1,7 +1,7 @@
 #This file contains helper functions
 import unidecode
 
-def getRoomsSortedByDashes(rooms_lst) -> dict:
+def get_rooms_sorted_by_dashes(rooms_lst) -> dict:
     '''
     Rozdeli mena miestnosti podla pomlcok do dictionary, kde key je vzdy prefix miestnosti (napr. F1-108 ma prefix F1)
     a value su dane pripony ulozene v poli.
@@ -45,7 +45,7 @@ def getRoomsSortedByDashes(rooms_lst) -> dict:
     return d
 
 
-def getTeachersSortedByLastname(teachers) -> dict:
+def get_teachers_sorted_by_family_name(teachers) -> dict:
     ''' Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
     vstup: zoznam objektov triedy models.Teacher zoradenych podla priezviska (family_name)
     vystup: dictionary { string, List objektov Teacher}, kde klucom je zac. pismeno priezviska
@@ -74,7 +74,7 @@ def getTeachersSortedByLastname(teachers) -> dict:
     return result_dict
 
 
-def getStudentGroupsSortedByFirstLetter(student_groups) -> dict:
+def get_student_groups_sorted_by_first_letter(student_groups) -> dict:
     '''Vrati dictionary kruzkov (student_groups) zotriedenych podla prveho znaku v nazve kruzku.'''
     result_dict = {}
     for group in student_groups:
@@ -85,14 +85,14 @@ def getStudentGroupsSortedByFirstLetter(student_groups) -> dict:
     return result_dict
 
 
-def minutes2time(time_in_minutes: int) -> str:
+def minutes_2_time(time_in_minutes: int) -> str:
     ''' Vrati cas v 24-hodinovom formate.'''
     hours = time_in_minutes // 60
     minutes = time_in_minutes % 60
     return f"{hours}:{minutes}"
 
 
-def shortName(first_name: str, last_name: str):
+def get_short_name(first_name: str, last_name: str):
     '''Vrati skratene meno, napr. pre "Andrej Blaho" vrati "A. Blaho" '''
 
     if first_name == '':  # Napr. teacher id 1259

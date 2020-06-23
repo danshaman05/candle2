@@ -17,7 +17,7 @@
         <h2 id="{{ room_prefix }}">{{ room_prefix }}</h2>
             <ul>
                 {% for room in rooms_dict[room_prefix] %}
-                <li><a href="{{ url_for('roomTimetable', room_name = room) }}">{{ room }}</a></li>
+                <li><a href="{{ url_for('timetable_room', room_name = room) }}">{{ room }}</a></li>
                 {%  endfor %}
             </ul>
         {% endfor %}
