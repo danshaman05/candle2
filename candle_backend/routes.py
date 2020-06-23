@@ -1,9 +1,9 @@
 from typing import List, Dict
 
 from flask import render_template
-from candle_backend.models import Room, Lesson, LessonType, Subject, Teacher
+from candle_backend.models import Room, Lesson, LessonType, Subject, Teacher, StudentGroup
 from candle_backend import app
-from candle_backend.helpers import getRoomsSortedByDashes_dict, getTeachersSortedByLastname_dict, minutes2time, shortName
+from candle_backend.helpers import getRoomsSortedByDashes, getTeachersSortedByLastname, getStudentGroupsSortedByFirstLetter, minutes2time, shortName
 
 
 @app.route('/')
@@ -11,53 +11,8 @@ def home(): # TODO
     return '<a href="/miestnosti">Rozvrhy všetkých miestností</a>' \
            '<br><a href="/ucitelia">Rozvrhy všetkých učiteľov</a>'
 
-#### MODUL ROOM ####
 
-@app.route('/miestnosti')
-def list_rooms():
-    # Vypise vsetky miestnosti (zoznam)
-    rooms = Room.query.all()
-    rooms_dict = getRoomsSortedByDashes_dict(rooms)  # ucebne su v jednom dictionary rozdelene podla prefixu
-
-    return render_template('list_rooms.html', rooms_dict=rooms_dict)
-
-
-@app.route('/miestnosti/<room_name>')
-def roomTimetable(room_name):
-    # Zobrazi rozvrh pre danu miestnost:
-    room = Room.query.filter_by(name=room_name).first()
-    lessons_objects = room.lessons.order_by(Lesson.day, Lesson.start)
-    lessons_list = getLessons_list(lessons_objects)
-    web_header = "Rozvrh miestnosti " + room_name
-    return render_template('timetable.html', room_name=room_name, lessons=lessons_list, title=room_name, web_header=web_header)
-
-
-
-
-#### MODUL TEACHER ####
-
-# Vypise vsetkych ucitelov (zoznam)
-@app.route('/ucitelia')
-def list_teachers():
-    teachers = Teacher.query.order_by(Teacher.family_name)
-    teachers_dict = getTeachersSortedByLastname_dict(teachers)  # ucebne su v jednom dictionary rozdelene podla prefixu
-
-    return render_template('list_teachers.html', teachers_dict=teachers_dict)
-
-
-@app.route('/ucitelia/<teacher_slug>')
-def teacherTimetable(teacher_slug):
-    ''' Zobrazi rozvrh daneho ucitela.'''
-    teacher = Teacher.query.filter_by(slug=teacher_slug).first()
-    teacher_name = teacher.given_name + " " + teacher.family_name
-
-    lessons_objects = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
-    lessons_list = getLessons_list(lessons_objects)
-
-    return render_template('timetable.html', teacher_name=teacher_name, lessons=lessons_list, title=teacher_name, web_header=teacher_name)
-
-
-def getLessons_list(lessons_objects) -> List:
+def getLessons(lessons_objects) -> List:
     lessons_list: List[Dict] = []
     for lo in lessons_objects:
         subject = lo.subject
@@ -85,3 +40,76 @@ def getLessons_list(lessons_objects) -> List:
 
         lessons_list.append(lesson_dict)
     return lessons_list
+
+
+#### MODUL ROOM ####
+
+@app.route('/miestnosti')
+def list_rooms():
+    # Vypise vsetky miestnosti (zoznam)
+    rooms = Room.query.all()
+    rooms_dict = getRoomsSortedByDashes(rooms)  # ucebne su v jednom dictionary rozdelene podla prefixu
+
+    return render_template('list_rooms.html', rooms_dict=rooms_dict)
+
+
+@app.route('/miestnosti/<room_name>')
+def roomTimetable(room_name):
+    # Zobrazi rozvrh pre danu miestnost:
+    room = Room.query.filter_by(name=room_name).first()
+    lessons_objects = room.lessons.order_by(Lesson.day, Lesson.start)
+    lessons_list = getLessons(lessons_objects)
+    web_header = "Rozvrh miestnosti " + room_name
+    return render_template('timetable.html', room_name=room_name, lessons=lessons_list, title=room_name, web_header=web_header)
+
+
+
+#### MODUL TEACHER ####
+
+# Vypise vsetkych ucitelov (zoznam)
+@app.route('/ucitelia')
+def list_teachers():
+    teachers = Teacher.query.order_by(Teacher.family_name)
+    teachers_dict = getTeachersSortedByLastname(teachers)
+
+    return render_template('list_teachers.html', teachers_dict=teachers_dict)
+
+
+@app.route('/ucitelia/<teacher_slug>')
+def teacherTimetable(teacher_slug):
+    ''' Zobrazi rozvrh daneho ucitela.'''
+    teacher = Teacher.query.filter_by(slug=teacher_slug).first()
+    teacher_name = teacher.given_name + " " + teacher.family_name
+
+    lessons_objects = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
+    lessons_list = getLessons(lessons_objects)
+
+    return render_template('timetable.html', teacher_name=teacher_name, lessons=lessons_list, title=teacher_name, web_header=teacher_name)
+
+
+
+
+
+
+
+
+@app.route('/kruzky')
+def list_student_groups():
+    student_groups = StudentGroup.query.all()
+    student_groups_dict = getStudentGroupsSortedByFirstLetter(student_groups)
+
+    return render_template('list_student_groups.html', student_groups_dict=student_groups_dict)
+
+
+
+@app.route('/kruzky/<student_group_name>')
+def studentGroupTimetable(student_group_name):
+    ''' Zobrazi rozvrh pre dany kruzok.'''
+    group = StudentGroup.query.filter_by(name=student_group_name).first()
+
+    lessons_objects = group.lessons.order_by(Lesson.day, Lesson.start).all()
+    lessons_list = getLessons(lessons_objects)
+    web_header = "Rozvrh krúžku " + student_group_name
+
+    return render_template('timetable.html', student_group_name=student_group_name, lessons=lessons_list,
+                           web_header=web_header)

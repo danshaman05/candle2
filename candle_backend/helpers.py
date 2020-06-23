@@ -1,7 +1,7 @@
 #This file contains helper functions
 import unidecode
 
-def getRoomsSortedByDashes_dict(rooms_lst) -> dict:
+def getRoomsSortedByDashes(rooms_lst) -> dict:
     '''
     Rozdeli mena miestnosti podla pomlcok do dictionary, kde key je vzdy prefix miestnosti (napr. F1-108 ma prefix F1)
     a value su dane pripony ulozene v poli.
@@ -45,16 +45,14 @@ def getRoomsSortedByDashes_dict(rooms_lst) -> dict:
     return d
 
 
-def getTeachersSortedByLastname_dict(teachers) -> dict:
+def getTeachersSortedByLastname(teachers) -> dict:
     ''' Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
     vstup: zoznam objektov triedy models.Teacher zoradenych podla priezviska (family_name)
     vystup: dictionary { string, List objektov Teacher}, kde klucom je zac. pismeno priezviska
     a hodnoty su objekty triedy Teacher'''
 
     result_dict = {}
-    ostatne = []
-
-
+    ostatne = []    # specialna kategoria
     for teacher in teachers:
         if teacher.family_name is None or teacher.family_name == '':
             continue
@@ -76,16 +74,27 @@ def getTeachersSortedByLastname_dict(teachers) -> dict:
     return result_dict
 
 
-def minutes2time(timeInMinutes: int) -> str:
+def getStudentGroupsSortedByFirstLetter(student_groups) -> dict:
+    '''Vrati dictionary kruzkov (student_groups) zotriedenych podla prveho znaku v nazve kruzku.'''
+    result_dict = {}
+    for group in student_groups:
+        first_letter = group.name[0]
+        if first_letter not in result_dict:
+            result_dict[first_letter] = []
+        result_dict[first_letter].append(group)
+    return result_dict
+
+
+def minutes2time(time_in_minutes: int) -> str:
     ''' Vrati cas v 24-hodinovom formate.'''
-    hours = timeInMinutes // 60
-    minutes = timeInMinutes % 60
+    hours = time_in_minutes // 60
+    minutes = time_in_minutes % 60
     return f"{hours}:{minutes}"
 
 
-def shortName(firstName: str, lastName: str):
+def shortName(first_name: str, last_name: str):
     '''Vrati skratene meno, napr. pre "Andrej Blaho" vrati "A. Blaho" '''
 
-    if firstName == '':  # Napr. teacher id 1259
+    if first_name == '':  # Napr. teacher id 1259
         return ''
-    return firstName[0] + ". " + lastName
+    return first_name[0] + ". " + last_name

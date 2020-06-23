@@ -1,21 +1,19 @@
 from candle_backend import db
 
-# TODO Treba popridavat nullable=False, db.ForeignKey k atributom
-
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
 
-    lessons = db.relationship('Lesson', backref='room', lazy='dynamic')     # dynamic preto, aby sme s lessons mohli pracovat ako s query (mohli spustit order_by,...)
+    lessons = db.relationship('Lesson', backref='room', lazy='dynamic')     # vdaka dynamic mozme s lessons pracovat ako s query (mohli spustit order_by,...)
 
     def __repr__(self):
         return "<Room %r>" % self.name
 
 
 teacher_lessons = db.Table('teacher_lessons',
-                           db.Column('id', db.Integer, primary_key=True),  #  je v tabulke zbytocne? (primarny kluc je predsa dvojica atributov nizsie)
+                           db.Column('id', db.Integer, primary_key=True),  # je v tabulke zbytocne? (primarny kluc je predsa dvojica atributov nizsie)
                            db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id')),
                            db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
 )
@@ -84,6 +82,18 @@ class Subject(db.Model):
         return f"Subject(id:'{self.id}', name:'{self.name}' )"
 
 
+
+student_group_lessons = db.Table('student_group_lessons',
+                           db.Column('student_group_id', db.Integer, db.ForeignKey('student_group.id')),
+                           db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
+)
+
+
+class StudentGroup(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False)
+
+    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
 
 
 #### ZATIAL NEVYUZITE:
