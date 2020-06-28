@@ -48,7 +48,7 @@ def get_lessons(lessons_objects) -> List:
 @app.route('/miestnosti')
 def list_rooms():
     # Vypise vsetky miestnosti (zoznam)
-    rooms = Room.query.all()
+    rooms = Room.query.order_by(Room.name).all()
     rooms_dict = get_rooms_sorted_by_dashes(rooms)  # ucebne su v jednom dictionary rozdelene podla prefixu
 
     return render_template('list_rooms.html', rooms_dict=rooms_dict)

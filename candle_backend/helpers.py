@@ -1,24 +1,25 @@
 #This file contains helper functions
-import unidecode
 
-def get_rooms_sorted_by_dashes(rooms_lst) -> dict:
+import unidecode
+from collections import OrderedDict
+from typing import Dict
+
+
+def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
     '''
     Rozdeli mena miestnosti podla pomlcok do dictionary, kde key je vzdy prefix miestnosti (napr. F1-108 ma prefix F1)
     a value su dane pripony ulozene v poli.
     vstup: zoznam objektov triedy models.Room
     vystup: dictionary {string, List stringov}
     '''
-    d = dict()
+    d = {}
     for room in rooms_lst:
         name = room.name
-
-        # there is one empty string in table room (I don't know why)
-        if name == " ":
+        if name == " ":   # v tabulke room mame jednu miestnost s name " "
             continue
 
-        dash_position = name.find('-') # finds first occurence
-
-        if (dash_position) == -1:  # name doesnt contains dash
+        dash_position = name.find('-')
+        if (dash_position) == -1:  # name neobsahuje '-'
             prefix = suffix = name
         else:
             prefix = name[0 : dash_position]
@@ -41,17 +42,16 @@ def get_rooms_sorted_by_dashes(rooms_lst) -> dict:
                 d[prefix].append(suffix)
             else:
                 d[prefix].append('-'.join([prefix, suffix]))
+    return get_ordered_dict(d)
 
-    return d
 
-
-def get_teachers_sorted_by_family_name(teachers) -> dict:
+def get_teachers_sorted_by_family_name(teachers) -> Dict:
     ''' Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
     vstup: zoznam objektov triedy models.Teacher zoradenych podla priezviska (family_name)
     vystup: dictionary { string, List objektov Teacher}, kde klucom je zac. pismeno priezviska
     a hodnoty su objekty triedy Teacher'''
 
-    result_dict = {}
+    d = {}
     ostatne = []    # specialna kategoria
     for teacher in teachers:
         if teacher.family_name is None or teacher.family_name == '':
@@ -63,15 +63,16 @@ def get_teachers_sorted_by_family_name(teachers) -> dict:
             continue
         first_letter = unidecode.unidecode(first_letter)    # zmenime ho na pismeno bez diakritiky (napr. Č zmeni na C)
 
-        if teacher.family_name[:2] == 'Ch':     # family_name zacinajuce na CH je samostatna kategoria.
+        if string_starts_with_ch(teacher.family_name):     # family_name zacinajuce na CH je samostatna kategoria.
             first_letter = 'Ch'
 
-        if first_letter not in result_dict:
-            result_dict[first_letter] = []
-        result_dict[first_letter].append(teacher)
+        if first_letter not in d:
+            d[first_letter] = []
+        d[first_letter].append(teacher)
 
-    result_dict['Ostatné'] = ostatne
-    return result_dict
+    d['Ostatné'] = ostatne
+
+    return get_ordered_dict(d)
 
 
 def get_student_groups_sorted_by_first_letter(student_groups) -> dict:
@@ -98,3 +99,34 @@ def get_short_name(first_name: str, last_name: str):
     if first_name == '':  # Napr. teacher id 1259
         return ''
     return first_name[0] + ". " + last_name
+
+
+################################
+
+def string_starts_with_ch(prefix : str):
+    if prefix.lower()[:2] == "ch":
+        return True
+    return False
+
+
+def get_first_letter(input : str) -> str:
+    'napr. pre "F1" vrati "f", pre "Ch1" vrati "ch", pre "Ostatné" vráti "Ostatné"'
+
+    if input == "Ostatné":
+        return "Ostatné"
+    elif string_starts_with_ch(input):
+        return "ch"
+    else:
+        return input[0].lower()
+
+
+def get_ordered_dict(d : Dict) -> OrderedDict:
+    'Vrati dict zoradeny podla slovenskej abecedy'
+
+    # TODO dalo by sa optimalizovat - presunut 3 riadky nizsie niekam inam (napr. samostatna trieda)
+    alphabet = "a b c d e f g h ch i j k l m n o p q r s t u v w x y z Ostatné"
+    alphabet = alphabet.split(' ')
+    order: Dict = {i: alphabet.index(i) for i in alphabet}
+
+    sorted_items = sorted(d.items(), key=lambda t: order.get(get_first_letter(t[0])))
+    return OrderedDict(sorted_items)
