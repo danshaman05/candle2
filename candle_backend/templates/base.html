@@ -6,7 +6,8 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - Rozvrh pre FMFI UK</title>
-    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+    <link rel="shortcut icon" href="static/images_old_frontend/favicon.ico" type="image/x-icon">     {#TODO: aktualizovat na novy favicon#}
+
 
 {# ZATIAL NEVYUZIVAM - NEVIEM NA CO PRESNE SLUZI #}
 {#    <script type="text/javascript">#}
@@ -15,45 +16,40 @@
 {#        var candleFrontendDomain = "candle.fmph.uniba.sk";#}
 {#    </script>#}
 
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/main.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/dark.css" title="Tmavé farby" />
-    <link rel="alternate stylesheet" type="text/css" media="screen" href="/static/css/light.css" title="Svetlé farby" />
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="static/css/style.min.css" />
 
-    <script type="text/javascript" src="/static/js/mootools-1.2.4-core.js"></script>
-    <script type="text/javascript" src="/static/js/element.js"></script>
-    <script type="text/javascript" src="/static/js/layout.js"></script>
-    <script type="text/javascript" src="/static/js/timetable_editor.js"></script>
-    <script type="text/javascript" src="/static/js/timetable.js"></script>
-    <script type="text/javascript" src="/static/js/search.js"></script>
-    <script type="text/javascript" src="/static/js/styles.js"></script>
+    <!--[if lt IE 9]>
+        <script src="static/js/vendor/html5-3.6-respond-1.4.2.min.js"></script>
+    <![endif]-->
 
 </head>
 
 <body>
-    <div id="vrch_logo">
-        <a href="/">Rozvrh</a>
-    </div>
+    <div class="main_wraper">
 
-    <div id="hlavny">
-        <div id="obsah_wrap">
-            <div id="obsah_vrch">
-                <div id="obsah_vrch_lavy">
-                    <div id="obsah_in">
-                        {% block obsah_in %}
-                            <div id="panel_toggle_spacer">
-                            </div>
+        <div class="sidebar">
+            {# TODO #}
+        </div>
 
-                            <div id="web_header">
-                                <h1>{% block web_header %}{% endblock %}</h1>
-                            </div>
 
-                            {% block rozvrhList %}{% endblock %}
-                        {% endblock %}
-                    </div>
+        <div class="content">
+            <div class="content_header">
+                <div class="content__header_name">
+                    <h1>{% block content__header_name %}{% endblock %}</h1>
                 </div>
+            </div>
+            <div class="content_timetable">
+                {% block content__timetable %}{% endblock %}
             </div>
         </div>
     </div>
+
+
+{#    DG: TODO Musi to byt tu?:#}
+    <script src="static/js/vendor/jquery-3.2.1.min.js"></script>
+    <script src="static/js/vendor/sticky-kit.js"></script>
+    <script src="static/js/main.js"></script>
 
 </body>
 

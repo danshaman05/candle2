@@ -3,8 +3,8 @@
 {% extends "base.html" %}
 {% block title %}Rozvrhy miestností{% endblock %}
 
-{% block web_header %}Rozvrhy miestností{% endblock %}
-{% block obsah_in %}
+{% block content__header_name %}Rozvrhy miestností{% endblock %}
+{% block content__timetable %}
     {{ super() }}
         <p>
             {% for room_prefix in rooms_dict %}

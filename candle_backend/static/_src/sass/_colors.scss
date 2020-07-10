@@ -1,0 +1,23 @@
+$dark: #353d64;
+$light: #f9f9f9;
+$timetable: #f5f8fd;
+$text: #555f61;
+
+%blue {
+    background-color: #34c3f9;
+}
+%red {
+    background-color: #f8264f;
+}
+%orange {
+    background-color: #fbb841;
+}
+%purple {
+    background-color: #d702ec;
+}
+%grey {
+    background-color: grey;
+}
+@mixin set-color($color) {
+    @extend %#{$color};
+}

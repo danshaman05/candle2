@@ -6,7 +6,12 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:SuperBakalarka1.@l
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'    # Kvoli collation - zatial nevyuzivame.
+
 db = SQLAlchemy(app)
+
+# temporary_path_prefix = '/2016-2017-zima'     # vyuzijeme potom mozno pri testovani
+temporary_path_prefix = ''
+
 
 # icu zatial nevyuzivam, kedze neviem sortovat podla priezviska a mena ucitela zaroven:
 import icu  # pre spravne sortovanie ucitelov, miestnosti, kruzkov v SK jazyku

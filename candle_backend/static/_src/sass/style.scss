@@ -1,0 +1,716 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,700&subset=latin-ext');
+@import 'normalize';
+@import 'reset';
+@import 'colors';
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	color: $text;
+}
+
+.overlay {
+	position: fixed;
+	z-index: 8;
+	background: rgba(0, 0, 0, .4);
+	right: 0;
+	bottom: 0;
+	top: 0;
+	left: 0;
+}
+
+.main_wraper {
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+	min-height: 100vh;
+}
+
+.sidebar {
+	background: $dark;
+	width: 100px;
+	height: 100%;
+	min-height: 100vh;
+	position: fixed;
+	z-index: 99;
+
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-direction: column;
+
+	.fa-arrow-left, .fa-bars {
+		display: none;
+	}
+
+	@media screen and (max-width: 996px) {
+		width: 100vw;
+		height: 40px;
+		min-height: auto;
+		top: 0;
+		left: 0;
+
+		.fa-arrow-left, .fa-arrow-right {
+			display: none;
+		}
+		.fa-bars {
+			display: block;
+		}
+	}
+
+	&__logo {
+		width: 100%;
+
+		@media screen and (max-width: 996px) {
+			width: auto;
+			height: 100%;
+		}
+
+		&:hover {
+			cursor: pointer;
+
+			path {
+				stop-opacity: 1;
+			}
+		}
+	}
+
+	&__elements {
+		list-style: none;
+		margin: 50px auto 20px;
+
+		@media screen and (max-width: 996px) {
+			margin: 0;
+		}
+
+		li {
+			display: block;
+			width: 100%;
+			margin: 20px 0;
+			text-align: center;
+			color: rgba(255, 255, 255, 0.9);
+			transition: all ease-in-out .25s;
+			padding: 10px 0;
+			cursor: pointer;
+
+			@media screen and (min-width: 996px) {
+				&:hover {
+					color: rgba(255, 255, 255, 1);
+
+					i {
+						top: -3px;
+					}
+				}
+			}
+
+			i {
+				transition: all ease-in-out .25s;
+				top: 0;
+				position: relative;
+				font-size: 1.6em;
+			}
+
+			p {
+				font-size: 12px;
+				text-align: center;
+				margin-top: 10px;
+			}
+		}
+	}
+
+	&__visible {
+		width: 100%;
+		height: 100%;
+		background: $dark;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-direction: column;
+		padding: 20px;
+		padding-top: 40px;
+		box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+
+		@media screen and (max-width: 996px) {
+			width: 100vw;
+			height: 40px;
+			min-height: auto;
+			padding: 7px 20px;
+			top: 0;
+			left: 0;
+			flex-direction: row;
+		}
+	}
+
+	&__container {
+		position: absolute;
+		width: 500px;
+		height: 100vh;
+		top: 0;
+		right: 0;
+		z-index: -1;
+		background: inherit;
+		transition: all ease-in-out .4s;
+		background: $dark;
+		padding: 40px;
+		padding-top: 80px;
+		overflow-x: hidden;
+
+		display: flex;
+		justify-content: flex-start;
+		align-items: flex-start;
+		flex-direction: column;
+
+		@media screen and (max-width: 996px) {
+			width: 100vw;
+			height: 100vh;
+			padding: 60px 20px;
+			top: -100vh;
+		}
+
+		&:after {
+			content: "";
+			position: absolute;
+			display: block;
+			top: 0;
+			right: 0;
+			width: 100%;
+			height: 100%;
+			background: $dark;
+			opacity: 1;
+			transition: all ease-in-out .4s;
+		}
+
+		&--expanded {
+			right: -500px;
+			box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+
+			@media screen and (max-width: 996px) {
+				right: 0;
+				top: 0;
+			}
+
+			&:after {
+				opacity: 0;
+				visibility: hidden;
+			}
+		}
+	}
+
+	&__close {
+		background: transparent;
+		border: none;
+		padding: 0;
+		margin: 0;
+		outline: none;
+
+		position: absolute;
+		top: 30px;
+		right: 30px;
+		font-size: 1.5em;
+		color: rgba(255, 255, 255, 0.9);
+		cursor: pointer;
+		padding: 10px;
+
+		@media screen and (max-width: 996px) {
+			display: none;
+		}
+
+		&:hover {
+			color: rgba(255, 255, 255, 1);
+		}
+	}
+
+	&__block {
+		width: 100%;
+		color: white;
+		margin-bottom: 30px;
+
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+
+		&_title {
+			font-size: 18px;
+			font-weight: 400;
+			margin-bottom: 7px;
+
+			@media screen and (max-width: 996px) {
+				font-size: 16px;
+			}
+		}
+
+		&_input {
+			padding-left: 30px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			@media screen and (max-width: 996px) {
+				padding-left: 0;
+			}
+
+			input, button {
+				display: block;
+				background: transparent;
+				color: white;
+				border: none;
+				padding: 5px;
+				border-bottom: 1px solid $light;
+				font-size: 14px;
+				font-family: 'Open Sans', sans-serif;
+
+				@media screen and (max-width: 996px) {
+					font-size: 14px;
+				}
+			}
+
+			input {
+				width: 80%;
+				outline: none;
+
+				&::placeholder {
+					font-weight: 300;
+					color: #ebebeb;
+				}
+
+				@media screen and (max-width: 996px) {
+					width: 75%;
+				}
+			}
+
+			button {
+				width: 20%;
+				cursor: pointer;
+				background: $light;
+				color: $text;
+				transition: all ease-in-out .2s;
+
+				@media screen and (max-width: 996px) {
+					width: 25%;
+				}
+
+				&:hover {
+					background: white;
+				}
+			}
+
+			ul {
+				padding-left: 10px;
+				list-style-position: inside;
+				padding-bottom: 30px;
+				font-size: 14px;
+
+				@media screen and (max-width: 996px) {
+					font-size: 14px;
+				}
+
+				li {
+					margin-bottom: 3px;
+				}
+			}
+
+
+		}
+	}
+}
+
+.content {
+	background: $light;
+	width: 100%;
+	margin-left: 100px;
+	overflow: hidden;
+
+	@media screen and (max-width: 996px) {
+		margin-left: 0;
+		margin-top: 40px;
+	}
+
+	&__header {
+		padding-left: 75px;
+		padding-bottom: 25px;
+		height: 100px;
+		background: linear-gradient(to bottom, #f9f9f9, #ffffff);
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+
+		@media screen and (max-width: 996px) {
+			padding: 20px;
+			height: auto;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: flex-start;
+		}
+	}
+
+	&__timetable {
+		overflow: hidden;
+	}
+
+	&__header_name {
+		color: #36434a;
+		display: block;
+		height: 100%;
+		padding-top: 40px;
+
+		h1 {
+			font-size: 2em;
+			font-weight: 100;
+			margin: 0;
+		}
+
+		@media screen and (max-width: 996px) {
+			padding: 0;
+			font-size: 1.3em;
+		}
+	}
+
+	&__header_controls {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-end;
+		flex-direction: column;
+		margin-right: 50px;
+
+		@media screen and (max-width: 996px) {
+			width: 100%;
+			margin-right: 0;
+			padding-top: 20px;
+		}
+	}
+
+	&__header_user_row {
+		margin-bottom: 20px;
+		font-size: 14px;
+
+		@media screen and (max-width: 996px) {
+			margin-bottom: 0;
+			display: none;
+		}
+
+		a {
+			&:hover {
+				cursor: pointer;
+				color: darken($text, 50);
+			}
+		}
+
+		i {
+			font-size: 16px;
+			margin: 0 10px;
+
+			&:last-of-type {
+				margin-right: 0;
+			}
+
+		}
+	}
+
+	&__header_controls_row {
+		@media screen and (max-width: 996px) {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			max-width: 500px;
+		}
+
+		i {
+			font-size: 1.3em;
+			margin: 0 10px;
+
+			&:last-of-type {
+				margin-right: 0;
+			}
+
+			@media screen and (max-width: 996px) {
+				margin: 5px;
+			}
+
+			&:hover {
+				cursor: pointer;
+				color: darken($text, 50);
+			}
+		}
+	}
+
+}
+
+.timetable {
+	display: flex;
+	justify-content: flex-start;
+	align-items: flex-start;
+	width: 100%;
+	height: 800px;
+	overflow: hidden;
+	position: relative;
+
+	@media screen and (max-width: 996px) {
+		overflow: auto;
+	}
+
+	&__current_time {
+		position: absolute;
+		width: 100%;
+		height: 2px;
+		background: #85e34c;
+		top: 0;
+		left: 0;
+		z-index: 3;
+		box-shadow: 0 0 5px transparentize(#85e34c, 0.7);
+		transition: all ease-in-out .25s;
+		opacity: 0.8;
+
+		@media screen and (max-width: 996px) {
+			width: calc(160px * 5 + 50px);
+		}
+	}
+
+	&__days {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		background: #ffffff;
+		position: relative;
+		z-index: 4;
+	}
+
+	&__day {
+		width: 25%;
+		height: 50px;
+		text-align: center;
+		line-height: 46px;
+		min-width: 160px;
+		background: #ffffff;
+		border-bottom: 1px solid #dbdee3;
+		box-sizing: content-box;
+
+		&:first-of-type {
+			padding-left: 75px;
+		}
+
+		@media screen and (max-width: 996px) {
+			height: 40px;
+			line-height: 36px;
+
+			&:first-of-type {
+				padding-left: 50px;
+			}
+		}
+	}
+
+	&__collum {
+		width: calc((100% - 75px) / 5);
+		background: $timetable;
+		padding-bottom: 100px;
+		height: 100%;
+		min-width: 160px;
+
+		&--times {
+			width: 75px;
+			font-weight: bold;
+			text-align: center;
+			font-size: 14px;
+			min-width: auto;
+
+			@media screen and (max-width: 996px) {
+				width: 50px;
+				font-size: 12px;
+			}
+
+			.timetable__cell {
+				padding: 10px;
+			}
+		}
+	}
+
+	&__cell {
+		width: 100%;
+		height: 51px;
+		position: relative;
+
+		&::after {
+			content: "";
+			display: block;
+			position: absolute;
+			width: 100vw;
+			height: 0px;
+			border-bottom: 1px solid lighten(#dbdee3, 4);
+			bottom: 0;
+			left: 0;
+
+			@media screen and (max-width: 996px) {
+				width: calc(160px * 5 + 50px);
+			}
+		}
+	}
+}
+
+
+.lecture_container {
+	width: 100%;
+	padding: 2px 4px 3px;
+	position: relative;
+	z-index: 2;
+	height: 51px;
+	display: flex;
+
+	@for $i from 1 through 13 {
+		&--size-#{$i} {
+			height: 51px * $i;
+		}
+		&--offset-#{$i} {
+			margin-top: 51px * $i;
+		}
+	}
+
+	&--size-1 {
+		transition: all ease-in-out .25s;
+
+		.lecture_container__lecture_room {
+			margin-bottom: 0;
+			line-height: 1em;
+		}
+		.lecture_container__lecture_name {
+			white-space: nowrap;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+	}
+
+	&--size-1:hover {
+		height: 102px;
+		margin-bottom: -51px;
+		z-index: 3;
+
+		.lecture_container__lecture_room {
+			margin-bottom: 10px;
+			line-height: 19px;
+		}
+		.lecture_container__lecture_name {
+			white-space: unset;
+			overflow: initial;
+			text-overflow: unset;
+		}
+	}
+
+	&__lecture {
+		width: 100%;
+		height: 100%;
+		background: white;
+		border-radius: 2px;
+		box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+		position: relative;
+		font-size: 14px;
+		padding: 5px 20px 5px 10px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-start;
+		align-items: flex-start;
+		transition: all ease-in-out 0.25s;
+		background: lighten($light, 1);
+		overflow: hidden;
+
+		@media screen and (max-width: 996px) {
+			font-size: 12px;
+		}
+
+		&:hover {
+			z-index: 3;
+			background: white;
+		}
+
+		&::before {
+			content: "";
+			display: block;
+			width: 5px;
+			position: absolute;
+			top: 5px;
+			bottom: 8px;
+			right: 8px;
+			border-radius: 3px;
+		}
+
+		&::after {
+			content: "C";
+			display: block;
+			width: 20px;
+			height: 20px;
+			position: absolute;
+			top: 5px;
+			right: 8px;
+			border-radius: 3px;
+			text-align: center;
+			color: white;
+			font-weight: bold;
+			font-size: 14px;
+			line-height: 19px;
+		}
+
+		$list: red blue orange purple grey;
+
+		@each $color in $list {
+			&--color-#{$color} {
+				&::before {
+					@include set-color(#{$color});
+				}
+
+				&::after {
+					@if $color == blue {
+						content: "P"
+					}
+					@if $color == red {
+						content: "C"
+					}
+					@if $color == orange {
+						content: "K"
+					}
+					@if $color == purple {
+						content: "S"
+					}
+					@if $color == grey {
+						content: "N"
+					}
+					@include set-color(#{$color});
+				}
+			}
+		}
+
+		&--absolute {
+			position: absolute;
+			top: 2px;
+			bottom: 3px;
+			left: 4px;
+			right: 4px;
+			width: auto;
+			height: auto;
+
+			&:last-of-type {
+				box-shadow: 0 1px 4px 0 rgba(0,0,0,0.14);
+			}
+
+			&:hover {
+				right: 4px!important;
+				z-index: 3;
+				background: white;
+			}
+		}
+	}
+
+	&__lecture_room {
+		transition: all ease-in-out 0.25s;
+		margin-bottom: 10px;
+		font-weight: bold;
+		line-height: 19px;
+	}
+
+	&__lecture_name {
+		font-size: 13px;
+		width: 100%;
+		line-height: 1.3em;
+		font-weight: 300;
+
+		@media screen and (max-width: 996px) {
+			font-size: 12px;
+		}
+	}
+}
