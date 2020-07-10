@@ -110,7 +110,7 @@ def string_starts_with_ch(prefix : str):
 
 
 def get_first_letter(input : str) -> str:
-    'napr. pre "F1" vrati "f", pre "Ch1" vrati "ch", pre "Ostatné" vráti "Ostatné"'
+    """Napr. pre "F1" vrati "f", pre "Ch1" vrati "ch", pre "Ostatné" vráti "Ostatné\" """
 
     if input == "Ostatné":
         return "Ostatné"

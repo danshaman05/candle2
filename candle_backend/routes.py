@@ -2,15 +2,16 @@ from typing import List, Dict
 
 from flask import render_template
 from candle_backend.models import Room, Lesson, LessonType, Subject, Teacher, StudentGroup
-from candle_backend import app
+from candle_backend import app, icu_collator
 from candle_backend.helpers import get_rooms_sorted_by_dashes, get_teachers_sorted_by_family_name, get_student_groups_sorted_by_first_letter, minutes_2_time, get_short_name
 
+temporary_path = '/2016-2017-zima'
 
-@app.route('/')
+@app.route(temporary_path + '/')
 def home(): # TODO
-    return '<a href="/miestnosti">Rozvrhy všetkých miestností</a>' \
-           '<br><a href="/ucitelia">Rozvrhy všetkých učiteľov</a>' \
-           '<br><a href="/kruzky">Rozvrhy všetkých krúžkov</a>'
+    return f'<a href="{temporary_path}/miestnosti">Rozvrhy všetkých miestností</a>' \
+           f'<br><a href="{temporary_path}/ucitelia">Rozvrhy všetkých učiteľov</a>' \
+           f'<br><a href="{temporary_path}/kruzky">Rozvrhy všetkých krúžkov</a>'
 
 
 def get_lessons(lessons_objects) -> List:
@@ -45,7 +46,7 @@ def get_lessons(lessons_objects) -> List:
 
 #### MODUL ROOM ####
 
-@app.route('/miestnosti')
+@app.route(temporary_path + '/miestnosti')
 def list_rooms():
     # Vypise vsetky miestnosti (zoznam)
     rooms = Room.query.order_by(Room.name).all()
@@ -54,7 +55,7 @@ def list_rooms():
     return render_template('list_rooms.html', rooms_dict=rooms_dict)
 
 
-@app.route('/miestnosti/<room_name>')
+@app.route(temporary_path + '/miestnosti/<room_name>')
 def timetable_room(room_name):
     # Zobrazi rozvrh pre danu miestnost:
     room = Room.query.filter_by(name=room_name).first()
@@ -68,15 +69,18 @@ def timetable_room(room_name):
 #### MODUL TEACHER ####
 
 # Vypise vsetkych ucitelov (zoznam)
-@app.route('/ucitelia')
+@app.route(temporary_path + '/ucitelia')
 def list_teachers():
-    teachers = Teacher.query.order_by(Teacher.family_name)
+    teachers = Teacher.query.order_by(Teacher.family_name).all()
+
+    # sortuje podla SK abecedy, avsak iba priezviska:
+    teachers = sorted(teachers, key=lambda t: icu_collator.getSortKey(t.family_name))
     teachers_dict = get_teachers_sorted_by_family_name(teachers)
 
     return render_template('list_teachers.html', teachers_dict=teachers_dict)
 
 
-@app.route('/ucitelia/<teacher_slug>')
+@app.route(temporary_path + '/ucitelia/<teacher_slug>')
 def timetable_teacher(teacher_slug):
     ''' Zobrazi rozvrh daneho ucitela.'''
     teacher = Teacher.query.filter_by(slug=teacher_slug).first()
@@ -90,10 +94,9 @@ def timetable_teacher(teacher_slug):
 
 
 
-
 #### MODUL KRUZKY ####
 
-@app.route('/kruzky')
+@app.route(temporary_path + '/kruzky')
 def list_student_groups():
     student_groups = StudentGroup.query.all()
     student_groups_dict = get_student_groups_sorted_by_first_letter(student_groups)
@@ -102,7 +105,7 @@ def list_student_groups():
 
 
 
-@app.route('/kruzky/<student_group_name>')
+@app.route(temporary_path + '/kruzky/<student_group_name>')
 def timetable_student_group(student_group_name):
     ''' Zobrazi rozvrh pre dany kruzok.'''
     group = StudentGroup.query.filter_by(name=student_group_name).first()

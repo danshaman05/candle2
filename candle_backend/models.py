@@ -1,4 +1,4 @@
-from candle_backend import db
+from candle_backend import db, icu_collator
 
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -32,7 +32,7 @@ class Teacher(db.Model):
     lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='dynamic'), lazy='dynamic')
 
     def __repr__(self):
-        return f"Teacher(id:'{self.id}', given_name:'{self.given_name}' )"
+        return f"Teacher(id:'{self.id}', :'{self.given_name} {self.family_name}' )"
 
 
 class Lesson(db.Model):
