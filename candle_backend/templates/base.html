@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-{# TODO opravit: <html class="<?php if(!$panelText) echo 'panel_hidden'; else echo 'panel_active'; ?>">#}
-
 
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}{% endblock %} - Rozvrh pre FMFI UK</title>
-    <link rel="shortcut icon" href="static/images_old_frontend/favicon.ico" type="image/x-icon">     {#TODO: aktualizovat na novy favicon#}
+
+    {#TODO: aktualizovat na novy favicon: #}
+    <link rel="shortcut icon"
+          href="{{ url_for('static', filename='images_old_frontend/favicon.ico') }}"
+          type="image/x-icon">
 
 
 {# ZATIAL NEVYUZIVAM - NEVIEM NA CO PRESNE SLUZI #}
@@ -16,11 +18,12 @@
 {#        var candleFrontendDomain = "candle.fmph.uniba.sk";#}
 {#    </script>#}
 
-    <link rel="stylesheet" type="text/css" media="screen" href="static/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" media="screen" href="static/css/style.min.css" />
+{#    <link rel="stylesheet" type="text/css" media="screen" href="static/" />#}
+    <link rel="stylesheet", typ="text/css" media="screen" href="{{ url_for('static', filename='css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{{ url_for('static', filename='css/style.min.css') }}" />
 
     <!--[if lt IE 9]>
-        <script src="static/js/vendor/html5-3.6-respond-1.4.2.min.js"></script>
+        <script src="{{ url_for('static', filename='js/vendor/html5-3.6-respond-1.4.2.min.js') }}"></script>
     <![endif]-->
 
 </head>
@@ -32,24 +35,23 @@
             {# TODO #}
         </div>
 
-
         <div class="content">
             <div class="content_header">
                 <div class="content__header_name">
                     <h1>{% block content__header_name %}{% endblock %}</h1>
                 </div>
             </div>
-            <div class="content_timetable">
                 {% block content__timetable %}{% endblock %}
-            </div>
+
+                {% block content__timetable_list %}{% endblock %}
         </div>
     </div>
 
 
 {#    DG: TODO Musi to byt tu?:#}
-    <script src="static/js/vendor/jquery-3.2.1.min.js"></script>
-    <script src="static/js/vendor/sticky-kit.js"></script>
-    <script src="static/js/main.js"></script>
+    <script src="{{ url_for('static', filename='js/vendor/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/vendor/sticky-kit.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 
 </body>
 

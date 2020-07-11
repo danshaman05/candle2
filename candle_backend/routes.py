@@ -1,9 +1,9 @@
 from typing import List, Dict
 
 from flask import render_template
-from candle_backend.models import Room, Lesson, LessonType, Subject, Teacher, StudentGroup
-from candle_backend import app, icu_collator
-from candle_backend.helpers import get_rooms_sorted_by_dashes, get_teachers_sorted_by_family_name, get_student_groups_sorted_by_first_letter, minutes_2_time, get_short_name
+from . import app, icu_collator
+from .models import Room, Lesson, LessonType, Subject, Teacher, StudentGroup
+from .helpers import get_rooms_sorted_by_dashes, get_teachers_sorted_by_family_name, get_student_groups_sorted_by_first_letter, minutes_2_time, get_short_name
 
 from candle_backend import temporary_path_prefix
 
@@ -62,8 +62,8 @@ def timetable_room(room_name):
     room = Room.query.filter_by(name=room_name).first()
     lessons_objects = room.lessons.order_by(Lesson.day, Lesson.start)
     lessons_list = get_lessons(lessons_objects)
-    web_header = "Rozvrh miestnosti " + room_name
-    return render_template('timetable.html', room_name=room_name, lessons=lessons_list, title=room_name, web_header=web_header)
+    content__header_name = "Rozvrh miestnosti " + room_name
+    return render_template('timetable.html', room_name=room_name, lessons=lessons_list, title=room_name, content__header_name=content__header_name)
 
 
 

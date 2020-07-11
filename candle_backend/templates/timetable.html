@@ -3,9 +3,17 @@
 {% extends "base.html" %}
 
 {% block title %}{{ title }}{% endblock %}
-{% block web_header %}{{ web_header }}{% endblock %}
+{% block content__header_name %}{{ content__header_name }}{% endblock %}
 
-    {% block rozvrhList %}
+
+{% block content_timetable %}
+    <div class="content_timetable">
+
+    </div>
+{% endblock %}
+
+
+{% block content__timetable_list %}
         <table id="rozvrhList" class="vysledky_podrobneho_hladania">
         <tbody>
         <tr>
@@ -50,4 +58,5 @@
         {% endfor %}
         </tbody>
         </table>
-    {% endblock %}
+
+{% endblock %}
