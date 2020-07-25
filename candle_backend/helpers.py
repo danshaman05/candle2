@@ -93,12 +93,7 @@ def minutes_2_time(time_in_minutes: int) -> str:
     return f"{hours}:{minutes}"
 
 
-def get_short_name(first_name: str, last_name: str):
-    '''Vrati skratene meno, napr. pre "Andrej Blaho" vrati "A. Blaho" '''
 
-    if first_name == '':  # Napr. teacher id 1259
-        return ''
-    return first_name[0] + ". " + last_name
 
 
 ################################

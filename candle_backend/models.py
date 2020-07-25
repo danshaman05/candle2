@@ -1,4 +1,5 @@
-from candle_backend import db, icu_collator
+from . import db
+from .helpers import minutes_2_time
 
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -34,6 +35,13 @@ class Teacher(db.Model):
     def __repr__(self):
         return f"Teacher(id:'{self.id}', :'{self.given_name} {self.family_name}' )"
 
+    def get_short_name(self):
+        """Vrati skratene meno, napr. pre "Andrej Blaho" vrati "A. Blaho" """
+
+        if self.given_name == '':  # Napr. teacher id 1259
+            return ''
+        return self.given_name[0] + ". " + self.family_name
+
 
 class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -46,15 +54,21 @@ class Lesson(db.Model):
     external_id = db.Column(db.Integer, nullable=True)
     note = db.Column(db.VARCHAR, nullable=True)
 
+    def __repr__(self):
+        return f"Lesson(id:'{self.id}', room_id:'{self.room_id}' )"
 
-    def get_day_abbreviation(self) -> str:
-        '''Vrati skratku dna v tyzdni.'''
+    def get_day_abbr(self) -> str:
+        """Vrati skratku dna v tyzdni (abbreviation)."""
 
         days = ['Po', 'Ut', 'St', 'Št', 'Pi']
         return days[self.day]
 
-    def __repr__(self):
-        return f"Lesson(id:'{self.id}', room_id:'{self.room_id}' )"
+    def get_start(self):
+        return minutes_2_time(self.start)
+
+    def get_end(self):
+        return minutes_2_time(self.end)
+
 
 
 class LessonType(db.Model):
@@ -62,6 +76,7 @@ class LessonType(db.Model):
     name = db.Column(db.String(30), nullable=False)
     code = db.Column(db.String(1), nullable=False)
 
+    lessons = db.relationship('Lesson', backref='type', lazy=True)
     def __repr__(self):
         return f"{self.name}"
 

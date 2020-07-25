@@ -5,6 +5,9 @@
 {% block title %}{{ title }}{% endblock %}
 {% block web_header %}{{ web_header }}{% endblock %}
 
+
+
+
     {% block rozvrhList %}
         <table id="rozvrhList" class="vysledky_podrobneho_hladania">
         <tbody>
@@ -20,32 +23,38 @@
             <th>Poznámka</th>
         </tr>
 
-        {% for lesson in lessons %}
+        {% for lesson in lessons_list %}
             <tr>
-                <td>{{  lesson['day'] }}</td>
-                <td>{{  lesson['start'] }}</td>
-                <td>{{  lesson['end'] }}</td>
-                <td><a href="{{ url_for('timetable_room', room_name=lesson['room']) }}">{{ lesson['room'] }}</a></td>
-                <td>{{ lesson['type'] }}</td>
-                <td>{{ lesson['code'] }}</td>
+                <td>{{  lesson.get_day_abbr() }}</td>
+                <td>{{  lesson.get_start() }}</td>
+                <td>{{  lesson.get_end() }}</td>
+                <td><a href="{{ url_for('timetable_room', room_name=lesson.room.name) }}">{{ lesson.room.name }}</a></td>
+                <td>{{ lesson.type }} </td>
+                <td>{{ lesson.subject.short_code }}</td>
                 <td>
-                    {% if lesson['code'] %}
-                        <a href="https://sluzby.fmph.uniba.sk/infolist/SK/{{ lesson['code'] }}.html">{{ lesson['subject'] }}</a>
+                    {% if lesson.subject.short_code %}
+                        <a href="https://sluzby.fmph.uniba.sk/infolist/SK/{{ lesson.subject.short_code }}.html">{{ lesson.subject.name }}</a>
                     {% else %}
-                        {{ lesson['subject'] }}
+                           {{ lesson.subject.name }}
                     {% endif %}
                 </td>
                 <td>
-                {% if lesson['teachers_dict'] %}
-                    {%  for slug, short_name in lesson['teachers_dict'].items() -%}
-                        <a href="{{ url_for('timetable_teacher', teacher_slug=slug) }}">{{ short_name }}</a>
-                        {%- if not loop.last -%}
-                            {{ ', ' }}
-                        {%- endif %}
+{#                {% if lesson.teachers.all %}#}
+                    {%  for teacher in lesson.teachers.all() -%}
+                        {% if teacher.slug %}
+                            <a href="{{ url_for('timetable_teacher', teacher_slug=teacher.slug) }}">{{ teacher.get_short_name() }}</a>
+                            {%- if not loop.last -%}
+                                {{ ', ' }}
+                            {%- endif %}
+                        {% endif %}
                     {%- endfor %}
-                {% endif %}
+{#                {% endif %}#}
                 </td>
-                <td>{{ lesson['note'] }}</td>
+                {% if lesson.note %}
+                    <td>{{ lesson.note }}</td>
+                {% else %}
+                    <td></td>
+                {% endif %}
             </tr>
         {% endfor %}
         </tbody>
