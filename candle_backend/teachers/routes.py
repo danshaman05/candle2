@@ -22,8 +22,7 @@ def timetable_teacher(teacher_slug):
     teacher = Teacher.query.filter_by(slug=teacher_slug).first()
     teacher_name = teacher.given_name + " " + teacher.family_name
 
-    lessons_objects = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
-    lessons_list = get_lessons(lessons_objects)
+    lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
 
-    return render_template('timetable.html', teacher_name=teacher_name, lessons=lessons_list, title=teacher_name, web_header=teacher_name)
+    return render_template('timetable.html', teacher_name=teacher_name, lessons_list=lessons, title=teacher_name, web_header=teacher_name)
 

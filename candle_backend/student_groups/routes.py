@@ -20,11 +20,11 @@ def list_student_groups():
 @student_groups.route(temporary_path + '/kruzky/<student_group_name>')
 def timetable_student_group(student_group_name):
     ''' Zobrazi rozvrh pre dany kruzok.'''
+    web_header = "Rozvrh krúžku " + student_group_name
     group = StudentGroup.query.filter_by(name=student_group_name).first()
 
-    lessons_objects = group.lessons.order_by(Lesson.day, Lesson.start).all()
-    lessons_list = get_lessons(lessons_objects)
-    web_header = "Rozvrh krúžku " + student_group_name
+    lessons = group.lessons.order_by(Lesson.day, Lesson.start).all()
 
-    return render_template('timetable.html', student_group_name=student_group_name, lessons=lessons_list,
+
+    return render_template('timetable.html', student_group_name=student_group_name, lessons_list=lessons,
                            web_header=web_header)
