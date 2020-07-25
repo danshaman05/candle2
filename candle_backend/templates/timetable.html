@@ -5,7 +5,26 @@
 {% block title %}{{ title }}{% endblock %}
 {% block web_header %}{{ web_header }}{% endblock %}
 
+    {% block rozvrh %}
+        <table id="rozvrh">
+            <tbody>
+            <tr>
+                <th class="zaciatok"><span class="pristupnost">Začiatok</span></th>
+                <th>Pondelok</th><th>Utorok</th><th>Streda</th><th>Štvrtok</th><th>Piatok</th></tr>
 
+{#                TODO: #}
+{#                {% set ns = namespace() %}#}
+{##}
+{#                {% set ns.mintime = 490 %}#}
+{#                {% set ns.maxtime = 1190 %}#}
+
+
+
+
+            </tbody>
+        </table>
+
+    {% endblock %}
 
 
     {% block rozvrhList %}
@@ -28,7 +47,7 @@
                 <td>{{  lesson.get_day_abbr() }}</td>
                 <td>{{  lesson.get_start() }}</td>
                 <td>{{  lesson.get_end() }}</td>
-                <td><a href="{{ url_for('timetable_room', room_name=lesson.room.name) }}">{{ lesson.room.name }}</a></td>
+                <td><a href="{{ url_for('rooms.timetable_room', room_name=lesson.room.name) }}">{{ lesson.room.name }}</a></td>
                 <td>{{ lesson.type }} </td>
                 <td>{{ lesson.subject.short_code }}</td>
                 <td>
@@ -39,16 +58,14 @@
                     {% endif %}
                 </td>
                 <td>
-{#                {% if lesson.teachers.all %}#}
                     {%  for teacher in lesson.teachers.all() -%}
                         {% if teacher.slug %}
-                            <a href="{{ url_for('timetable_teacher', teacher_slug=teacher.slug) }}">{{ teacher.get_short_name() }}</a>
+                            <a href="{{ url_for('teachers.timetable_teacher', teacher_slug=teacher.slug) }}">{{ teacher.get_short_name() }}</a>
                             {%- if not loop.last -%}
                                 {{ ', ' }}
                             {%- endif %}
                         {% endif %}
                     {%- endfor %}
-{#                {% endif %}#}
                 </td>
                 {% if lesson.note %}
                     <td>{{ lesson.note }}</td>
