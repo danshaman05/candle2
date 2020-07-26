@@ -54,6 +54,8 @@ class Lesson(db.Model):
     external_id = db.Column(db.Integer, nullable=True)
     note = db.Column(db.VARCHAR, nullable=True)
 
+    breaktime: int = None   # breaktime je iba atribut, nepotrebujeme ho ukladat do DB
+
     def __repr__(self):
         return f"Lesson(id:'{self.id}', room_id:'{self.room_id}' )"
 
