@@ -11,8 +11,8 @@ rooms = Blueprint('rooms', __name__)    # Blueprint instancia
 @rooms.route(temporary_path + '/miestnosti')
 def list_rooms():
     # Vypise vsetky miestnosti (zoznam)
-    rooms = Room.query.order_by(Room.name).all()
-    rooms_dict = get_rooms_sorted_by_dashes(rooms)  # ucebne su v jednom dictionary rozdelene podla prefixu
+    rooms_list = Room.query.order_by(Room.name).all()
+    rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # ucebne su v jednom dictionary rozdelene podla prefixu
 
     return render_template('list_rooms.html', rooms_dict=rooms_dict)
 
@@ -24,8 +24,8 @@ def timetable_room(room_name):
     room = Room.query.filter_by(name=room_name).first()
     lessons = room.lessons.order_by(Lesson.day, Lesson.start)
 
-    layout = Timetable.Timetable(lessons)
-
+    timetable = Timetable.Timetable(lessons)
+    layout = timetable.get_layout()
 
     # Z lessons_list urobime graficky rozvrh (3d pole):
     #timetable = get_timetable(lessons_list)

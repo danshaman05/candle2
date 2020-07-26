@@ -29,6 +29,8 @@ class Timetable:
 
     def __init_layout(self):
         """ Inicializuje 2d list, ktoreho prvky su slovniky (dni -> stlpce -> slovnik)."""
+
+        self.__layout = []
         for i in range(5):
             # pouzivam OrderedDict miesto klasickeho dict, kedze chcem lahko pristupovat k poslednemu vlozenemu prvku:
             od = OrderedDict()
@@ -38,13 +40,13 @@ class Timetable:
         """Rozdelime hodiny podla dni v tyzdni. Kazdy den bude predstavovat zoznam hodin."""
 
         if self.__lessons is None:
-            raise Exception("Attribute _lessons cannot be None")
+            raise Exception("Attribute __lessons cannot be None")
 
         days: List[List] = []
         for i in range(5):  # 5 dni v tyzdni
             days.append([])
         for lesson in self.__lessons:
-            days[lesson['day']].append(lesson)
+            days[lesson.day].append(lesson)
         return days
 
 
@@ -67,7 +69,8 @@ class Timetable:
                         break
                 # ak neslo dat, vytvor novy stlpec a vloz ju don
                 if not added:
-                    new_dict = {lesson.start: lesson}
+                    new_dict = OrderedDict()
+                    new_dict[lesson.start] = lesson
                     self.__layout[i].append(new_dict)
 
     def __can_add_lesson(self, lesson, column: OrderedDict):
