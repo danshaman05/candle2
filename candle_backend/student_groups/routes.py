@@ -3,7 +3,7 @@ from flask import render_template, Blueprint
 from ..helpers import get_student_groups_sorted_by_first_letter
 from ..models import StudentGroup, Lesson
 
-from .. import temporary_path   # TODO presunut do config filu
+from .. import temporary_path, Timetable  # TODO presunut do config filu
 
 student_groups = Blueprint('student_groups', __name__)
 
@@ -25,6 +25,8 @@ def timetable_student_group(student_group_name):
 
     lessons = group.lessons.order_by(Lesson.day, Lesson.start).all()
 
+    timetable = Timetable.Timetable(lessons)
+    starting_times = timetable.get_starting_times()
 
     return render_template('timetable.html', student_group_name=student_group_name, lessons_list=lessons,
-                           web_header=web_header)
+                           web_header=web_header, timetable=timetable, starting_times=starting_times)

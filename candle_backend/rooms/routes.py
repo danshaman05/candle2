@@ -10,7 +10,7 @@ rooms = Blueprint('rooms', __name__)    # Blueprint instancia
 
 @rooms.route(temporary_path + '/miestnosti')
 def list_rooms():
-    # Vypise vsetky miestnosti (zoznam)
+    """Vypise vsetky miestnosti (zoznam)"""
     rooms_list = Room.query.order_by(Room.name).all()
     rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # ucebne su v jednom dictionary rozdelene podla prefixu
 
@@ -19,7 +19,7 @@ def list_rooms():
 
 @rooms.route(temporary_path + '/miestnosti/<room_name>')
 def timetable_room(room_name):
-    # Zobrazi rozvrh pre danu miestnost:
+    """Zobrazi rozvrh pre danu miestnost:"""
     web_header = "Rozvrh miestnosti " + room_name
     room = Room.query.filter_by(name=room_name).first()
     lessons = room.lessons.order_by(Lesson.day, Lesson.start)
