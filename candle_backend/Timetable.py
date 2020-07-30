@@ -13,7 +13,7 @@ class Timetable:
 
     """_layout: 2-rozmerny zoznam (list) hodin usporiadanych pre graficke zobrazenie rozvrhu. 
     Jednotlive urovne su: dni->stlpce. Kazdy stlpec je slovnik (OrderedDict) obsahujuci hodiny ulozene podla kluca (casu), 
-    kedy zacinaju v rozvrhu. Zo zoznamu sa mazu tie hodiny, ktore uz presli."""
+    kedy zacinaju v rozvrhu."""
     __layout: List = None
 
     """2-rozmerny zoznam (list), kt. pre kazdy stlpec uchovava cas hodiny, ktora v nom prave bezi. 
@@ -132,31 +132,8 @@ class Timetable:
     def get_layout(self):
         return self.__layout
 
-    # def pop_next_lesson(self, column):
-    #     """Vrati (a zmaze) dalsiu lesson z column v poradi FIFO (najskor tie, ktore boli vlozene ako prve)."""
-    #     return column.popitem(last=False)
-
     def get_starting_times(self) -> Dict[int, str]:
         return self.__starting_times
-
-    # def get_last_started_lesson(self, day_index, column_index):
-    #     """Vrati hodinu, kt. v danom stlpci zacala naposledy."""
-    #     time = self.__lessons_in_progress[day_index][column_index]
-    #     return self.__layout[day_index][column_index][time]
-
-    # def last_started_lesson_ended(self, current_time, day_index, column_index):
-    #     """vrati true, ak sa skoncila posledne aktualna hodina v danom stlpci"""
-    #     lesson = self.get_last_started_lesson(day_index, column_index)
-    #     if lesson.end + lesson.breaktime <= current_time:
-    #         return True
-    #     return False
-
-    # def no_more_lessons_in_column(self, day_index, column_index):     # NETREBA, staci kontrola v template
-    #     """Funkia vrati True, ak uz presli vsetky hodiny // alebo v danom stlpci nie su ziadne hodiny.
-    #     Vsetky h. presli, ak v self.__layout v danom stlpci uz nie je ziadna hodina."""
-    #     if len(self.__layout[day_index][column_index]) == 0:
-    #         return True
-    #     return False
 
     def get_lesson(self, day_index, column_index, time):
         """Vrati hodinu pre dany den, stlpec a cas."""
@@ -175,34 +152,20 @@ class Timetable:
         if lesson_key is None:
             return False
         lesson = self.get_lesson(day_index, column_index, lesson_key)
-        # lesson = self.__layout[day_index][column_index][lesson_key]
 
         if lesson is None:
             raise Exception("Lesson cannot be None.")
-        # if lesson.breaktime is None:
-        #     raise Exception("Breaktime cannot be None.")
+        if lesson.breaktime is None:
+            raise Exception("Breaktime cannot be None.")
 
         if (lesson.start < actual_time) and (lesson.end + lesson.get_breaktime() > actual_time):
             return True
-            # self.check_lesson_progress(actual_time, day_index, column_index)        # NEPOMOHLO
         return False
 
     def get_lesson_key(self, day_index, column_index):
         """Vrati kluc hodiny do self.__layout (cas), ktora aktualne bezi. Ak taka hodina nebezi, vrati None."""
         return self.__lessons_in_progress[day_index][column_index]
 
-
-    # Nepotrebujeme mazat hodiny z __layout:
-    # def check_lesson_progress(self, actual_time, day_index, column_index):
-    #     """Skontroluje, ci prave beziaca hodina ma este bezat. Ak ma koncit, zmaze ju zo self.__layout."""
-    #     # najde danu lesson
-    #     lesson_key = self.get_lesson_key(day_index, column_index)
-    #     lesson = self.get_lesson(day_index, column_index, lesson_key)
-    #
-    #     # ak actual_time  == lesson.end + lesson.breaktime:
-    #     if actual_time == lesson.end + lesson.get_breaktime():
-    #         # odstran ju z layout
-    #         self.__end_lesson(day_index, column_index, lesson_key)
 
     def get_columns_count(self) -> Dict:
         """Vrati dict, kde klucom su dni v tyzdni a hodnoty su pocty stlpcov v danych dnoch."""
