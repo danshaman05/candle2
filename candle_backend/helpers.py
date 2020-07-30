@@ -90,8 +90,7 @@ def minutes_2_time(time_in_minutes: int) -> str:
     ''' Vrati cas v 24-hodinovom formate.'''
     hours = time_in_minutes // 60
     minutes = time_in_minutes % 60
-    return f"{hours}:{minutes}"
-
+    return "%d:%02d" % (hours, minutes)
 
 
 

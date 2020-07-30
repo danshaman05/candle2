@@ -6,9 +6,15 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:SuperBakalarka1.@l
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 app.config['MYSQL_DATABASE_CHARSET'] = 'utf8mb4'  # Kvoli collation - zatial nevyuzivame.
+
+app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+app.jinja_env.add_extension('jinja2.ext.do')
+
 db = SQLAlchemy(app)
 
+
 temporary_path = '/2016-2017-zima' # TODO - presunut do configuration.py
+
 
 from candle_backend.main.routes import main  # importujeme instanciu main
 from candle_backend.rooms.routes import rooms

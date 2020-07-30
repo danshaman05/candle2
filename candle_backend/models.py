@@ -1,5 +1,7 @@
 from . import db
+from .Timetable import Timetable
 from .helpers import minutes_2_time
+
 
 class Room(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -7,17 +9,20 @@ class Room(db.Model):
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
 
-    lessons = db.relationship('Lesson', backref='room', lazy='dynamic')     # vdaka dynamic mozme s lessons pracovat ako s query (mohli spustit order_by,...)
+    lessons = db.relationship('Lesson', backref='room',
+                              lazy='dynamic')  # vdaka dynamic mozme s lessons pracovat ako s query (mohli spustit order_by,...)
 
     def __repr__(self):
         return "<Room %r>" % self.name
 
 
 teacher_lessons = db.Table('teacher_lessons',
-                           db.Column('id', db.Integer, primary_key=True),  # je v tabulke zbytocne? (primarny kluc je predsa dvojica atributov nizsie)
+                           db.Column('id', db.Integer, primary_key=True),
+                           # je v tabulke zbytocne? (primarny kluc je predsa dvojica atributov nizsie)
                            db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id')),
                            db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
-)
+                           )
+
 
 class Teacher(db.Model):
     id = db.Column('id', db.Integer, primary_key=True)
@@ -30,7 +35,8 @@ class Teacher(db.Model):
     login = db.Column(db.String(), nullable=True)
     slug = db.Column(db.String(), nullable=True)
 
-    lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='dynamic'), lazy='dynamic')
+    lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='dynamic'),
+                              lazy='dynamic')
 
     def __repr__(self):
         return f"Teacher(id:'{self.id}', :'{self.given_name} {self.family_name}' )"
@@ -54,8 +60,6 @@ class Lesson(db.Model):
     external_id = db.Column(db.Integer, nullable=True)
     note = db.Column(db.VARCHAR, nullable=True)
 
-    breaktime: int = None   # breaktime je iba atribut, nepotrebujeme ho ukladat do DB
-
     def __repr__(self):
         return f"Lesson(id:'{self.id}', room_id:'{self.room_id}' )"
 
@@ -71,6 +75,14 @@ class Lesson(db.Model):
     def get_end(self):
         return minutes_2_time(self.end)
 
+    def get_breaktime(self) -> int:
+        hours_count = self.get_rowspan()
+        return int(Timetable.get_shortest_breaktime() * hours_count)
+
+    def get_rowspan(self) -> int:
+        return (self.end - self.start) // Timetable.get_shortest_lesson()
+
+
 
 
 class LessonType(db.Model):
@@ -79,9 +91,9 @@ class LessonType(db.Model):
     code = db.Column(db.String(1), nullable=False)
 
     lessons = db.relationship('Lesson', backref='type', lazy=True)
+
     def __repr__(self):
         return f"{self.name}"
-
 
 
 class Subject(db.Model):
@@ -93,17 +105,17 @@ class Subject(db.Model):
     rozsah = db.Column(db.String(30), nullable=True)
     external_id = db.Column(db.String(30), nullable=True)
 
-    lessons = db.relationship('Lesson', backref='subject', lazy=True)  # lazy=True znamena, ze sa lessons nacitaju iba pri volani
+    lessons = db.relationship('Lesson', backref='subject',
+                              lazy=True)  # lazy=True znamena, ze sa lessons nacitaju iba pri volani
 
     def __repr__(self):
         return f"Subject(id:'{self.id}', name:'{self.name}' )"
 
 
-
 student_group_lessons = db.Table('student_group_lessons',
-                           db.Column('student_group_id', db.Integer, db.ForeignKey('student_group.id')),
-                           db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
-)
+                                 db.Column('student_group_id', db.Integer, db.ForeignKey('student_group.id')),
+                                 db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
+                                 )
 
 
 class StudentGroup(db.Model):
@@ -112,8 +124,6 @@ class StudentGroup(db.Model):
 
     lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
 
-
-#### ZATIAL NEVYUZITE:
 
 class RoomType(db.Model):
     id = db.Column(db.Integer, primary_key=True)

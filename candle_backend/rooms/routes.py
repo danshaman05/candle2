@@ -25,20 +25,7 @@ def timetable_room(room_name):
     lessons = room.lessons.order_by(Lesson.day, Lesson.start)
 
     timetable = Timetable.Timetable(lessons)
-    layout = timetable.get_layout()
+    starting_times = timetable.get_starting_times()
 
-    # Z lessons_list urobime graficky rozvrh (3d pole):
-    #timetable = get_timetable(lessons_list)
-
-    # print(len(timetable[1][0]) == 6)
-
-
-    # TOTO TREBA PRESUNUT K TIMETABLE class, aby sme do template posunuli uz len objekt timetable
-    # spocitame pocty stlpcov v timetable pre dane dni
-    # column_counts = []
-    # for columns_list in timetable:
-    #     column_counts.append(len(columns_list))
-
-
-    return render_template('timetable.html', room_name=room_name, lessons_list=lessons, title=room_name, web_header=web_header, layout=layout)
-
+    return render_template('timetable.html', room_name=room_name, lessons_list=lessons, title=room_name, web_header=web_header,
+                           timetable=timetable, starting_times=starting_times)

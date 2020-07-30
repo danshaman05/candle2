@@ -1,0 +1,18 @@
+{# Vykresli vnutro bunky v rozvrhu #}
+
+<div class="wrap">
+    <div class="predmet_wrap">
+        <div class="predmet">
+            <a class="subjectName" href="{{ timetable.get_infolist_url(ns.lesson.subject.short_code) }}">{{ ns.lesson.subject.name }}</a>
+        </div>
+    </div>
+
+    <div class="hodina_info">
+        <div class="miestnost">
+            <a href="{{ url_for('rooms.timetable_room', room_name=ns.lesson.room.name) }}">{{ ns.lesson.room.name }}</a>
+        </div>
+        <div class="typ">
+            <abbr title="{{ ns.lesson.type.name }}">{{ ns.lesson.type.code| upper()}}</abbr>
+        </div>
+    </div>
+</div>
