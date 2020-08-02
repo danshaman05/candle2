@@ -112,7 +112,7 @@
                                 {{ print_lesson_title(ns.lesson) }}
 
                                 {#  Vnutro bunky: #}
-                                {% include "timetable_cell.html" %}
+                                {% include "timetable/timetable_cell.html" %}
 
                                 </td>
                             {% elif timetable.lesson_in_progress(time_in_minutes, day_loop.index0, column_loop.index0)%}   {#  AK PRECHADZAME CEZ HODINU:
@@ -189,3 +189,9 @@
         </tbody>
         </table>
     {% endblock %}
+
+
+
+{% block panel %}
+    {% include 'timetable/panel.html' %}
+{% endblock %}

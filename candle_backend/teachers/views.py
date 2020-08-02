@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 
 from ..helpers import get_teachers_sorted_by_family_name
 from ..models import Lesson, Teacher
-from .. import Timetable
+from timetable import Timetable
 
 from .. import temporary_path   # TODO presunut do config filu
 
@@ -15,9 +15,9 @@ def list_teachers():
     teachers_list = Teacher.query.order_by(Teacher.family_name).all()
     teachers_dict = get_teachers_sorted_by_family_name(teachers_list)
 
-    return render_template('list_teachers.html', teachers_dict=teachers_dict)
+    return render_template('teachers/list_teachers.html', teachers_dict=teachers_dict)
 
-@teachers.route(temporary_path + '/ucitelia/<teacher_slug>')
+@teachers.route(temporary_path + '/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
 def timetable_teacher(teacher_slug):
     """ Zobrazi rozvrh daneho ucitela."""
     teacher = Teacher.query.filter_by(slug=teacher_slug).first()
@@ -26,7 +26,8 @@ def timetable_teacher(teacher_slug):
 
     timetable = Timetable.Timetable(lessons)
     starting_times = timetable.get_starting_times()
+    panel_forms = timetable.get_panel_forms_dict()
 
-    return render_template('timetable.html', teacher_name=teacher_name, lessons_list=lessons, title=teacher_name, web_header=teacher_name,
-                           timetable=timetable, starting_times=starting_times)
+    return render_template('timetable/timetable.html', teacher_name=teacher_name, lessons_list=lessons, title=teacher_name, web_header=teacher_name,
+                           timetable=timetable, starting_times=starting_times, panel_forms=panel_forms)
 

@@ -1,6 +1,7 @@
 from typing import List, Dict, Optional
 from _collections import OrderedDict
-from .helpers import minutes_2_time
+
+from helpers import minutes_2_time
 
 ''':
 Trieda uchovava timetable a obsahuje funkcie na pracu s nim. 
@@ -155,8 +156,6 @@ class Timetable:
 
         if lesson is None:
             raise Exception("Lesson cannot be None.")
-        if lesson.breaktime is None:
-            raise Exception("Breaktime cannot be None.")
 
         if (lesson.start < actual_time) and (lesson.end + lesson.get_breaktime() > actual_time):
             return True

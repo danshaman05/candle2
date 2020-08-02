@@ -65,15 +65,22 @@ function addSearch(url, input, target, error, useEditor) {
     });
 }
 
+// TODO: Zmenit moduly:
 window.addEvent('domready', function() {
-    addSearch('/panel/list-lessons', 'showLessons', 'list_lessons_box',
-        'Nepodarilo sa načítať zoznam predmetov.', true);
-    addSearch('/panel/list-teachers', 'showTeachers', 'list_teachers_box',
-        'Nepodarilo sa načítať zoznam učiteľov.');
-    addSearch('/panel/list-rooms', 'showRooms', 'list_rooms_box',
+    // addSearch('/panel/list-lessons', 'showLessons', 'list_lessons_box',
+    //     'Nepodarilo sa načítať zoznam predmetov.', true);
+    // addSearch('/panel/list-teachers', 'showTeachers', 'list_teachers_box',
+    //     'Nepodarilo sa načítať zoznam učiteľov.');
+
+    // addSearch('/panel/list-rooms', 'show_rooms', 'list_rooms_box',
+    //     'Nepodarilo sa načítať zoznam miestností.');
+
+    addSearch('/', 'show_rooms', 'list_rooms_box',
         'Nepodarilo sa načítať zoznam miestností.');
-    addSearch('/panel/list-studentGroups', 'showStudentGroups', 'list_studentGroups_box',
-        'Nepodarilo sa načítať zoznam krúžkov.');
+
+
+    // addSearch('/panel/list-studentGroups', 'showStudentGroups', 'list_studentGroups_box',
+    //     'Nepodarilo sa načítať zoznam krúžkov.');
 });
 
 })();

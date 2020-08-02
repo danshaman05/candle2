@@ -1,5 +1,7 @@
+from flask_login import UserMixin
+
 from . import db
-from .Timetable import Timetable
+from timetable.Timetable import Timetable
 from .helpers import minutes_2_time
 
 
@@ -129,3 +131,9 @@ class RoomType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     code = db.Column(db.String(1), nullable=False)
+
+
+class User(db.Model, UserMixin):
+    id = db.Column(db.Integer, primary_key=True)
+    login = db.Column(db.String(50), unique=True)
+
