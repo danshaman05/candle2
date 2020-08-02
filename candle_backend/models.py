@@ -10,7 +10,6 @@ class Room(db.Model):
     name = db.Column(db.String(30), nullable=False)
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
-
     lessons = db.relationship('Lesson', backref='room',
                               lazy='dynamic')  # vdaka dynamic mozme s lessons pracovat ako s query (mohli spustit order_by,...)
 
@@ -20,7 +19,6 @@ class Room(db.Model):
 
 teacher_lessons = db.Table('teacher_lessons',
                            db.Column('id', db.Integer, primary_key=True),
-                           # je v tabulke zbytocne? (primarny kluc je predsa dvojica atributov nizsie)
                            db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id')),
                            db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
                            )
@@ -36,7 +34,6 @@ class Teacher(db.Model):
     external_id = db.Column(db.String(), nullable=True)
     login = db.Column(db.String(), nullable=True)
     slug = db.Column(db.String(), nullable=True)
-
     lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='dynamic'),
                               lazy='dynamic')
 
@@ -85,13 +82,10 @@ class Lesson(db.Model):
         return (self.end - self.start) // Timetable.get_shortest_lesson()
 
 
-
-
 class LessonType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     code = db.Column(db.String(1), nullable=False)
-
     lessons = db.relationship('Lesson', backref='type', lazy=True)
 
     def __repr__(self):
@@ -106,7 +100,6 @@ class Subject(db.Model):
     credit_value = db.Column(db.Integer, nullable=False)
     rozsah = db.Column(db.String(30), nullable=True)
     external_id = db.Column(db.String(30), nullable=True)
-
     lessons = db.relationship('Lesson', backref='subject',
                               lazy=True)  # lazy=True znamena, ze sa lessons nacitaju iba pri volani
 
@@ -123,7 +116,6 @@ student_group_lessons = db.Table('student_group_lessons',
 class StudentGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-
     lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
 
 
@@ -133,7 +125,26 @@ class RoomType(db.Model):
     code = db.Column(db.String(1), nullable=False)
 
 
+user_timetable_lessons = db.Table('user_timetable_lessons',
+                                  db.Column('id', db.Integer(), primary_key=True),
+                                  db.Column('user_timetable_id', db.Integer, db.ForeignKey('user_timetable.id')),
+                                  db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')),
+                                  db.Column('highlighted', db.Boolean)
+                                 )
+
+
+class UserTimetable(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    # TODO published
+    slug = db.Column(db.String(30))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    lessons = db.relationship('Lesson', secondary=user_timetable_lessons, backref=db.backref('user_timetable', lazy='dynamic'), # TODO skontroluj ci treba dynamic
+                              lazy='dynamic')
+
+
+
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True)
-
+    timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')
