@@ -1,8 +1,8 @@
 from flask_login import UserMixin
 
-from . import db
+from candle_backend import db, login_manager
 from timetable.Timetable import Timetable
-from .helpers import minutes_2_time
+from candle_backend.helpers import minutes_2_time
 
 
 class Room(db.Model):
@@ -11,7 +11,7 @@ class Room(db.Model):
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     lessons = db.relationship('Lesson', backref='room',
-                              lazy='dynamic')  # vdaka dynamic mozme s lessons pracovat ako s query (mohli spustit order_by,...)
+                              lazy='dynamic')  # vdaka dynamic mozme s lessons pracovat ako s query (mozme spustit order_by,...)
 
     def __repr__(self):
         return "<Room %r>" % self.name
@@ -148,3 +148,8 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True)
     timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+

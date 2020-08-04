@@ -30,8 +30,10 @@
 </head>
 
 <body>
-    <div id="vrch_logo">
-        <a href="/">Rozvrh</a>
+    <div id="logo">
+        <div id="vrch_logo">
+            <a href="/">Rozvrh</a>
+        </div>
     </div>
 
     {% block hlavny %}
@@ -60,6 +62,10 @@
     {% endblock %}
 
     {% block panel %}{% endblock %}
+
+    {% block vrch_riadok1 %}
+        {% include('timetable/top_row.html') %}
+    {% endblock %}
 
 </body>
 
