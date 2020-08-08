@@ -9,7 +9,7 @@
 
     <div class="hodina_info">
         <div class="miestnost">
-            <a href="{{ url_for('rooms.timetable_room', room_name=ns.lesson.room.name) }}">{{ ns.lesson.room.name }}</a>
+            <a href="{{ url_for('rooms.timetable', room_name=ns.lesson.room.name) }}">{{ ns.lesson.room.name }}</a>
         </div>
         <div class="typ">
             <abbr title="{{ ns.lesson.type.name }}">{{ ns.lesson.type.code| upper()}}</abbr>

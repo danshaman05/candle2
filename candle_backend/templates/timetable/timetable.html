@@ -59,7 +59,7 @@
                 </tr>
 
                 {# Pre kazdy cas z pola starting_times: #}
-                {% for  time_in_minutes, time in starting_times.items() %}
+                {% for  time_in_minutes, time in timetable.get_starting_times().items() %}
                     {# vypis cas #}
                     <tr class="startTimeHeader">
                         <td class="cas">{{ time }}</td>
@@ -106,8 +106,6 @@
                                 {% set type_str = 'lesson-type-' ~  ns.lesson.type.code| upper() %}
                                 {% do ns.classes.append(type_str) %}
 
-                                {#  TODO nastavit TimeInfo, lessonTitle #}
-
                                 {{ print_lesson(ns.classes, ns.lesson.get_rowspan()) }}
                                 {{ print_lesson_title(ns.lesson) }}
 
@@ -115,10 +113,8 @@
                                 {% include "timetable/timetable_cell.html" %}
 
                                 </td>
-                            {% elif timetable.lesson_in_progress(time_in_minutes, day_loop.index0, column_loop.index0)%}   {#  AK PRECHADZAME CEZ HODINU:
-                                {# TODO zmazat; Zrejme nebudeme potrebovat (mazanie uz prejdenych hodin z __layout): #}
-                                {# Skontrolujeme, ci v danom stlpci ma este bezat hodina: #}
-{#                                {% do timetable.check_lesson_progress(time_in_minutes, day_loop.index0, column_loop.index0) %}#}
+                            {% elif timetable.lesson_in_progress(time_in_minutes, day_loop.index0, column_loop.index0)%}   {#  AK PRECHADZAME CEZ HODINU: #}
+                                {# Nerobime nic #}
 
                             {% else %}  {# Inak vypiseme prazdnu bunku #}
                                 {%  do ns.classes.append('emptyCell') %}
@@ -154,12 +150,12 @@
             <th>Poznámka</th>
         </tr>
 
-        {% for lesson in lessons_list %}
+        {% for lesson in timetable.get_lessons() %}
             <tr>
                 <td>{{  lesson.get_day_abbr() }}</td>
                 <td>{{  lesson.get_start() }}</td>
                 <td>{{  lesson.get_end() }}</td>
-                <td><a href="{{ url_for('rooms.timetable_room', room_name=lesson.room.name) }}">{{ lesson.room.name }}</a></td>
+                <td><a href="{{ url_for('rooms.timetable', room_name=lesson.room.name) }}">{{ lesson.room.name }}</a></td>
                 <td>{{ lesson.type }} </td>
                 <td>{{ lesson.subject.short_code }}</td>
                 <td>
@@ -172,7 +168,7 @@
                 <td>
                     {%  for teacher in lesson.teachers.all() -%}
                         {% if teacher.slug %}
-                            <a href="{{ url_for('teachers.timetable_teacher', teacher_slug=teacher.slug) }}">{{ teacher.get_short_name() }}</a>
+                            <a href="{{ url_for('teachers.timetable', teacher_slug=teacher.slug) }}">{{ teacher.get_short_name() }}</a>
                             {%- if not loop.last -%}
                                 {{ ', ' }}
                             {%- endif %}
@@ -193,5 +189,5 @@
 
 
 {% block panel %}
-    {% include 'timetable/panel.html' %}
+    {% include 'timetable/panel.html'%}
 {% endblock %}

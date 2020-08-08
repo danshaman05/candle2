@@ -18,6 +18,7 @@ function addSearch(url, input, target, error, useEditor) {
                 throbber.removeClass('active');
             }
             $(target).innerHTML = responseHTML;
+
             if (useEditor && $chk(document.timetableEditor)) {
                 createEditorPanel(document.timetableEditor);
             }
@@ -39,6 +40,7 @@ function addSearch(url, input, target, error, useEditor) {
     });
     
     var searchTimer = null;
+
 
     $(input).addEvent('keyup', function() {
         if ($(input).value == oldValue) return;
@@ -65,17 +67,15 @@ function addSearch(url, input, target, error, useEditor) {
     });
 }
 
-// TODO: Zmenit moduly:
+// TODO: Zmenit routes:
 window.addEvent('domready', function() {
     // addSearch('/panel/list-lessons', 'showLessons', 'list_lessons_box',
-    //     'Nepodarilo sa načítať zoznam predmetov.', true);
+    //     'Nepodarilo sa načítať zoznam predmetov.', true);                // DG: toto ma nastaveny parameter UseEditor na true
     // addSearch('/panel/list-teachers', 'showTeachers', 'list_teachers_box',
     //     'Nepodarilo sa načítať zoznam učiteľov.');
 
-    // addSearch('/panel/list-rooms', 'show_rooms', 'list_rooms_box',
-    //     'Nepodarilo sa načítať zoznam miestností.');
-
-    addSearch('/', 'show_rooms', 'list_rooms_box',
+    //DG: prvy parameter by mal byt nejak namapovany na funkciu, kt. vylistuje hladane miestnosti
+    addSearch('/miestnosti/B', 'show_rooms', 'list_rooms_box',
         'Nepodarilo sa načítať zoznam miestností.');
 
 

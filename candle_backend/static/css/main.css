@@ -197,13 +197,12 @@ form {
     text-decoration: underline;
 }
 
-/*TODO Zmenime na percenta:*/
 .panel_search input {
     /*width: 200px;*/
     width: 70%;
 }
 
-.panel_search #submit {
+.panel_search input[type="submit"] {
     /*width: 30px;*/
     width: 25%;
 }

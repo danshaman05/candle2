@@ -1,5 +1,6 @@
-from flask import render_template, Blueprint
+from flask import render_template, Blueprint, request
 
+from timetable.Panel import Panel
 from ..helpers import get_student_groups_sorted_by_first_letter
 from ..models import StudentGroup, Lesson
 
@@ -18,17 +19,18 @@ def list_student_groups():
     return render_template('student_groups/list_student_groups.html', student_groups_dict=student_groups_dict)
 
 
-@student_groups.route(temporary_path + '/kruzky/<student_group_name>', methods=['GET', 'POST'])
-def timetable_student_group(student_group_name):
+@student_groups.route(temporary_path + '/kruzky/<group_name>', methods=['GET', 'POST'])
+def timetable(group_name):
     """ Zobrazi rozvrh pre dany kruzok."""
-    web_header = "Rozvrh krúžku " + student_group_name
-    group = StudentGroup.query.filter_by(name=student_group_name).first()
+    web_header = "Rozvrh krúžku " + group_name
+    group = StudentGroup.query.filter_by(name=group_name).first()
 
     lessons = group.lessons.order_by(Lesson.day, Lesson.start).all()
 
-    timetable = Timetable.Timetable(lessons)
-    starting_times = timetable.get_starting_times()
-    panel_forms = timetable.get_panel_forms_dict()
+    t = Timetable.Timetable(lessons)
+    p = Panel()
+    if request.method == 'POST':
+        p.check_forms()
 
-    return render_template('timetable/timetable.html', student_group_name=student_group_name, lessons_list=lessons,
-                           web_header=web_header, timetable=timetable, starting_times=starting_times, panel_forms=panel_forms)
+    return render_template('timetable/timetable.html', student_group_name=group_name,
+                           web_header=web_header, timetable=t, panel=p)

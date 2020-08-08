@@ -29,100 +29,106 @@
 {#                </div>#}
 {#        </div>#}
 {#    </div>#}
-{#    <div class="panel_cast" id="panel_cast_ucitelia">#}
-{#        <h2><a href="#panel_cast_ucitelia">Rozvrhy pre učiteľov</a></h2>#}
-{#        <div class="panel_cast_obsah">#}
-{##}
-            {#  TODO FORM #}
-{#            <form method="post" action="">#}
-{#                <div class="panel_search">#}
-{#                    <label for="showTeachers">Hľadať učiteľov</label>#}
-{#                    <input type="text" name="showTeachers" id="showTeachers">#}
-{#                    <button type="submit">Hľadaj</button>#}
-{#                    {{ panel_forms['teachers'].hidden_tag() }}#}
-{#                    {{ panel_forms['teachers'].show_lessons.label() }}#}
-{#                    {{ panel_forms['teachers'].show_lessons() }}#}
-{#                    {{ panel_forms['teachers'].submit() }}#}
-{##}
-{#                </div>#}
-{#            </form>#}
-{##}
-{#            (meno a/alebo priezvisko učiteľa)#}
-{##}
-{#            <div id="list_teachers_box">#}
-{#                    </div>#}
-{##}
-{#            <div class="other_links">#}
-{#                <a href="/2016-2017-zima/ucitelia">Rozvrhy všetkých učiteľov</a>        </div>#}
-{#        </div>#}
-{#    </div>#}
 
 
-    <div class="panel_cast" id="panel_cast_miestnosti">
-        <h2><a href="#panel_cast_miestnosti">Rozvrhy pre miestnosti</a></h2>
+    <div class="panel_cast" id="panel_cast_ucitelia">
+        <h2><a href="#panel_cast_ucitelia">Rozvrhy pre učiteľov</a></h2>
         <div class="panel_cast_obsah">
-
-            {#  TODO FORM #}
             <form method="post" action="">
                 <div class="panel_search">
-{#                    <label for="showRooms">Hľadať miestnosti</label>#}
-{#                    <input type="text" name="showRooms" id="showRooms">#}
-{#                    <button type="submit">Hľadaj</button>#}
-                    {{ panel_forms['rooms'].hidden_tag() }}
-                    {{ panel_forms['rooms'].show_rooms.label() }}
-                    {{ panel_forms['rooms'].show_rooms() }}
-                    {{ panel_forms['rooms'].submit() }}
+                    {{ panel.teachers_form.hidden_tag() }}
+                    {{ panel.teachers_form.show_teachers.label() }}
+                    {{ panel.teachers_form.show_teachers() }}
+                    {{ panel.teachers_form.submit_teachers() }}
+
                 </div>
             </form>
 
-            (názov miestnosti)
+            (meno a/alebo priezvisko učiteľa)
 
-            <div id="list_rooms_box">
-                {% if search_results %}
+            <div id="list_teachers_box">
+                {% if panel.get_results('teachers') %}
                     <div class="pristupnost">Výsledky hľadania</div>
-{#                    {% for room, room_slug in search_results.rooms.items() %}#}
                     <ul class="vysledky_hladania">
-                    {% for room in search_results %}
-                        <li><a href="{{ url_for('rooms.timetable_room', room_name=room.name) }}">{{ room.name }}</a></li>
+                    {% for teacher in panel.get_results('teachers') %}
+                        <li><a href="{{ url_for('teachers.timetable', teacher_slug=teacher.slug) }}">{{ teacher.fullname }}</a></li>
                     {% endfor %}
                     </ul>
                 {% endif %}
             </div>
 
             <div class="other_links">
-                <a href="/2016-2017-zima/miestnosti">Rozvrhy všetkých miestností</a>        </div>
+                <a href="{{ url_for('teachers.list_teachers') }}">Rozvrhy všetkých učiteľov</a>
+            </div>
         </div>
     </div>
 
 
-{#    <div class="panel_cast" id="panel_cast_kruzky">#}
-{#        <h2><a href="#panel_cast_kruzky">Rozvrhy pre krúžky</a></h2>#}
-{#        <div class="panel_cast_obsah">#}
-{##}
-{#            <form method="post" action="" _lpchecked="1">#}
-{#                <div class="panel_search">#}
-{#                <label for="showStudentGroups">Hľadať krúžky</label>#}
-{#                <input type="text" name="showStudentGroups" id="showStudentGroups">#}
-{#                <button type="submit">Hľadaj</button>#}
-{##}
-{#                    {{ panel_forms['student_groups'].hidden_tag() }}#}
-{#                    {{ panel_forms['student_groups'].show_lessons.label() }}#}
-{#                    {{ panel_forms['student_groups'].show_lessons() }}#}
-{#                    {{ panel_forms['student_groups'].submit() }}#}
-{#                </div>#}
-{#            </form>#}
-{##}
-{#            (názov krúžku)#}
-{##}
-{#            <div id="list_studentGroups_box">#}
-{#                    </div>#}
-{##}
-{#            <div class="other_links">#}
-{#                TODO nahradit temporary_path!#}
-{#                <a href="/2016-2017-zima/kruzky">Rozvrhy všetkých krúžkov</a>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
+    <div class="panel_cast" id="panel_cast_miestnosti">
+        <h2><a href="#panel_cast_miestnosti">Rozvrhy pre miestnosti</a></h2>
+        <div class="panel_cast_obsah">
+
+            <form method="post" action="">
+                <div class="panel_search">
+                    {{ panel.rooms_form.hidden_tag() }}
+                    {{ panel.rooms_form.show_rooms.label() }}
+                    {{ panel.rooms_form.show_rooms() }}
+                    {{ panel.rooms_form.submit_rooms() }}
+                </div>
+            </form>
+
+            (názov miestnosti)
+
+            <div id="list_rooms_box">
+                {% if panel.get_results('rooms') %}
+                    <div class="pristupnost">Výsledky hľadania</div>
+                    <ul class="vysledky_hladania">
+                    {% for room in panel.get_results('rooms') %}
+                        <li><a href="{{ url_for('rooms.timetable', room_name=room.name) }}">{{ room.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="other_links">
+                <a href="{{ url_for('rooms.list_rooms') }}">Rozvrhy všetkých miestností</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="panel_cast" id="panel_cast_kruzky">
+        <h2><a href="#panel_cast_kruzky">Rozvrhy pre krúžky</a></h2>
+        <div class="panel_cast_obsah">
+
+            <form method="post" action="">
+                <div class="panel_search">
+
+                    {{ panel.student_groups_form.hidden_tag() }}
+                    {{ panel.student_groups_form.show_student_groups.label() }}
+                    {{ panel.student_groups_form.show_student_groups() }}
+                    {{ panel.student_groups_form.submit_groups() }}
+                </div>
+            </form>
+
+            (názov krúžku)
+
+            <div id="list_studentGroups_box">
+            {% if panel.get_results('student_groups') %}
+                    <div class="pristupnost">Výsledky hľadania</div>
+                    <ul class="vysledky_hladania">
+                    {% for group in panel.get_results('student_groups') %}
+                        <li><a href="{{ url_for('student_groups.timetable', group_name=group.name) }}">{{ group.name }}</a></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+
+            <div class="other_links">
+                <a href="{{ url_for('student_groups.list_student_groups') }}">Rozvrhy všetkých krúžkov</a>
+            </div>
+        </div>
+    </div>
 
 
 

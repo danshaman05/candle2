@@ -1,6 +1,6 @@
 from flask import render_template, Blueprint, request
 
-from timetable.forms import ShowRoomsForm
+from timetable.Panel import Panel
 from ..models import Room, Lesson
 from timetable import Timetable
 from ..helpers import get_rooms_sorted_by_dashes
@@ -20,26 +20,18 @@ def list_rooms():
 
 
 @rooms.route(temporary_path + '/miestnosti/<room_name>', methods=['GET', 'POST'])
-def timetable_room(room_name):
+def timetable(room_name):
     """Zobrazi rozvrh pre danu miestnost:"""
     web_header = "Rozvrh miestnosti " + room_name
     room = Room.query.filter_by(name=room_name).first()
     lessons = room.lessons.order_by(Lesson.day, Lesson.start)
 
-    timetable = Timetable.Timetable(lessons)
-    starting_times = timetable.get_starting_times()
+    t = Timetable.Timetable(lessons)
+    p = Panel()
 
-    # panel_forms = timetable.get_panel_forms_dict()
-    panel_forms = {}
-    panel_forms['rooms'] = ShowRoomsForm()
-
-    search_results = None
     if request.method == 'POST':
-        # TODO: Switch - pre kazdy pripad panel form
-        string = panel_forms['rooms'].show_rooms.data
-        if string != '':
-            #query DB:
-            search_results = Room.query.filter(Room.name.contains(string)).all()
+        # skontroluje, ci bolo stlacene nejake tlacidlo z panela. Ak ano, tak spracuje danu poziadavku a nastavi vysledok v paneli.
+        p.check_forms()
 
-    return render_template('timetable/timetable.html', room_name=room_name, lessons_list=lessons, title=room_name, web_header=web_header,
-                           timetable=timetable, starting_times=starting_times, panel_forms=panel_forms, search_results=search_results)
+    return render_template('timetable/timetable.html', room_name=room_name, title=room_name, web_header=web_header,
+                           timetable=t, panel=p)

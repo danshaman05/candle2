@@ -130,6 +130,9 @@ class Timetable:
         del self.__layout[day_index][column_index][lesson_key]
 
     ########################### "Public" metody: ###########################
+    def get_lessons(self):
+        return self.__lessons
+
     def get_layout(self):
         return self.__layout
 
@@ -165,14 +168,12 @@ class Timetable:
         """Vrati kluc hodiny do self.__layout (cas), ktora aktualne bezi. Ak taka hodina nebezi, vrati None."""
         return self.__lessons_in_progress[day_index][column_index]
 
-
     def get_columns_count(self) -> Dict:
         """Vrati dict, kde klucom su dni v tyzdni a hodnoty su pocty stlpcov v danych dnoch."""
         result = {}
         for i in range(5):
             result[self.__DAYS[i]] = len(self.__layout[i])
         return result
-
 
     @classmethod
     def get_infolist_url(cls, endpoint):

@@ -1,4 +1,6 @@
 from flask_login import UserMixin
+from sqlalchemy.ext.hybrid import hybrid_property
+from sqlalchemy.orm import column_property
 
 from candle_backend import db, login_manager
 from timetable.Timetable import Timetable
@@ -37,6 +39,8 @@ class Teacher(db.Model):
     lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='dynamic'),
                               lazy='dynamic')
 
+    # fullname = column_property(given_name + " " + family_name)
+
     def __repr__(self):
         return f"Teacher(id:'{self.id}', :'{self.given_name} {self.family_name}' )"
 
@@ -47,6 +51,13 @@ class Teacher(db.Model):
             return ''
         return self.given_name[0] + ". " + self.family_name
 
+    @hybrid_property
+    def fullname(self):
+        return self.given_name + " " + self.family_name
+
+    @hybrid_property
+    def fullname_reversed(self):
+        return  self.family_name + " " + self.given_name
 
 class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -130,7 +141,7 @@ user_timetable_lessons = db.Table('user_timetable_lessons',
                                   db.Column('user_timetable_id', db.Integer, db.ForeignKey('user_timetable.id')),
                                   db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')),
                                   db.Column('highlighted', db.Boolean)
-                                 )
+                                  )
 
 
 class UserTimetable(db.Model):
@@ -139,9 +150,9 @@ class UserTimetable(db.Model):
     # TODO published
     slug = db.Column(db.String(30))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    lessons = db.relationship('Lesson', secondary=user_timetable_lessons, backref=db.backref('user_timetable', lazy='dynamic'), # TODO skontroluj ci treba dynamic
+    lessons = db.relationship('Lesson', secondary=user_timetable_lessons,
+                              backref=db.backref('user_timetable', lazy='dynamic'),  # TODO skontroluj ci treba dynamic
                               lazy='dynamic')
-
 
 
 class User(db.Model, UserMixin):
@@ -149,7 +160,7 @@ class User(db.Model, UserMixin):
     login = db.Column(db.String(50), unique=True)
     timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')
 
+
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
-
