@@ -1,8 +1,6 @@
 from typing import List, Dict, Optional
 from _collections import OrderedDict
 
-from helpers import minutes_2_time
-
 ''':
 Trieda uchovava timetable a obsahuje funkcie na pracu s nim. 
 '''
@@ -38,14 +36,11 @@ class Timetable:
 
     def __init__(self, lessons_objects):
         self.__init_times()
-        self.__set_lessons_list(lessons_objects)
+        self.__lessons = lessons_objects
         self.__init_layout()
         lessons_sorted_by_days = self.__sort_lessons_by_days()  # usporiadame si hodiny podla dni v tyzdni
         self.__set_layout(lessons_sorted_by_days)
         self.__init_last_started_lessons_list()
-
-    def __set_lessons_list(self, lessons_objects):
-        self.__lessons = lessons_objects
 
     def __init_times(self):
         """
@@ -54,7 +49,7 @@ class Timetable:
             hodnota: cas v tvare H:MM
         """
         for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50):
-            self.__starting_times[minutes] = minutes_2_time(minutes)
+            self.__starting_times[minutes] = self.minutes_2_time(minutes)
 
     def __init_layout(self):
         """ Inicializuje 2d list, ktoreho prvky su slovniky (dni -> stlpce -> slovnik)."""
@@ -186,3 +181,10 @@ class Timetable:
     @classmethod
     def get_shortest_lesson(cls):
         return cls.__SHORTEST_LESSON
+
+    @classmethod
+    def minutes_2_time(cls, time_in_minutes: int) -> str:
+        """ Vrati cas v 24-hodinovom formate."""
+        hours = time_in_minutes // 60
+        minutes = time_in_minutes % 60
+        return "%d:%02d" % (hours, minutes)

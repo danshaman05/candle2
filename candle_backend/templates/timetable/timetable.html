@@ -2,7 +2,7 @@
 {# parent-template pre vypisanie rozvrhu #}
 {% extends "base.html" %}
 
-
+{############# MACROs #############}
 {% macro print_empty_cell(list) -%}
     <td class="{{ list| join(' ') }}"></td>
 {%- endmacro %}
@@ -36,12 +36,12 @@
     ">
 {%- endmacro %}
 
-
 {#{% macro test_variable(variable) -%}#}
 {#    {% if variable is none %}#}
 {#    --- VARIABLE {{ variable }} IS NONE!!! ---#}
 {#    {% endif %}#}
 {#{%- endmacro %}#}
+{############# (end of) MACROs #############}
 
 
 {% block title %}{{ title }}{% endblock %}
@@ -166,7 +166,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    {%  for teacher in lesson.teachers.all() -%}
+                    {%  for teacher in lesson.teachers -%}
                         {% if teacher.slug %}
                             <a href="{{ url_for('teachers.timetable', teacher_slug=teacher.slug) }}">{{ teacher.get_short_name() }}</a>
                             {%- if not loop.last -%}

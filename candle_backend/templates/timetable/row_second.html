@@ -1,0 +1,31 @@
+<div id="vrch2">
+    <div id="vrch_riadok2">
+        {% if current_user.is_authenticated %}
+            <h2 class="pristupnost">Výber aktívneho rozvrhu</h2>
+            <ul id="rozvrh_taby">
+                {%- for i, t in user_timetables.items() -%}
+                    <li><a rel="nofollow" href="{{ url_for('timetable.user_timetable', key=i) }}"
+                    {%- if selected_timetable_key == i -%}
+                       class="selected"
+                    {%- endif -%}
+                    >{{ t.name }}</a></li>
+                {%- endfor -%}
+                <li><input type="button" id="novy_rozvrh" value="Nový rozvrh"></li>
+            </ul>
+            <h2 class="pristupnost">Akcie aktívneho rozvrhu</h2>
+            <ul id="rozvrh_akcie">
+{#                <li><a href="/rozvrh/453fyytyyyyyyyyyyyyyyttttttttt">453fyytyyyyyyyyyyyyyyttttttttt</a></li><li><a rel="nofollow" href="/moj/rozvrh/1/nezdielat">Nezdieľať</a></li><!--#}
+{#                   <li id="menuSave"><a rel="nofollow" href="/moj/rozvrh/1/ulozit">Uložiť</a></li><!--#}      {# DG: Nepouzivame session, takze rozvrh sa uklada stale pri kazdej zmene automaticky. #}
+                <li><a rel="nofollow" href="/moj/rozvrh/1/premenovat">Premenovať</a></li>
+                <li><a href="javascript:window.print();" id="timetablePrintButton">Tlačiť</a></li><li id="menuPrintBefore"><a rel="nofollow" href="/moj/rozvrh/1/duplikovat">Duplikovať</a></li>
+                <li><a rel="nofollow" href="/moj/rozvrh/1/importovat">Importovať</a></li>
+                <li><a rel="nofollow" href="/moj/rozvrh/1/exportovat">Exportovať</a></li>
+{#                <li><a id="delete" rel="nofollow" href="">Zmazať</a></li>#}
+            <input type="button" id="zmazat_rozvrh" value="Zmazať">
+            </ul>
+        {% else %}
+{#                ZATIAL NIC#}
+        {% endif %}
+
+    </div>
+</div>

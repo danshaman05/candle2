@@ -2,7 +2,8 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField
 
 class ShowLessonsForm(FlaskForm):
-    show_lessons = StringField('showLessons')  # Length(max=30, message="Zadajte názov predmetu"))  # TODO nastavit length?
+    show_lessons = StringField('showLessons')  # Length(max=30, message="Zadajte názov predmetu"))  # TODO nastavit length? n
+
     submit_lessons = SubmitField('Hľadaj')
 
 

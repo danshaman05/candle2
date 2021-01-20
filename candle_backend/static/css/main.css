@@ -85,7 +85,10 @@ form {
 
 #vrch_riadok2 li {
     display: inline-block;
-    
+}
+
+#vrch_riadok2 li input {
+   margin: 0px 0px 0px 5px;
 }
 
 #vrch2 {

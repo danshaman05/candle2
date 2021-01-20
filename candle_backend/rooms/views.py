@@ -1,16 +1,16 @@
 from flask import render_template, Blueprint, request
 
+from helpers import get_ordered_dict
 from timetable.Panel import Panel
 from ..models import Room, Lesson
 from timetable import Timetable
-from ..helpers import get_rooms_sorted_by_dashes
+from typing import Dict
 
-from .. import temporary_path   # TODO presunut do config filu
 
 rooms = Blueprint('rooms', __name__)    # Blueprint instancia
 
 
-@rooms.route(temporary_path + '/miestnosti')
+@rooms.route('/miestnosti')
 def list_rooms():
     """Vypise vsetky miestnosti (zoznam)"""
     rooms_list = Room.query.order_by(Room.name).all()
@@ -19,7 +19,7 @@ def list_rooms():
     return render_template('rooms/list_rooms.html', rooms_dict=rooms_dict)
 
 
-@rooms.route(temporary_path + '/miestnosti/<room_name>', methods=['GET', 'POST'])
+@rooms.route('/miestnosti/<room_name>', methods=['GET', 'POST'])
 def timetable(room_name):
     """Zobrazi rozvrh pre danu miestnost:"""
     web_header = "Rozvrh miestnosti " + room_name
@@ -35,3 +35,44 @@ def timetable(room_name):
 
     return render_template('timetable/timetable.html', room_name=room_name, title=room_name, web_header=web_header,
                            timetable=t, panel=p)
+
+
+def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
+    '''
+    Rozdeli mena miestnosti podla kategorii do dictionary, kde key je vzdy prefix miestnosti a value su
+    dane sufixy ulozene v poli. (napr. F1-108 ma prefix F1 a sufix 108)
+    vstup: zoznam objektov triedy models.Room
+    vystup: dictionary {string, List stringov}
+    '''
+    d = {}
+    for room in rooms_lst:
+        name = room.name
+        if name == " ":   # v tabulke room mame jednu miestnost s name " "
+            continue
+
+        dash_position = name.find('-')
+        if (dash_position) == -1:  # name neobsahuje '-'
+            prefix = suffix = name
+        else:
+            prefix = name[0 : dash_position]
+            suffix = name[dash_position + 1 : ]
+
+        # ak su data v zlom formate:
+        # raise Exception("Bad data format for room. Room must be in format 'prefix-suffix', for example: 'F1-208'")
+
+        #xMieRez je specialny pripad:
+        if 'xMieRez' in prefix:
+            suffix = prefix
+            prefix = "Ostatné"
+            if prefix not in d:
+                d[prefix] = []
+            d[prefix].append(suffix)
+        else:
+            if prefix not in d:
+                d[prefix] = []
+            if prefix == suffix:
+                d[prefix].append(suffix)
+            else:
+                d[prefix].append('-'.join([prefix, suffix]))
+    return get_ordered_dict(d)
+

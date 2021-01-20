@@ -1,10 +1,8 @@
 from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
-from sqlalchemy.orm import column_property
 
 from candle_backend import db, login_manager
 from timetable.Timetable import Timetable
-from candle_backend.helpers import minutes_2_time
 
 
 class Room(db.Model):
@@ -36,8 +34,8 @@ class Teacher(db.Model):
     external_id = db.Column(db.String(), nullable=True)
     login = db.Column(db.String(), nullable=True)
     slug = db.Column(db.String(), nullable=True)
-    lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='dynamic'),
-                              lazy='dynamic')
+    lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='joined'),
+                              lazy=True)       # TODO lazy obe boli dynamic - skontrolovat funkcnost
 
     # fullname = column_property(given_name + " " + family_name)
 
@@ -57,7 +55,8 @@ class Teacher(db.Model):
 
     @hybrid_property
     def fullname_reversed(self):
-        return  self.family_name + " " + self.given_name
+        return self.family_name + " " + self.given_name
+
 
 class Lesson(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -80,10 +79,10 @@ class Lesson(db.Model):
         return days[self.day]
 
     def get_start(self):
-        return minutes_2_time(self.start)
+        return Timetable.minutes_2_time(self.start)
 
     def get_end(self):
-        return minutes_2_time(self.end)
+        return Timetable.minutes_2_time(self.end)
 
     def get_breaktime(self) -> int:
         hours_count = self.get_rowspan()
@@ -97,7 +96,9 @@ class LessonType(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     code = db.Column(db.String(1), nullable=False)
-    lessons = db.relationship('Lesson', backref='type', lazy=True)
+    lessons = db.relationship('Lesson', backref='type', lazy=True)  # TODO NEJDE lazy True
+
+    # lessons = db.relationship('Lesson', backref='type', lazy=False)
 
     def __repr__(self):
         return f"{self.name}"
@@ -112,7 +113,7 @@ class Subject(db.Model):
     rozsah = db.Column(db.String(30), nullable=True)
     external_id = db.Column(db.String(30), nullable=True)
     lessons = db.relationship('Lesson', backref='subject',
-                              lazy=True)  # lazy=True znamena, ze sa lessons nacitaju iba pri volani
+                              lazy='joined')  # lazy=True znamena, ze sa lessons nacitaju iba pri volani
 
     def __repr__(self):
         return f"Subject(id:'{self.id}', name:'{self.name}' )"
@@ -127,7 +128,7 @@ student_group_lessons = db.Table('student_group_lessons',
 class StudentGroup(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
+    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='joined')   # bolo dynamic
 
 
 class RoomType(db.Model):
@@ -147,20 +148,27 @@ user_timetable_lessons = db.Table('user_timetable_lessons',
 class UserTimetable(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
-    # TODO published
+    published = db.Column(db.Integer, default=0)
     slug = db.Column(db.String(30))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     lessons = db.relationship('Lesson', secondary=user_timetable_lessons,
-                              backref=db.backref('user_timetable', lazy='dynamic'),  # TODO skontroluj ci treba dynamic
-                              lazy='dynamic')
+                              backref=db.backref('user_timetable', lazy='joined'),
+                              # TODO skontroluj ci treba dynamic?? subquery?       BOLO DYNAMIC!
+                              lazy='joined')  # TODO bolo dynamic
 
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True)
-    timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')
+    timetables = db.relationship('UserTimetable', backref='owner', lazy='subquery')  # bolo dynamic
 
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
+
+
+# TODO:
+@login_manager.unauthorized_handler
+def unauthorized_handler():
+    return 'Unauthorized'
