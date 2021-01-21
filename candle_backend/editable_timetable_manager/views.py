@@ -15,6 +15,7 @@ def new_timetable():
     db.session.commit()
     return url_for("timetable.user_timetable", id_=ut.id_)
 
+
 @editable_timetable_manager.route("/delete_timetable", methods=['POST'])
 def delete_timetable():
     # if etm.get_timetables_count() < 2:  # TODO zmazat .. a zmenit aj JQUERY funkciu!
