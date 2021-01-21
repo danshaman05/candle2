@@ -25,7 +25,7 @@ teacher_lessons = db.Table('teacher_lessons',
 
 
 class Teacher(db.Model):
-    id = db.Column('id', db.Integer, primary_key=True)
+    id = db.Column('id', db.Integer, primary_key=True)    # TODO rename
     given_name = db.Column(db.String(50), nullable=True)
     family_name = db.Column(db.String(50), nullable=False)
     iniciala = db.Column(db.String(50), nullable=True)
@@ -59,7 +59,7 @@ class Teacher(db.Model):
 
 
 class Lesson(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)    # TODO rename
     day = db.Column(db.Integer, nullable=False)
     start = db.Column(db.Integer, nullable=False)
     end = db.Column(db.Integer, nullable=False)
@@ -93,7 +93,7 @@ class Lesson(db.Model):
 
 
 class LessonType(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)   # TODO rename
     name = db.Column(db.String(30), nullable=False)
     code = db.Column(db.String(1), nullable=False)
     lessons = db.relationship('Lesson', backref='type', lazy=True)  # TODO NEJDE lazy True
@@ -105,7 +105,7 @@ class LessonType(db.Model):
 
 
 class Subject(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)   # TODO rename
     name = db.Column(db.String(100), nullable=False)
     code = db.Column(db.String(50), nullable=False)
     short_code = db.Column(db.String(20), nullable=False)
@@ -126,13 +126,13 @@ student_group_lessons = db.Table('student_group_lessons',
 
 
 class StudentGroup(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)        # TODO rename
     name = db.Column(db.String(30), nullable=False)
     lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='joined')   # bolo dynamic
 
 
 class RoomType(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id_ = db.Column("id", db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     code = db.Column(db.String(1), nullable=False)
 
@@ -146,7 +146,7 @@ user_timetable_lessons = db.Table('user_timetable_lessons',
 
 
 class UserTimetable(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    id_ = db.Column("id", db.Integer, primary_key=True)
     name = db.Column(db.String(50), nullable=False)
     published = db.Column(db.Integer, default=0)
     slug = db.Column(db.String(30))
@@ -158,9 +158,9 @@ class UserTimetable(db.Model):
 
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)   # TODO rename
     login = db.Column(db.String(50), unique=True)
-    timetables = db.relationship('UserTimetable', backref='owner', lazy='subquery')  # bolo dynamic
+    timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')
 
 
 @login_manager.user_loader

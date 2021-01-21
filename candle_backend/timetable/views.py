@@ -1,28 +1,20 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
 
-from candle_backend import SERVER_PATH
-from editable_timetable_manager.EditableTimetableManager import EditableTimetableManager
+from ..models import UserTimetable
 from timetable.Panel import Panel
 from timetable.Timetable import Timetable
 
 timetable = Blueprint('timetable', __name__)  # Blueprint instancia
 
 @login_required
-@timetable.route('/moj/rozvrh/<key>', methods=['GET'])
-def user_timetable(key):
-    key = int(key)
+@timetable.route('/moj/rozvrh/<id_>', methods=['GET'])
+def user_timetable(id_):
+    id_ = int(id_)
 
-    ### EXPERIMENT
-    etm = EditableTimetableManager.get_instance() # TODO nemusi byt Singleton
-    etm.set_timetables(current_user)
-    # etm = EditableTimetableManager(current_user)
-    ### EXPERIMENT
-
-    user_timetables = etm.get_timetables()
-
-    # dany rozvrh ziskame z managera podla id:
-    gt = etm.get_timetable(key)
+    user_timetables = current_user.timetables
+    ut = UserTimetable.query.get(id_)
+    gt = Timetable(ut.lessons)    # TODO premennu gt zmenit na timetable?
     if gt is None:
         raise Exception("timetable cannot be None")
 
@@ -31,9 +23,9 @@ def user_timetable(key):
     if request.method == 'POST':
         panel.check_forms()
     return render_template('timetable/timetable.html',
-                           title=gt.name, web_header=gt.name,
+                           title=ut.name, web_header=ut.name,
                            timetable=gt, panel=panel,
-                           user_timetables=user_timetables, selected_timetable_key=key)
+                           user_timetables=user_timetables, selected_timetable_key=id_)
 
 
 @timetable.route('/', methods=['GET', 'POST'])
@@ -58,29 +50,21 @@ def home():
     if current_user.is_authenticated:
         # nacitame userove rozvrhy:
 
-        # EXPERIM
-        etm = EditableTimetableManager.get_instance()   # TODO nemusi byt Singleton
-        etm.set_timetables(current_user)
-        # etm = EditableTimetableManager(current_user)
-        ### EXPERIMENT
-
-
-        # print(len(current_user.timetables))
-        #ziskame prvy rozvrh
-        gt, key = etm.get_first_timetable()
+        #vyberieme jeden z userovych rozvrhov
+        ut = current_user.timetables.first()
+        # ut = UserTimetable.query.filter_by(user_id=current_user.id_).first()        # TODO upravit na najnovsi - s najvyssim id ??
+        gt = Timetable(ut.lessons)
         if gt is None:
             raise Exception("timetable cannot be None")
-
-        user_timetables = etm.get_timetables()
 
         # zobrazi rozvrh:
         panel = Panel()
         if request.method == 'POST':
             panel.check_forms()
         return render_template('timetable/timetable.html',
-                               title=gt.name, web_header=gt.name,
-                               timetable=gt, panel=panel, first_timetable_id=id,
-                               user_timetables=user_timetables, selected_timetable_key=key)
+                               title=ut.name, web_header=ut.name,
+                               timetable=gt, panel=panel,
+                               user_timetables=current_user.timetables, selected_timetable_key=ut.id_)
 
     else:  # je neprihlaseny
         """
