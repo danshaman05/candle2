@@ -19,17 +19,20 @@ $(function(){
         .done(function (data){
           window.location.replace(data);
         })
-
   });
 });
 
 $(function(){
   $("#zmazat_rozvrh").on('click',function(event) {
       // event.preventDefault();
-      if (confirm('Naozaj chcete zmazať tento rozvrh?')) {         // TODO nazov rozvrhu
+      let rozvrh_tag = $("#rozvrh_taby .selected");
+      let rozvrh_name = rozvrh_tag.text();
+      if (confirm('Naozaj chcete zmazať rozvrh s názvom "' + rozvrh_name + '?"')) {
           // Zmazeme rozvrh
-          // console.log('Rozvrh bude zmazany.');
-          $.post($SCRIPT_ROOT + "/delete_timetable", {"data": window.location.href})
+          let rozvrh_url = rozvrh_tag.attr("href");
+          console.log("HREF_URL:" + rozvrh_url);
+          $.post($SCRIPT_ROOT + "/delete_timetable",
+              {"data": rozvrh_url})
             .done(function (data) {
                 // if (data['error']){      // Momentalne nemam ziaden error
                 //     alert(data['error']);
@@ -38,8 +41,7 @@ $(function(){
                 // }
           })
       } else {
-          // Nerobime nic
-          console.log('Rozvrh nebude zmazany.');
+          // Nerobime nic - rozvrh nebude zmazany
       }
   });
 });

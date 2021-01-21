@@ -34,7 +34,7 @@ def home():
     """
     ak je prihlaseny:
         ak ma nejake rozvrhy:
-            zobrazi rozvrh daneho usera - vyberie posledne aktualizovany   #TODO dorobit prepinanie rozvrhov
+            zobrazi rozvrh daneho usera - vyberie posledne aktualizovany
         inak:
             vytvori prazdny rozvrh a priradi ho uzivatelovi
 
@@ -52,8 +52,7 @@ def home():
         # nacitame userove rozvrhy:
 
         # vyberieme jeden z userovych rozvrhov
-        ut = current_user.timetables.first()
-        # ut = UserTimetable.query.filter_by(user_id=current_user.id_).first()        # TODO upravit na najnovsi - s najvyssim id ??
+        ut = current_user.timetables.order_by(UserTimetable.id_)[-1]
         gt = Timetable(ut.lessons)
         if gt is None:
             raise Exception("timetable cannot be None")
