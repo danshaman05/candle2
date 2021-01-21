@@ -7,14 +7,15 @@ from timetable.Timetable import Timetable
 
 timetable = Blueprint('timetable', __name__)  # Blueprint instancia
 
-@login_required
+
 @timetable.route('/moj/rozvrh/<id_>', methods=['GET'])
+@login_required
 def user_timetable(id_):
     id_ = int(id_)
 
     user_timetables = current_user.timetables
     ut = UserTimetable.query.get(id_)
-    gt = Timetable(ut.lessons)    # TODO premennu gt zmenit na timetable?
+    gt = Timetable(ut.lessons)  # TODO premennu gt zmenit na timetable?
     if gt is None:
         raise Exception("timetable cannot be None")
 
@@ -50,7 +51,7 @@ def home():
     if current_user.is_authenticated:
         # nacitame userove rozvrhy:
 
-        #vyberieme jeden z userovych rozvrhov
+        # vyberieme jeden z userovych rozvrhov
         ut = current_user.timetables.first()
         # ut = UserTimetable.query.filter_by(user_id=current_user.id_).first()        # TODO upravit na najnovsi - s najvyssim id ??
         gt = Timetable(ut.lessons)

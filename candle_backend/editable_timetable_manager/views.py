@@ -18,19 +18,21 @@ def new_timetable():
 
 @editable_timetable_manager.route("/delete_timetable", methods=['POST'])
 def delete_timetable():
-    # if etm.get_timetables_count() < 2:  # TODO zmazat .. a zmenit aj JQUERY funkciu!
-    #     return jsonify({'error': "Operácia neúspešná! Zostal už len jeden rozvrh, pre jeho zmazanie musíte vytvoriť ďalší."})
-
     url = request.form['data']
-    key = int(url.split('/')[-1])   # ziskame timetable key, kt. treba zmazat
+    id_ = int(url.split('/')[-1])   # id ziskame z URL
 
-    editable_timetable = etm.get_timetable(key)
-    db.session.delete(editable_timetable.timetable)
+    ut = UserTimetable.query.get(id_)
+    db.session.delete(ut)
     db.session.commit()
 
-    etm.delete_timetable(key)
-    next_timetable_key = etm.get_max_key()
-    # TODO POUZIT NIECO TAKE: ... new_key = current_user.timetables.order_by(UserTimetable.id_)
+    # Ak uz nezostal ziaden rozvrh, tak vytvorime novy
+    if len(list(current_user.timetables)) == 0:
+        new_ut = UserTimetable(name="Rozvrh", user_id=current_user.id_)
+        db.session.add(new_ut)
+        db.session.commit()
+        timetable_to_show_id = new_ut.id_
+    else:
+        # id naposledy pridaneho rozvrhu
+        timetable_to_show_id = current_user.timetables.order_by(UserTimetable.id_)[-1].id_
 
-
-    return jsonify({'next_url': url_for("timetable.user_timetable", key=next_timetable_key)})
+    return jsonify({'next_url': url_for("timetable.user_timetable", id_=timetable_to_show_id)})

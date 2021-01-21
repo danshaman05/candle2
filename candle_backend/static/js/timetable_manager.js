@@ -31,11 +31,11 @@ $(function(){
           // console.log('Rozvrh bude zmazany.');
           $.post($SCRIPT_ROOT + "/delete_timetable", {"data": window.location.href})
             .done(function (data) {
-                if (data['error']){
-                    alert(data['error']);
-                } else {
+                // if (data['error']){      // Momentalne nemam ziaden error
+                //     alert(data['error']);
+                // } else {
                   window.location.replace(data['next_url']);
-                }
+                // }
           })
       } else {
           // Nerobime nic
