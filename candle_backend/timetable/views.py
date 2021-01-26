@@ -34,48 +34,40 @@ def home():
     """
     ak je prihlaseny:
         ak ma nejake rozvrhy:
-            zobrazi rozvrh daneho usera - vyberie posledne aktualizovany
+            zobrazi rozvrh daneho usera - vyberie najnovsi (podla id)
         inak:
             vytvori prazdny rozvrh a priradi ho uzivatelovi
-
-
-    ak je neprihlaseny:
-        (pracuje sa s anonym. navstevnikom)
-        vytvori prazdny rozvrh ( vratane panelu so vsetkym) a zobrazi ho
-        dany rozvrh si zapamata do session
+    ak je odhlaseny:
+        vypise INFOBOX
     """
-    # logout_user()
-
-    # ak je prihlaseny:
-
+    # je prihlaseny:
     if current_user.is_authenticated:
         # nacitame userove rozvrhy:
 
         # vyberieme jeden z userovych rozvrhov
-        ut = current_user.timetables.order_by(UserTimetable.id_)[-1]
-        gt = Timetable(ut.lessons)
+        user_timetable = current_user.timetables.order_by(UserTimetable.id_)[-1]
+        gt = Timetable(user_timetable.lessons)
         if gt is None:
             raise Exception("timetable cannot be None")
 
         # zobrazi rozvrh:
         panel = Panel()
-        if request.method == 'POST':
+        if request.method == 'POST':        # TODO poriesit cez JQUERY
             panel.check_forms()
         return render_template('timetable/timetable.html',
-                               title=ut.name, web_header=ut.name,
+                               title=user_timetable.name, web_header=user_timetable.name,
                                timetable=gt, panel=panel,
-                               user_timetables=current_user.timetables, selected_timetable_key=ut.id_)
+                               user_timetables=current_user.timetables,
+                               selected_timetable_key=user_timetable.id_,
+                               infobox=False)
 
-    else:  # je neprihlaseny
-        """
-        ak je neprihlaseny:
-            (pracuje sa s anonym. navstevnikom)
-            vytvori prazdny rozvrh ( vratane panelu so vsetkym) a zobrazi ho
-            dany rozvrh si zapamata do session"""  # TODO
-        gt = Timetable([])
+    else:  # je odhlaseny
         panel = Panel()
         if request.method == 'POST':
             panel.check_forms()
         return render_template('timetable/timetable.html',
-                               title='Rozvrh', web_header='Rozvrh',
-                               timetable=gt, panel=panel)
+                               title='Rozvrh',
+                               # web_header='Rozvrh',
+                               # timetable=None,  # TODO nech ani nedava parameter
+                               panel=panel,
+                               infobox=True)

@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, request
+from flask_login import current_user
 
 from timetable.Panel import Panel
 from typing import Dict
@@ -28,14 +29,21 @@ def timetable(teacher_slug):
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
 
-    t = Timetable.Timetable(lessons)
-    p = Panel()
-    if request.method == 'POST':
-        p.check_forms()
 
-    return render_template('timetable/timetable.html', teacher_name=teacher_name, title=teacher_name,
-                           web_header=teacher_name,
-                           timetable=t, panel=p)
+    t = Timetable.Timetable(lessons)
+    panel = Panel()
+    if request.method == 'POST':
+        panel.check_forms()
+
+    if current_user.is_authenticated:
+        user_timetables = current_user.timetables
+    else:
+        user_timetables = None
+
+    return render_template('timetable/timetable.html',
+                           teacher_name=teacher_name, title=teacher_name,
+                           web_header=teacher_name, timetable=t,
+                           panel=panel, user_timetables=user_timetables, infobox=False)
 
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:

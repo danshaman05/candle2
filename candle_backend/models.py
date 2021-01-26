@@ -35,7 +35,7 @@ class Teacher(db.Model):
     login = db.Column(db.String(), nullable=True)
     slug = db.Column(db.String(), nullable=True)
     lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='joined'),
-                              lazy=True)       # TODO lazy obe boli dynamic - skontrolovat funkcnost
+                              lazy='dynamic')
 
     # fullname = column_property(given_name + " " + family_name)
 
@@ -128,7 +128,7 @@ student_group_lessons = db.Table('student_group_lessons',
 class StudentGroup(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='joined')   # bolo dynamic
+    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')    # LAZY OVERENE
 
 
 class RoomType(db.Model):
@@ -160,7 +160,7 @@ class UserTimetable(db.Model):
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True)
-    timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')
+    timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')  # LAZY OVERIT
 
 
 @login_manager.user_loader

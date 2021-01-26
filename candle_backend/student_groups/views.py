@@ -1,5 +1,7 @@
 from typing import Dict
 from flask import render_template, Blueprint, request
+from flask_login import current_user
+
 from timetable.Panel import Panel
 from ..models import StudentGroup, Lesson
 from timetable import Timetable
@@ -20,17 +22,23 @@ def list_student_groups():
 def timetable(group_name):
     """ Zobrazi rozvrh pre dany kruzok."""
     web_header = "Rozvrh krúžku " + group_name
-    group = StudentGroup.query.filter_by(name=group_name).first()
+    student_group = StudentGroup.query.filter_by(name=group_name).first()
 
-    lessons = group.lessons.order_by(Lesson.day, Lesson.start).all()
+    lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
 
     t = Timetable.Timetable(lessons)
     p = Panel()
     if request.method == 'POST':
         p.check_forms()
 
+    if current_user.is_authenticated:
+        user_timetables = current_user.timetables
+    else:
+        user_timetables = None
+
     return render_template('timetable/timetable.html', student_group_name=group_name,
-                           web_header=web_header, timetable=t, panel=p)
+                           web_header=web_header, timetable=t, panel=p,
+                           user_timetables=user_timetables, infobox=False)
 
 
 def get_student_groups_sorted_by_first_letter(student_groups) -> Dict:

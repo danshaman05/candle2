@@ -1,0 +1,127 @@
+{############# MACROs #############}
+{% macro print_empty_cell(list) -%}
+    <td class="{{ list| join(' ') }}"></td>
+{%- endmacro %}
+
+
+{% macro print_lesson(list, rowspan, title) -%}
+    <td class="{{ list| join(' ') }}" rowspan="{{ rowspan }}"
+{%- endmacro %}
+
+
+{% macro print_day_headers() -%}
+    {# Vypise hlavicku tabulky - dni v tyzdni - s pozadovanymi sirkami stlpcov. #}
+    {% for day, columns_count in timetable.get_columns_count().items() %}
+        {% if columns_count == 1 %}
+            <th>{{ day }}</th>
+        {% else %}
+            <th colspan="{{ columns_count }}">{{ day }}</th>
+        {% endif %}
+    {% endfor %}
+{%- endmacro %}
+
+{% macro print_lesson_title(lesson) -%}
+    title="
+    {{ lesson.room.name }}, {{ lesson.get_day_abbr() }} {{ lesson.get_start() }}-{{ lesson.get_end() }}, {{ lesson.subject.short_code }}:
+    {% for teacher in lesson.teachers -%}
+        {{ teacher.get_short_name() }}
+        {%- if not loop.last -%}
+            {{ ', ' }}
+        {%- endif %}
+    {%- endfor %}
+    ">
+{%- endmacro %}
+
+{#{% macro test_variable(variable) -%}#}
+{#    {% if variable is none %}#}
+{#    --- VARIABLE {{ variable }} IS NONE!!! ---#}
+{#    {% endif %}#}
+{#{%- endmacro %}#}
+
+{############# (end of) MACROs #############}
+
+
+
+{% set ns = namespace() %}
+{% set ns.layout = timetable.get_layout() %}
+
+<table id="rozvrh">
+    <thead>
+        <tr>
+            <th class="zaciatok"><span class="pristupnost">Začiatok</span></th>
+            {{ print_day_headers() }}
+        </tr>
+    </thead>
+
+    <tbody>
+    {# Pre kazdy cas z pola starting_times: #}
+    {% for  time_in_minutes, time in timetable.get_starting_times().items() %}
+        {# vypis cas #}
+        <tr class="startTimeHeader">
+            <td class="cas">{{ time }}</td>
+
+        {# pre kazdy den: #}
+        {%- for day in ns.layout -%}
+            {% set day_loop = loop %}
+            {# pre kazdy stlpec: #}
+            {%- for column in day -%}
+                {% set column_loop = loop %}
+
+                {% set ns.classes = [] %}
+                {# ak je to prvy stlpec #}
+                {% if loop.index0 == 0 %}
+                    {% do ns.classes.append('startOfDayColumn') %}
+                {% endif %}
+
+                {# ak je to posledny stlpec#}
+                {% if loop.last %}
+                    {% do ns.classes.append('endOfDayColumn') %}
+                {% endif %}
+
+                {# ak je stlpec prazdny alebo sme v nom presli uz vsetky hodiny#}
+                {% if column| length == 0 %}
+                    {% do ns.classes.append('emptyCell') %}
+
+                    {{ print_empty_cell(ns.classes) }}
+                    {% continue %}
+                {% endif %}
+
+                {# Ak mame nejaku hodinu co prave zacina: #}
+                {% if time_in_minutes in column %}
+
+                    {# ziskame hodinu: #}
+                    {% set ns.lesson = timetable.get_lesson(day_loop.index0, column_loop.index0, time_in_minutes) %}
+
+                    {# poznacime, ze hodina zacala: #}
+                    {% do timetable.start_lesson(day_loop.index0, column_loop.index0, time_in_minutes) %}
+                    {# TODO over ci je highlighted #}
+
+                    {% do ns.classes.append('hodina') %}
+
+
+                    {% set type_str = 'lesson-type-' ~  ns.lesson.type.code| upper() %}
+                    {% do ns.classes.append(type_str) %}
+
+                    {{ print_lesson(ns.classes, ns.lesson.get_rowspan()) }}
+                    {{ print_lesson_title(ns.lesson) }}
+
+                    {#  Vnutro bunky: #}
+                    {% include "timetable/timetable_cell.html" %}
+
+                    </td>
+                {% elif timetable.lesson_in_progress(time_in_minutes, day_loop.index0, column_loop.index0)%}   {#  AK PRECHADZAME CEZ HODINU: #}
+                    {# Nerobime nic #}
+
+                {% else %}  {# Inak vypiseme prazdnu bunku #}
+                    {%  do ns.classes.append('emptyCell') %}
+                    {{ print_empty_cell(ns.classes) }}
+                {% endif %}
+
+            {%- endfor -%}
+        {%- endfor -%}
+
+        </tr>
+    {% endfor %}
+
+    </tbody>
+</table>

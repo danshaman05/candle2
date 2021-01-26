@@ -54,7 +54,7 @@ class Panel:
             raise Exception('Wrong category parameter.')
 
 
-    def check_forms(self):
+    def check_forms(self):      # TODO poriesit cez JQUERY!
         """skontroluje, ci bolo stlacene nejake tlacidlo z panela.
         Ak ano, tak spracuje danu poziadavku a nastavi vysledok v paneli. """
 

@@ -1,0 +1,33 @@
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %} - Rozvrh pre FMFI UK</title>
+    <link rel="shortcut icon" href="/static/images/favicon.ico" type="image/x-icon">
+
+{#    <script type="text/javascript">#}
+        {#var candleFrontendRelativeUrl = "/2016-2017-zima/";#}
+        {#var candleFrontendAbsoluteUrl = "https://candle.fmph.uniba.sk/2016-2017-zima/";#}
+        {#var candleFrontendDomain = "candle.fmph.uniba.sk";#}
+
+        {#DG:#}
+        {#var candleFrontendAbsoluteUrl = "http://127.0.0.1:5000/2016-2017-zima/";#}
+        {#var candleFrontendDomain = "127.0.0.1:5000/static";#}
+{#    </script>#}
+
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/main.css" />
+    <link rel="stylesheet" type="text/css" media="screen" href="/static/css/dark.css" title="Tmavé farby" />
+    <link rel="alternate stylesheet" type="text/css" media="screen" href="/static/css/light.css" title="Svetlé farby" />
+
+{#    <script type="text/javascript" src="/static/js/mootools-1.2.4-core.js"></script>#}
+{#    <script type="text/javascript" src="/static/js/element.js"></script>#}
+{#    <script type="text/javascript" src="/static/js/layout.js"></script>#}
+{#    <script type="text/javascript" src="/static/js/timetable_editor.js"></script>#}
+{#    <script type="text/javascript" src="/static/js/timetable.js"></script>#}
+{#    <script type="text/javascript" src="/static/js/search.js"></script>#}
+{#    <script type="text/javascript" src="/static/js/styles.js"></script>#}
+
+{#     DG:#}
+    <script type=text/javascript>       {# https://flask.palletsprojects.com/en/1.1.x/patterns/jquery/#where-is-my-site #}
+      $SCRIPT_ROOT = {{ request.script_root|tojson|safe }} ;
+    </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src={{ url_for('static', filename='js/timetable_manager.js') }}></script>

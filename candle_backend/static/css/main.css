@@ -675,3 +675,9 @@ ul.quickswitch li a {
 #web_header ul.quickswitch li a {
     padding: 0.4ex 0.5em;
 }
+
+
+#infobox {
+    margin: 2em;
+    font-size: 1pc;
+}

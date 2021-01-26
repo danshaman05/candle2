@@ -1,4 +1,5 @@
 from flask import render_template, Blueprint, request
+from flask_login import current_user
 
 from helpers import get_ordered_dict
 from timetable.Panel import Panel
@@ -29,12 +30,18 @@ def timetable(room_name):
     t = Timetable.Timetable(lessons)
     p = Panel()
 
+    if current_user.is_authenticated:
+        user_timetables = current_user.timetables
+    else:
+        user_timetables = None
+
     if request.method == 'POST':
         # skontroluje, ci bolo stlacene nejake tlacidlo z panela. Ak ano, tak spracuje danu poziadavku a nastavi vysledok v paneli.
         p.check_forms()
 
-    return render_template('timetable/timetable.html', room_name=room_name, title=room_name, web_header=web_header,
-                           timetable=t, panel=p)
+    return render_template('timetable/timetable.html', room_name=room_name, title=room_name,
+                           web_header=web_header, timetable=t, panel=p,
+                           user_timetables=user_timetables, infobox=False)
 
 
 def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:

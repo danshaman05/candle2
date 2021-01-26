@@ -25,7 +25,7 @@ $(function(){
 $(function(){
   $("#zmazat_rozvrh").on('click',function(event) {
       // event.preventDefault();
-      let rozvrh_tag = $("#rozvrh_taby .selected");
+      let rozvrh_tag = $("#rozvrh_taby li a.selected");
       let rozvrh_name = rozvrh_tag.text();
       if (confirm('Naozaj chcete zmazať rozvrh s názvom "' + rozvrh_name + '?"')) {
           // Zmazeme rozvrh
