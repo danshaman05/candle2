@@ -30,11 +30,11 @@ from candle_backend.rooms.views import rooms
 from candle_backend.student_groups.views import student_groups
 from candle_backend.teachers.views import teachers
 from candle_backend.users.views import users
-from candle_backend.editable_timetable_manager.views import editable_timetable_manager
+from candle_backend.timetable_manager.views import timetable_manager
 
 app.register_blueprint(timetable, url_prefix=SERVER_PATH)
 app.register_blueprint(rooms, url_prefix=SERVER_PATH)
 app.register_blueprint(student_groups, url_prefix=SERVER_PATH)
 app.register_blueprint(teachers, url_prefix=SERVER_PATH)
 app.register_blueprint(users, url_prefix=SERVER_PATH)
-app.register_blueprint(editable_timetable_manager, url_prefix=SERVER_PATH)
+app.register_blueprint(timetable_manager, url_prefix=SERVER_PATH)

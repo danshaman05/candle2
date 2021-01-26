@@ -24,13 +24,12 @@ $(function(){
 
 $(function(){
   $("#zmazat_rozvrh").on('click',function(event) {
-      // event.preventDefault();
+      // event.preventDefault();        // TODO treba?
       let rozvrh_tag = $("#rozvrh_taby li a.selected");
       let rozvrh_name = rozvrh_tag.text();
       if (confirm('Naozaj chcete zmazať rozvrh s názvom "' + rozvrh_name + '?"')) {
           // Zmazeme rozvrh
           let rozvrh_url = rozvrh_tag.attr("href");
-          console.log("HREF_URL:" + rozvrh_url);
           $.post($SCRIPT_ROOT + "/delete_timetable",
               {"data": rozvrh_url})
             .done(function (data) {
@@ -43,5 +42,24 @@ $(function(){
       } else {
           // Nerobime nic - rozvrh nebude zmazany
       }
+  });
+});
+
+
+$(function(){
+  $("#duplikovat_rozvrh").on('click',function(event) {
+      // event.preventDefault();
+          let rozvrh_url = window.location.href;
+          // console.log("HREF_URL:" + rozvrh_url);        // TODO ZMAZ
+          $.post($SCRIPT_ROOT + "/duplicate_timetable",
+              {"data": rozvrh_url})
+            .done(function (data) {
+                // if (data['error']){      // Momentalne nemam ziaden error
+                //     alert(data['error']);
+                // } else {
+                  window.location.replace(data['next_url']);
+                // }
+          })
+
   });
 });

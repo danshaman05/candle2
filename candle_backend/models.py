@@ -42,18 +42,19 @@ class Teacher(db.Model):
     def __repr__(self):
         return f"Teacher(id:'{self.id}', :'{self.given_name} {self.family_name}' )"
 
-    def get_short_name(self):
+    @property
+    def short_name(self):
         """Vrati skratene meno, napr. pre "Andrej Blaho" vrati "A. Blaho" """
 
         if self.given_name == '':  # Napr. teacher id 1259
             return ''
         return self.given_name[0] + ". " + self.family_name
 
-    @hybrid_property
+    @property
     def fullname(self):
         return self.given_name + " " + self.family_name
 
-    @hybrid_property
+    @property
     def fullname_reversed(self):
         return self.family_name + " " + self.given_name
 
@@ -96,9 +97,7 @@ class LessonType(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     code = db.Column(db.String(1), nullable=False)
-    lessons = db.relationship('Lesson', backref='type', lazy=True)  # TODO NEJDE lazy True
-
-    # lessons = db.relationship('Lesson', backref='type', lazy=False)
+    lessons = db.relationship('Lesson', backref='type', lazy=True)
 
     def __repr__(self):
         return f"{self.name}"
@@ -141,8 +140,7 @@ user_timetable_lessons = db.Table('user_timetable_lessons',
                                   db.Column('id', db.Integer(), primary_key=True),
                                   db.Column('user_timetable_id', db.Integer, db.ForeignKey('user_timetable.id')),
                                   db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')),
-                                  db.Column('highlighted', db.Boolean)
-                                  )
+                                  db.Column('highlighted', db.Boolean, default=False))
 
 
 class UserTimetable(db.Model):

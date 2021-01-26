@@ -24,7 +24,7 @@
     title="
     {{ lesson.room.name }}, {{ lesson.get_day_abbr() }} {{ lesson.get_start() }}-{{ lesson.get_end() }}, {{ lesson.subject.short_code }}:
     {% for teacher in lesson.teachers -%}
-        {{ teacher.get_short_name() }}
+        {{ teacher.short_name }}
         {%- if not loop.last -%}
             {{ ', ' }}
         {%- endif %}
