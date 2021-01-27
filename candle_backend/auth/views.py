@@ -4,11 +4,11 @@ from candle_backend.models import User
 from flask_login import login_user, logout_user, current_user
 
 
-users = Blueprint('users', __name__)  # Blueprint instancia
+auth = Blueprint('auth', __name__)  # Blueprint instancia
 
 
 
-@users.route('/prihlasit', methods=['GET'])
+@auth.route('/prihlasit', methods=['GET'])
 def login():
     ais_login = 'grohol2'  # TODO treba implementovat CoSign prihlasenie cez AIS ('grohol2' je moj AIS login)
     user = User.query.filter_by(login=ais_login).first()
@@ -26,17 +26,8 @@ def login():
     return redirect(request.referrer)   # vrati sa na stranku kde sme boli predtym
 
 
-# TODO POUZIT POTOM TOTO ZNOVU!
-# @users.route('/odhlasit', methods=['GET'])
-# def logout():
-#     logout_user()
-#     return redirect(request.referrer)
-
-
-# TODO zmazma!!!!
-@users.route('/odhlasit', methods=['GET'])
+@auth.route('/odhlasit', methods=['GET'])
 def logout():
     logout_user()
-    return redirect(url_for("timetable.home"))
-
+    return redirect(request.referrer)
 

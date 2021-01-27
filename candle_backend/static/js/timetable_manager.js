@@ -50,15 +50,11 @@ $(function(){
   $("#duplikovat_rozvrh").on('click',function(event) {
       // event.preventDefault();
           let rozvrh_url = window.location.href;
-          // console.log("HREF_URL:" + rozvrh_url);        // TODO ZMAZ
           $.post($SCRIPT_ROOT + "/duplicate_timetable",
               {"data": rozvrh_url})
             .done(function (data) {
-                // if (data['error']){      // Momentalne nemam ziaden error
-                //     alert(data['error']);
-                // } else {
-                  window.location.replace(data['next_url']);
-                // }
+                window.location.href = data['next_url'];
+                // TODO nakoniec by to chcelo zobrazit nejaku flask messages!
           })
 
   });

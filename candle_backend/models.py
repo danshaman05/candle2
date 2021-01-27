@@ -59,6 +59,18 @@ class Teacher(db.Model):
         return self.family_name + " " + self.given_name
 
 
+student_group_lessons = db.Table('student_group_lessons',
+                                 db.Column('student_group_id', db.Integer, db.ForeignKey('student_group.id')),
+                                 db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')))
+
+
+
+class StudentGroup(db.Model):
+    id_ = db.Column('id', db.Integer, primary_key=True)
+    name = db.Column(db.String(30), nullable=False)
+    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')    # LAZY OVERENE
+
+
 class Lesson(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
     day = db.Column(db.Integer, nullable=False)
@@ -71,7 +83,7 @@ class Lesson(db.Model):
     note = db.Column(db.VARCHAR, nullable=True)
 
     def __repr__(self):
-        return f"Lesson(id:'{self.id}', room_id:'{self.room_id}' )"
+        return f"Lesson(id:'{self.id_}', room_id:'{self.room_id}' )"
 
     def get_day_abbr(self) -> str:
         """Vrati skratku dna v tyzdni (abbreviation)."""
@@ -115,19 +127,7 @@ class Subject(db.Model):
                               lazy='joined')  # lazy=True znamena, ze sa lessons nacitaju iba pri volani
 
     def __repr__(self):
-        return f"Subject(id:'{self.id}', name:'{self.name}' )"
-
-
-student_group_lessons = db.Table('student_group_lessons',
-                                 db.Column('student_group_id', db.Integer, db.ForeignKey('student_group.id')),
-                                 db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
-                                 )
-
-
-class StudentGroup(db.Model):
-    id_ = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
-    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')    # LAZY OVERENE
+        return f"Subject(id:'{self.id_}', name:'{self.name}' )"
 
 
 class RoomType(db.Model):
@@ -152,7 +152,7 @@ class UserTimetable(db.Model):
     lessons = db.relationship('Lesson', secondary=user_timetable_lessons,
                               backref=db.backref('user_timetable', lazy='joined'),
                               # TODO skontroluj ci treba dynamic?? subquery?       BOLO DYNAMIC!
-                              lazy='joined')  # TODO bolo dynamic
+                              lazy='dynamic')
 
 
 class User(db.Model, UserMixin):

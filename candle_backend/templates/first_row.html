@@ -9,9 +9,9 @@
     <ul>
      <li>
          {% if current_user.is_authenticated %}
-             <a rel="nofollow" href="{{ url_for('users.logout') }}">Odhlásiť</a></li>
+             <a rel="nofollow" href="{{ url_for('auth.logout') }}">Odhlásiť</a></li>
          {% else %}
-             <a href="{{ url_for('users.login') }}">Prihlásiť</a></li>
+             <a href="{{ url_for('auth.login') }}">Prihlásiť</a></li>
          {% endif %}
 
         <li><a href="#">Zmeniť farby</a></li>
@@ -24,7 +24,7 @@
 {#            <li><a href="https://github.com/fmfi-svt/candle">Zoznam chýb</a></li>#}
 {#            <li><a href="https://github.com/fmfi-svt/candle/wiki">Dokumentácia</a></li>#}
 {#            <li><a href="https://github.com/fmfi-svt/candle/wiki/FAQ">FAQ</a></li>#}
-            --><li><a href="http://groups.google.com/group/candle-users">Mailing list</a></li>
+            <li><a href="http://groups.google.com/group/candle-users">Mailing list</a></li>
         </ul>
     </div>
 </div>

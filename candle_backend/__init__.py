@@ -18,7 +18,7 @@ app.jinja_env.add_extension('jinja2.ext.loopcontrols')
 app.jinja_env.add_extension('jinja2.ext.do')
 
 login_manager = LoginManager(app)   # udrziava session data v pozadi
-login_manager.login_view = 'users.login'
+login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'   # flash message category (zatial nepotrebujeme) - v Bootstrap je to pekne modre upozornenie
 
 
@@ -29,12 +29,12 @@ from candle_backend.timetable.views import timetable  # importujeme instanciu ma
 from candle_backend.rooms.views import rooms
 from candle_backend.student_groups.views import student_groups
 from candle_backend.teachers.views import teachers
-from candle_backend.users.views import users
+from candle_backend.auth.views import auth
 from candle_backend.timetable_manager.views import timetable_manager
 
 app.register_blueprint(timetable, url_prefix=SERVER_PATH)
 app.register_blueprint(rooms, url_prefix=SERVER_PATH)
 app.register_blueprint(student_groups, url_prefix=SERVER_PATH)
 app.register_blueprint(teachers, url_prefix=SERVER_PATH)
-app.register_blueprint(users, url_prefix=SERVER_PATH)
+app.register_blueprint(auth, url_prefix=SERVER_PATH)
 app.register_blueprint(timetable_manager, url_prefix=SERVER_PATH)
