@@ -50,11 +50,11 @@ class Teacher(db.Model):
             return ''
         return self.given_name[0] + ". " + self.family_name
 
-    @property
+    @hybrid_property
     def fullname(self):
         return self.given_name + " " + self.family_name
 
-    @property
+    @hybrid_property    # pouzivame ich v SQL queries, preto su hybrid
     def fullname_reversed(self):
         return self.family_name + " " + self.given_name
 

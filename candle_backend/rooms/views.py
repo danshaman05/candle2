@@ -25,7 +25,7 @@ def timetable(room_name):
     """Zobrazi rozvrh pre danu miestnost:"""
     web_header = "Rozvrh miestnosti " + room_name
     room = Room.query.filter_by(name=room_name).first()
-    lessons = room.lessons.order_by(Lesson.day, Lesson.start)
+    lessons = room.lessons.order_by(Lesson.day, Lesson.start).all()
 
     t = Timetable.Timetable(lessons)
     p = Panel()

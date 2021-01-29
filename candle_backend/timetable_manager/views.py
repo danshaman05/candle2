@@ -45,9 +45,7 @@ def duplicate_timetable():
      /kruzky/1mFAA
      /moj-rozvrh/751
     """
-
     url_list = rozvrh_url.split('/')
-    old_timetable = None
     if "ucitelia" in url_list:
         i = url_list.index("ucitelia")
         slug = url_list[i + 1]    # pozicia ucitelovho slugu v url

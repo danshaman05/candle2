@@ -18,7 +18,6 @@ def list_teachers():
     """Vypise zoznam vsetkych ucitelov"""
     teachers_list = Teacher.query.order_by(Teacher.family_name).all()
     teachers_dict = get_teachers_sorted_by_family_name(teachers_list)
-
     return render_template('teachers/list_teachers.html', teachers_dict=teachers_dict)
 
 
@@ -28,7 +27,6 @@ def timetable(teacher_slug):
     teacher = Teacher.query.filter_by(slug=teacher_slug).first()
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
-
 
     t = Timetable.Timetable(lessons)
     panel = Panel()
