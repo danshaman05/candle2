@@ -69,8 +69,6 @@ class Panel:
         elif self.__button_clicked('teachers'):
             search = self.__teachers_form.show_teachers.data
             if search != '':
-                print("SEARCH: ", search)
-
                 search = search.replace(" ", "%")
                 search = search.replace(".", "%")
                 search = "%{}%".format(search)
@@ -89,5 +87,4 @@ class Panel:
                 search = search.replace(" ", "%")
                 search = "%{}%".format(search)
                 groups_list = StudentGroup.query.filter(StudentGroup.name.ilike(search)).all()
-                print(len(groups_list))
                 self.set_results(groups_list, 'student_groups')
