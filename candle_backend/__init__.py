@@ -10,7 +10,6 @@ from candle_backend.panel.views import panel
 # SERVER_PATH = '/2016-2017-zima'
 SERVER_PATH = ''  # TODO - presunut do configuration.py
 
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8aa7d5372cf499d28602959a6661e851'   # random string
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:SuperBakalarka1.@localhost/candle_2016_2017_zima'
@@ -28,11 +27,7 @@ login_manager.login_view = 'auth.login'
 login_manager.login_message_category = 'info'   # flash message category (zatial nepotrebujeme) - v Bootstrap je to pekne modre upozornenie
 
 csrf = CSRFProtect(app)
-
-
-
 db = SQLAlchemy(app)
-
 
 from candle_backend.timetable.views import timetable  # importujeme instanciu main
 from candle_backend.rooms.views import rooms

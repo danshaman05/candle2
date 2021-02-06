@@ -81,7 +81,7 @@ def duplicate_timetable():
         new_t = UserTimetable(name=new_name, user_id=current_user.id)
 
     else:
-        raise Exception("BAD URL!")  # TODO nahradit Error page!
+        raise Exception ("BAD URL!")  # TODO nahradit Error page!
 
     db.session.add(new_t)
     for lesson in old_timetable.lessons:

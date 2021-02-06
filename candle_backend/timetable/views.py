@@ -1,8 +1,6 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user, login_required
-from flask_wtf.csrf import CSRFError
 
-from candle_backend import csrf
 from ..models import UserTimetable, Lesson
 from timetable.Panel import Panel
 from timetable.Timetable import Timetable
@@ -62,7 +60,7 @@ def home():
                                infobox=False)
     else:  # je odhlaseny
         panel = Panel()
-        if request.method == 'POST':    # TODO
+        if request.method == 'POST':  # TODO
             panel.check_forms()
         return render_template('timetable/timetable.html',
                                title='Rozvrh',

