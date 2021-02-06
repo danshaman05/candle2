@@ -1,6 +1,6 @@
 from typing import List
 
-from flask import Blueprint, request, url_for, jsonify
+from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
 from candle_backend import db
 from ..models import UserTimetable, Teacher, Room, StudentGroup
@@ -12,7 +12,7 @@ timetable_manager = Blueprint('editable_timetable_manager', __name__)  # Bluepri
 @timetable_manager.route("/new_timetable", methods=['POST'])
 # @login_required
 def new_timetable():
-    name = request.form['data']
+    name = request.form['name']
     name = getUniqueName(name)
     ut = UserTimetable(name=name, user_id=current_user.id)
     db.session.add(ut)
@@ -23,7 +23,7 @@ def new_timetable():
 @timetable_manager.route("/delete_timetable", methods=['POST'])
 @login_required
 def delete_timetable():
-    rozvrh_url = request.form['data']
+    rozvrh_url = request.form['url']   # TODO bolo data
     id_ = int(rozvrh_url.split('/')[-1])  # id ziskame z URL
     ut = UserTimetable.query.get(id_)
     db.session.delete(ut)
@@ -88,6 +88,19 @@ def duplicate_timetable():
         new_t.lessons.append(lesson)
     db.session.commit()
     return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_t.id_)})
+
+
+@timetable_manager.route("/rename_timetable", methods=['POST'])
+@login_required
+def rename_timetable():
+    rozvrh_url = request.form['url']
+    new_name = request.form['new_name']
+    new_name = getUniqueName(new_name)
+    id_ = int(rozvrh_url.split('/')[-1])  # id ziskame z URL
+    ut = UserTimetable.query.get(id_)
+    ut.name = new_name
+    db.session.commit()
+    return jsonify({})      # TODO chcelo by to vratit rovno vy?
 
 
 def getUniqueName(name) -> str:

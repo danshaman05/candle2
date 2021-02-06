@@ -17,7 +17,7 @@ $(function(){
     if (name == null){
         return;
     }
-    $.post($SCRIPT_ROOT + "/new_timetable",{"data": name})
+    $.post($SCRIPT_ROOT + "/new_timetable",{"name": name})
         .done(function (data){
           window.location.replace(data);
         })
@@ -29,11 +29,11 @@ $(function(){
       // event.preventDefault();        // TODO treba?
       let rozvrh_tag = $("#rozvrh_taby li a.selected");
       let rozvrh_name = rozvrh_tag.text();
-      if (confirm('Naozaj chcete zmazať rozvrh s názvom "' + rozvrh_name + '?"')) {
+      if (confirm(`Naozaj chcete zmazať rozvrh s názvom "${rozvrh_name}"?`)) {
           // Zmazeme rozvrh
           let rozvrh_url = rozvrh_tag.attr("href");
           $.post($SCRIPT_ROOT + "/delete_timetable",
-              {"data": rozvrh_url})
+              {"url": rozvrh_url})
             .done(function (data) {
                 // if (data['error']){      // Momentalne nemam ziaden error
                 //     alert(data['error']);
@@ -60,3 +60,24 @@ $(function(){
           })
   });
 });
+
+$(function(){
+  $("#premenovat_rozvrh").on('click',function(){
+    let old_name = $("#rozvrh_taby li a.selected").text();
+    let name = prompt(`Zadajte nový názov pre rozrvh "${old_name}"`);
+    if (name == null){
+        return;
+    }
+    if (old_name == name){
+        alert("Chyba: Zadali ste rovnaký názov!");
+        return;
+    }
+    $.post($SCRIPT_ROOT + "/rename_timetable",
+        {"url": document.URL, "new_name": name}
+        )
+        .done(function (data){      // TODO data nevyuzivam...
+            $('#vrch_riadok2').load(document.URL + ' #vrch_riadok2');
+    })
+  });
+});
+
