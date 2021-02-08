@@ -17,7 +17,7 @@ def list_rooms():
     rooms_list = Room.query.order_by(Room.name).all()
     rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # ucebne su v jednom dictionary rozdelene podla prefixu
 
-    return render_template('rooms/list_rooms.html', rooms_dict=rooms_dict)
+    return render_template('rooms/list_rooms.html', rooms_dict=rooms_dict, title="Rozvrhy miestností")
 
 
 @rooms.route('/miestnosti/<room_name>', methods=['GET', 'POST'])

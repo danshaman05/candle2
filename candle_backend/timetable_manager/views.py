@@ -1,8 +1,9 @@
 from typing import List
 
-from flask import Blueprint, request, url_for, jsonify, render_template
+from flask import Blueprint, request, url_for, jsonify, render_template, redirect
 from flask_login import current_user, login_required
 from candle_backend import db
+from timetable.Panel import Panel
 from ..models import UserTimetable, Teacher, Room, StudentGroup
 import re
 
@@ -100,7 +101,15 @@ def rename_timetable():
     ut = UserTimetable.query.get(id_)
     ut.name = new_name
     db.session.commit()
-    return jsonify({})      # TODO chcelo by to vratit rovno vy?
+
+    tabs_html = render_template("timetable/tabs.html", user_timetables=current_user.timetables, selected_timetable_key=ut.id_, title=ut.name)
+    web_header_html = f"<h1>{ut.name}</h1>"
+    title_html = render_template('title.html', title=ut.name)
+
+    return jsonify({'tabs_html': tabs_html,
+                    'web_header_html': web_header_html,
+                    'title': ut.name,
+                    'title_html': title_html})
 
 
 def getUniqueName(name) -> str:

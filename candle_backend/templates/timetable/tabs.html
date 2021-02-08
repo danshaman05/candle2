@@ -1,0 +1,9 @@
+{### Taby zobrazujuce pouzivatelove rozvrhy ###}
+{%- for ut in user_timetables -%}
+    <li><a rel="nofollow" href="{{ url_for('timetable.user_timetable', id_=ut.id_) }}"
+    {%- if selected_timetable_key == ut.id_ -%}
+       class="selected"
+    {%- endif -%}
+    >{{ ut.name }}</a></li>
+{%- endfor -%}
+<li><input type="button" id="novy_rozvrh" value="Nový rozvrh"></li>

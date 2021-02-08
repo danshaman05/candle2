@@ -15,7 +15,7 @@ def list_student_groups():
     groups_list = StudentGroup.query.all()
     student_groups_dict = get_student_groups_sorted_by_first_letter(groups_list)
 
-    return render_template('student_groups/list_student_groups.html', student_groups_dict=student_groups_dict)
+    return render_template('student_groups/list_student_groups.html', student_groups_dict=student_groups_dict, title="Rozvrhy krúžkov")
 
 
 @student_groups.route('/kruzky/<group_name>', methods=['GET', 'POST'])
@@ -23,20 +23,17 @@ def timetable(group_name):
     """ Zobrazi rozvrh pre dany kruzok."""
     web_header = "Rozvrh krúžku " + group_name
     student_group = StudentGroup.query.filter_by(name=group_name).first()
-
     lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
-
     t = Timetable.Timetable(lessons)
     p = Panel()
     if request.method == 'POST':
         p.check_forms()
-
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
     else:
         user_timetables = None
-
-    return render_template('timetable/timetable.html', student_group_name=group_name,
+    return render_template('timetable/timetable.html', title=group_name,
+                           student_group_name=group_name,
                            web_header=web_header, timetable=t, panel=p,
                            user_timetables=user_timetables, infobox=False)
 

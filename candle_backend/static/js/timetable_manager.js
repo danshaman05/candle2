@@ -75,8 +75,18 @@ $(function(){
     $.post($SCRIPT_ROOT + "/rename_timetable",
         {"url": document.URL, "new_name": name}
         )
-        .done(function (data){      // TODO data nevyuzivam...
-            $('#vrch_riadok2').load(document.URL + ' #vrch_riadok2');
+        .done(function (data){
+            const taby_selector = '#rozvrh_taby';
+            const web_header_selector = '#web_header'
+
+            document.title = data['title_html'];
+            $(taby_selector).fadeOut(function (){
+                $(taby_selector).html(data['tabs_html']).fadeIn();
+            });
+
+            $(web_header_selector).fadeOut(function (){
+                $(web_header_selector).html(data['web_header_html']).fadeIn();
+            });
     })
   });
 });

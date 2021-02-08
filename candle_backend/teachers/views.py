@@ -18,7 +18,7 @@ def list_teachers():
     """Vypise zoznam vsetkych ucitelov"""
     teachers_list = Teacher.query.order_by(Teacher.family_name).all()
     teachers_dict = get_teachers_sorted_by_family_name(teachers_list)
-    return render_template('teachers/list_teachers.html', teachers_dict=teachers_dict)
+    return render_template('teachers/list_teachers.html', teachers_dict=teachers_dict, title="Rozvrhy učiteľov")
 
 
 @teachers.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])

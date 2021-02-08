@@ -3,11 +3,10 @@
 
 {% block timetable_menu %}
     {% if current_user.is_authenticated %}
-        {% include('timetable/timetable_menu.html') %}
+        {% include('timetable/tabs_and_actions.html') %}
     {% endif %}
 {% endblock %}
 
-{% block title %}{{ title }}{% endblock %}
 {% block web_header %}{{ web_header }}{% endblock %}
 
 {% block obsah %}
@@ -19,7 +18,7 @@
         </div>
     {% else %}
         {% include('timetable/timetable_content.html') %}
-        {% include('timetable/timetable_list.html') %}
+        {% include('timetable/list.html') %}
     {% endif %}
 {% endblock %}
 

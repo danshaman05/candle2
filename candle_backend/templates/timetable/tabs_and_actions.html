@@ -1,0 +1,17 @@
+<div id="vrch2">
+    <div id="vrch_riadok2">
+        {% if current_user.is_authenticated %}
+            <h2 class="pristupnost">Výber aktívneho rozvrhu</h2>
+            <ul id="rozvrh_taby">
+                {%- include('timetable/tabs.html') -%}
+            </ul>
+            <h2 class="pristupnost">Akcie aktívneho rozvrhu</h2>
+            <ul id="rozvrh_akcie">
+                {%- include('timetable/actions.html') -%}
+            </ul>
+        {% else %}
+{#                ZATIAL NIC#}
+        {% endif %}
+
+    </div>
+</div>
