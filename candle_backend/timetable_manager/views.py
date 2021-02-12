@@ -3,7 +3,6 @@ from typing import List
 from flask import Blueprint, request, url_for, jsonify, render_template, redirect
 from flask_login import current_user, login_required
 from candle_backend import db
-from timetable.Panel import Panel
 from ..models import UserTimetable, Teacher, Room, StudentGroup
 import re
 

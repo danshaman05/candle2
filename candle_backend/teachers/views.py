@@ -1,7 +1,6 @@
 from flask import Blueprint, render_template, request
 from flask_login import current_user
 
-from timetable.Panel import Panel
 from typing import Dict
 from ..models import Lesson, Teacher
 from timetable import Timetable
@@ -24,14 +23,11 @@ def list_teachers():
 @teachers.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
 def timetable(teacher_slug):
     """ Zobrazi rozvrh daneho ucitela."""
-    teacher = Teacher.query.filter_by(slug=teacher_slug).first()
+    teacher = Teacher.query.filter_by(slug=teacher_slug).first_or_404()
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
 
     t = Timetable.Timetable(lessons)
-    panel = Panel()
-    if request.method == 'POST':
-        panel.check_forms()
 
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
@@ -41,7 +37,7 @@ def timetable(teacher_slug):
     return render_template('timetable/timetable.html',
                            teacher_name=teacher_name, title=teacher_name,
                            web_header=teacher_name, timetable=t,
-                           panel=panel, user_timetables=user_timetables, infobox=False)
+                           user_timetables=user_timetables, infobox=False)
 
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:

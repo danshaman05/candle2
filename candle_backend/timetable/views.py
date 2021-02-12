@@ -1,8 +1,8 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, jsonify
 from flask_login import current_user, login_required
+from sqlalchemy import or_
 
-from ..models import UserTimetable, Lesson
-from timetable.Panel import Panel
+from ..models import UserTimetable, Lesson, Teacher
 from timetable.Timetable import Timetable
 
 timetable = Blueprint('timetable', __name__)  # Blueprint instancia
@@ -20,12 +20,10 @@ def user_timetable(id_):
         raise Exception("timetable cannot be None")
 
     # zobrazi rozvrh:
-    panel = Panel()
-    if request.method == 'POST':
-        panel.check_forms()
+
     return render_template('timetable/timetable.html',
                            title=ut.name, web_header=ut.name,
-                           timetable=t, panel=panel,
+                           timetable=t,
                            user_timetables=user_timetables, selected_timetable_key=id_)
 
 
@@ -49,20 +47,80 @@ def home():
             raise Exception("timetable cannot be None")
 
         # zobrazi rozvrh:
-        panel = Panel()
-        if request.method == 'POST':  # TODO poriesit cez JQUERY
-            panel.check_forms()
         return render_template('timetable/timetable.html',
                                title=user_timetable.name, web_header=user_timetable.name,
-                               timetable=timetable, panel=panel,
+                               timetable=timetable,
                                user_timetables=current_user.timetables,
                                selected_timetable_key=user_timetable.id_,
                                infobox=False)
     else:  # je odhlaseny
-        panel = Panel()
-        if request.method == 'POST':  # TODO
-            panel.check_forms()
         return render_template('timetable/timetable.html',
                                title='Rozvrh',
-                               panel=panel,
+
                                infobox=True)
+
+
+
+
+@timetable.route('/get_teachers_list', methods=['GET'])
+def get_teachers_list():
+    query_string = request.args['term']
+
+    query_string = query_string.replace(" ", "%")
+    query_string = query_string.replace(".", "%")
+    query_string = "%{}%".format(query_string)
+
+    teachers = Teacher.query.filter(
+        or_(Teacher.fullname.like(query_string),
+            Teacher.fullname_reversed.like(query_string))) \
+        .order_by(Teacher.family_name) \
+        .limit(50).all()
+
+    array = []
+    for t in teachers:
+        array.append({'id':t.slug, 'value':t.fullname})     # do not change key names (jquery-ui autocomplete widget will not work)
+
+    print(array)
+    return jsonify(array)  # posleme tam slug a ucitelovo fullname
+
+
+
+#
+# @timetable.route('/search_teachers', methods=['POST'])
+# def search_teachers():
+
+
+# def check_forms():  # TODO poriesit cez JQUERY!
+#     """skontroluje, ci bolo stlacene nejake tlacidlo z panela.
+#     Ak ano, tak spracuje danu poziadavku a nastavi vysledok v paneli. """
+#
+#     if self.__button_clicked('rooms'):
+#         search = self.__rooms_form.show_rooms.data
+#         if search != '':  # TODO treba validovat string?
+#             search = search.replace(" ", "%")
+#             search = "%{}%".format(search)
+#             rooms_list = Room.query.filter(Room.name.like(search)).all()  # TODO pouzit ilike?
+#             self.set_results(rooms_list, 'rooms')
+#
+#     elif self.__button_clicked('teachers'):
+#         search = self.__teachers_form.show_teachers.data
+#         if search != '':
+#             search = search.replace(" ", "%")
+#             search = search.replace(".", "%")
+#             search = "%{}%".format(search)
+#
+#             teachers = Teacher.query.filter(
+#                 or_(Teacher.fullname.like(search),
+#                     Teacher.fullname_reversed.like(search))) \
+#                 .order_by(Teacher.family_name) \
+#                 .limit(50).all()
+#
+#             self.set_results(list(teachers), 'teachers')
+#
+#     elif self.__button_clicked('student_groups'):
+#         search = self.__student_groups_form.show_student_groups.data
+#         if search != '':
+#             search = search.replace(" ", "%")
+#             search = "%{}%".format(search)
+#             groups_list = StudentGroup.query.filter(StudentGroup.name.ilike(search)).all()
+#             self.set_results(groups_list, 'student_groups')

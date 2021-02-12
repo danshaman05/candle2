@@ -2,7 +2,6 @@ from typing import Dict
 from flask import render_template, Blueprint, request
 from flask_login import current_user
 
-from timetable.Panel import Panel
 from ..models import StudentGroup, Lesson
 from timetable import Timetable
 
@@ -25,16 +24,14 @@ def timetable(group_name):
     student_group = StudentGroup.query.filter_by(name=group_name).first()
     lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
     t = Timetable.Timetable(lessons)
-    p = Panel()
-    if request.method == 'POST':
-        p.check_forms()
+
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
     else:
         user_timetables = None
     return render_template('timetable/timetable.html', title=group_name,
                            student_group_name=group_name,
-                           web_header=web_header, timetable=t, panel=p,
+                           web_header=web_header, timetable=t,
                            user_timetables=user_timetables, infobox=False)
 
 

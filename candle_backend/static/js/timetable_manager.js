@@ -1,15 +1,3 @@
-// CSRF-protection header
-// source: https://stackoverflow.com/questions/31888316/how-to-use-flask-wtforms-csrf-protection-with-ajax
-let csrf_token = $('meta[name=csrf-token]').attr('content');
-
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!/^(GET|HEAD|OPTIONS|TRACE)$/i.test(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrf_token);
-        }
-    }
-});
-//// (end of) CSRF-protection header
 
 $(function(){
   $("#novy_rozvrh").on('click',function(){
@@ -83,7 +71,6 @@ $(function(){
             $(taby_selector).fadeOut(function (){
                 $(taby_selector).html(data['tabs_html']).fadeIn();
             });
-
             $(web_header_selector).fadeOut(function (){
                 $(web_header_selector).html(data['web_header_html']).fadeIn();
             });

@@ -4,8 +4,6 @@ from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect, \
     CSRFError  # https://stackoverflow.com/questions/31888316/how-to-use-flask-wtforms-csrf-protection-with-ajax
 
-from candle_backend.panel.views import panel
-
 
 # SERVER_PATH = '/2016-2017-zima'
 SERVER_PATH = ''  # TODO - presunut do configuration.py
@@ -42,7 +40,6 @@ app.register_blueprint(student_groups, url_prefix=SERVER_PATH)
 app.register_blueprint(teachers, url_prefix=SERVER_PATH)
 app.register_blueprint(auth, url_prefix=SERVER_PATH)
 app.register_blueprint(timetable_manager, url_prefix=SERVER_PATH)
-app.register_blueprint(panel, url_prefix=SERVER_PATH)
 
 
 # TODO presunut do samostatneho modulu errors

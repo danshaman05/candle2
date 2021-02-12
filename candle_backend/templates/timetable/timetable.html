@@ -24,5 +24,11 @@
 
 
 {% block panel %}
-    {% include 'timetable/panel.html'%}
+    {% include 'panel/panel.html' %}
+{% endblock %}
+
+{% block script %}
+    {{ super() }}
+    <script src={{ url_for('static', filename='js/timetable_manager.js') }}></script>
+    <script src={{ url_for('static', filename='js/search.js') }}></script>
 {% endblock %}

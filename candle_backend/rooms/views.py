@@ -2,7 +2,6 @@ from flask import render_template, Blueprint, request
 from flask_login import current_user
 
 from helpers import get_ordered_dict
-from timetable.Panel import Panel
 from ..models import Room, Lesson
 from timetable import Timetable
 from typing import Dict
@@ -35,9 +34,6 @@ def timetable(room_name):
     else:
         user_timetables = None
 
-    if request.method == 'POST':
-        # skontroluje, ci bolo stlacene nejake tlacidlo z panela. Ak ano, tak spracuje danu poziadavku a nastavi vysledok v paneli.
-        p.check_forms()
 
     return render_template('timetable/timetable.html', room_name=room_name, title=room_name,
                            web_header=web_header, timetable=t, panel=p,
