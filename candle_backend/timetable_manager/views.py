@@ -6,7 +6,7 @@ from candle_backend import db
 from ..models import UserTimetable, Teacher, Room, StudentGroup
 import re
 
-timetable_manager = Blueprint('editable_timetable_manager', __name__)  # Blueprint instancia
+timetable_manager = Blueprint('editable_timetable_manager', __name__)
 
 
 @timetable_manager.route("/new_timetable", methods=['POST'])

@@ -7,7 +7,7 @@ from timetable import Timetable
 from typing import Dict
 
 
-rooms = Blueprint('rooms', __name__)    # Blueprint instancia
+rooms = Blueprint('rooms', __name__)
 
 
 @rooms.route('/miestnosti')
@@ -27,7 +27,6 @@ def timetable(room_name):
     lessons = room.lessons.order_by(Lesson.day, Lesson.start).all()
 
     t = Timetable.Timetable(lessons)
-    p = Panel()
 
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
@@ -36,7 +35,7 @@ def timetable(room_name):
 
 
     return render_template('timetable/timetable.html', room_name=room_name, title=room_name,
-                           web_header=web_header, timetable=t, panel=p,
+                           web_header=web_header, timetable=t,
                            user_timetables=user_timetables, infobox=False)
 
 

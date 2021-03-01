@@ -5,7 +5,7 @@ from sqlalchemy import or_
 from ..models import UserTimetable, Lesson, Teacher
 from timetable.Timetable import Timetable
 
-timetable = Blueprint('timetable', __name__)  # Blueprint instancia
+timetable = Blueprint('timetable', __name__)
 
 
 @timetable.route('/moj-rozvrh/<id_>', methods=['GET'])
@@ -20,7 +20,6 @@ def user_timetable(id_):
         raise Exception("timetable cannot be None")
 
     # zobrazi rozvrh:
-
     return render_template('timetable/timetable.html',
                            title=ut.name, web_header=ut.name,
                            timetable=t,
@@ -80,7 +79,6 @@ def get_teachers_list():
     for t in teachers:
         array.append({'id':t.slug, 'value':t.fullname})     # do not change key names (jquery-ui autocomplete widget will not work)
 
-    print(array)
     return jsonify(array)  # posleme tam slug a ucitelovo fullname
 
 

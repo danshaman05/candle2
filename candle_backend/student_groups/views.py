@@ -1,5 +1,5 @@
 from typing import Dict
-from flask import render_template, Blueprint, request
+from flask import render_template, Blueprint
 from flask_login import current_user
 
 from ..models import StudentGroup, Lesson

@@ -4,7 +4,7 @@ from candle_backend.models import User
 from flask_login import login_user, logout_user, current_user
 
 
-auth = Blueprint('auth', __name__)  # Blueprint instancia
+auth = Blueprint('auth', __name__)
 
 
 
@@ -29,5 +29,5 @@ def login():
 @auth.route('/odhlasit', methods=['GET'])
 def logout():
     logout_user()
-    return redirect(request.referrer)
-
+    # return redirect(request.referrer)
+    return redirect(url_for('timetable.home'))
