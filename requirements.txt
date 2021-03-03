@@ -10,3 +10,5 @@ Unidecode==1.2.0
 Flask-WTF==0.14.3
 WTForms~=2.3.3
 Flask-Login==0.5.0
+python-dotenv==0.15.0
+pymysql==1.0.2
