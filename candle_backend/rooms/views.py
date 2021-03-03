@@ -1,9 +1,9 @@
 from flask import render_template, Blueprint, request
 from flask_login import current_user
 
-from helpers import get_ordered_dict
+from ..helpers import get_ordered_dict
 from ..models import Room, Lesson
-from candle_backend.timetable import Timetable
+from ..timetable import Timetable
 from typing import Dict
 
 
