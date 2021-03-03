@@ -2,7 +2,7 @@ from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from candle_backend import db, login_manager
-from timetable.Timetable import Timetable
+from candle_backend.timetable.Timetable import Timetable
 
 
 class Room(db.Model):

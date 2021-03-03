@@ -3,7 +3,7 @@ from flask import render_template, Blueprint
 from flask_login import current_user
 
 from ..models import StudentGroup, Lesson
-from timetable import Timetable
+from ..timetable import Timetable
 
 student_groups = Blueprint('student_groups', __name__)
 

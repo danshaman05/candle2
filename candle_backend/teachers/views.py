@@ -3,7 +3,7 @@ from flask_login import current_user
 
 from typing import Dict
 from ..models import Lesson, Teacher
-from timetable import Timetable
+from ..timetable import Timetable
 from helpers import get_ordered_dict, string_starts_with_ch
 import unidecode
 

@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from sqlalchemy import or_
 
 from ..models import UserTimetable, Lesson, Teacher
-from timetable.Timetable import Timetable
+from ..timetable.Timetable import Timetable
 
 timetable = Blueprint('timetable', __name__)
 
