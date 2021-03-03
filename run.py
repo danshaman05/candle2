@@ -1,11 +1,12 @@
-from candle_backend import app
+# from candle_backend import app
+from candle_backend import create_app
 
 '''
-Autor: Daniel Grohol
 Project: Candle2 (Candle rewrite from PHP to Python)
- In this project I am reading data from MySQL DB and processing them and printing in same format as in old Candle. 
+Autor: Daniel Grohol
 '''
 
+app = create_app()
 
 if __name__ == '__main__':
     app.run(debug=True, use_reloader=False)
