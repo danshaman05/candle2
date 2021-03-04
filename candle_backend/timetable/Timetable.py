@@ -32,7 +32,7 @@ class Timetable:
     __DAYS = "Pondelok, Utorok, Streda, Štvrtok, Piatok".split(',')
 
     #Infolist URL:
-    __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'
+    __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'    # TODO presunut do config.py ?
 
     def __init__(self, lessons_objects):
         self.__init_times()

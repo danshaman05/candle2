@@ -45,7 +45,6 @@ class Teacher(db.Model):
     @property
     def short_name(self):
         """Vrati skratene meno, napr. pre "Andrej Blaho" vrati "A. Blaho" """
-
         if self.given_name == '':  # Napr. teacher id 1259
             return ''
         return self.given_name[0] + ". " + self.family_name
@@ -87,7 +86,6 @@ class Lesson(db.Model):
 
     def get_day_abbr(self) -> str:
         """Vrati skratku dna v tyzdni (abbreviation)."""
-
         days = ['Po', 'Ut', 'St', 'Št', 'Pi']
         return days[self.day]
 
@@ -149,16 +147,16 @@ class UserTimetable(db.Model):
     published = db.Column(db.Integer, default=0)
     slug = db.Column(db.String(30))
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    lessons = db.relationship('Lesson', secondary=user_timetable_lessons,
+    lessons = db.relationship('Lesson',
+                              secondary=user_timetable_lessons,
                               backref=db.backref('user_timetable', lazy='joined'),
-                              # TODO skontroluj ci treba dynamic?? subquery?       BOLO DYNAMIC!
                               lazy='dynamic')
 
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     login = db.Column(db.String(50), unique=True)
-    timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')  # LAZY OVERIT
+    timetables = db.relationship('UserTimetable', backref='owner', lazy='dynamic')
 
 
 @login_manager.user_loader
