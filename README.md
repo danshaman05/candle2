@@ -1,11 +1,11 @@
 # Candle2
 
-## Pouzite technologie
+## Poziadavky
 - Python 3
 - MySQL
 
 ## Instalacia
-1. Vytvor virtual environment v priecinku candle2/
+1. Vytvor virtual environment
 2. Aktivuj virtual environment a nainstaluj don balicky z requirements.txt:
    `python3 -m pip install -r requirements.txt`
    
