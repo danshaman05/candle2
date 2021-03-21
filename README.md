@@ -1,17 +1,40 @@
-# Candle2
+# Candle NG
 
-## Poziadavky
+***IMPORTANT: This readme file is not finished yet.***
+
+
+
+## Requirements
 - Python 3
 - MySQL
 
-## Instalacia
-1. Vytvor virtual environment
-2. Aktivuj virtual environment a nainstaluj don balicky z requirements.txt:
-   `python3 -m pip install -r requirements.txt`
-   
-3. Vytvor subor ".env", do ktoreho vloz 2 riadky:
-   `SECRET_KEY=<YOUR_SECRET_KEY>` a 
-   `SQLALCHEMY_DATABASE_URI=<YOUR_DATABASE_URI>`
-4. `<YOUR_DATABASE_URI>` je v tvare `mysql+pymysql://<DB_USERNAME>:<DB_PASSWORD>@localhost/<DB_NAME>`
-   
+## Installation (Linux)
+
+
+Clone the repository and install Python Virtual Environment in it:
+```commandline
+git clone https://github.com/fmfi-svt/candle-ng.git
+cd candle-ng
+python3 -m venv venv
+```
+
+Activate the environment and install dependencies:
+```commandline
+source venv/bin/activate
+python3 -m pip install -r requirements.txt
+```
+
+Generate Flask Secret key with python:
+```python
+>>> import secrets
+>>> secrets.token_urlsafe(16)
+```
+
+In the "candle" folder create a file called ".env" and save these 2 environment variables in it:
+```python
+SECRET_KEY=YOUR_SECRET_KEY_GOES_HERE 
+SQLALCHEMY_DATABASE_URI=YOUR_DATABASE_URI_GOES_HERE
+```
+
+Example of DATABASE_URI: `mysql+pymysql://username:password@server/db`
 

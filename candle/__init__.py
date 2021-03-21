@@ -31,12 +31,12 @@ def create_app(config_class=Config):
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     app.jinja_env.add_extension('jinja2.ext.do')
 
-    from candle_backend.timetable.views import timetable
-    from candle_backend.rooms.views import rooms
-    from candle_backend.student_groups.views import student_groups
-    from candle_backend.teachers.views import teachers
-    from candle_backend.auth.views import auth
-    from candle_backend.timetable_manager.views import timetable_manager
+    from .timetable.views import timetable
+    from .rooms.views import rooms
+    from .student_groups.views import student_groups
+    from .teachers.views import teachers
+    from .auth.views import auth
+    from .timetable_manager.views import timetable_manager
     app.register_blueprint(timetable, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(rooms, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(student_groups, url_prefix=Config.SERVER_PATH)

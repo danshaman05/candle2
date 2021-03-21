@@ -1,8 +1,8 @@
-from candle_backend import create_app
+from candle import create_app
 
 '''
-Project: Candle2 (Candle rewrite from PHP to Python)
-Autor: Daniel Grohol
+Project: Candle-NG (Candle rewrite from PHP to Python)
+Author: Daniel Grohol
 '''
 
 app = create_app()

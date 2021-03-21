@@ -19,5 +19,5 @@ class Config:
         raise ValueError("No SECRET_KEY set for Flask application")
 
     SERVER_PATH = ''
-    MYSQL_DATABASE_CHARSET = 'utf8mb4'  # Kvoli collation - zatial nevyuzivame.
+    # MYSQL_DATABASE_CHARSET = 'utf8mb4'  # Kvoli collation - zatial nevyuzivame.
     # app.config['SQLALCHEMY_ECHO'] = True    # zobrazuje nam queries, kt. bezia na pozadi
