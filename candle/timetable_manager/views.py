@@ -1,6 +1,6 @@
 from typing import List
 
-from flask import Blueprint, request, url_for, jsonify, render_template, redirect
+from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
 from .. import db
 from ..models import UserTimetable, Teacher, Room, StudentGroup

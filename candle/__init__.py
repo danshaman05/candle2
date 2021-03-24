@@ -1,20 +1,19 @@
 from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
-from flask_wtf.csrf import CSRFProtect, \
-    CSRFError  # https://stackoverflow.com/questions/31888316/how-to-use-flask-wtforms-csrf-protection-with-ajax
+from flask_wtf.csrf import CSRFProtect
 from .config import Config
 
 
-login_manager = LoginManager()  # udrziava session data v pozadi
+login_manager = LoginManager()  # keeps session data
 login_manager.login_view = 'auth.login'
-login_manager.login_message_category = 'info'  # flash message category (zatial nepotrebujeme) - v Bootstrap je to pekne modre upozornenie
+# login_manager.login_message_category = 'info'  # flash message category (not yet implemented)
 
-csrf = CSRFProtect()
+csrf = CSRFProtect()    # We need CSRF protection for our AJAX calls. More info: https://stackoverflow.com/questions/31888316/how-to-use-flask-wtforms-csrf-protection-with-ajax
 db = SQLAlchemy()
 
 
-# # TODO presunut do samostatneho modulu errors
+# TODO Create an error module and move it there
 # @app.errorhandler(CSRFError)
 # def csrf_error(reason):
 #     return render_template('errors/csrf_error.html', reason=reason)
