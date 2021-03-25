@@ -5,7 +5,7 @@ from collections import OrderedDict
 
 
 def get_ordered_dict(d: Dict) -> OrderedDict:
-    """Vrati dict zoradeny podla slovenskej abecedy"""
+    """Returns dict (OrderedDict) ordered by Slovak alphabet."""
 
     alphabet = "a b c d e f g h ch i j k l m n o p q r s t u v w x y z Ostatné" # TODO upravit lepsie
     alphabet = alphabet.split(' ')
@@ -17,7 +17,7 @@ def get_ordered_dict(d: Dict) -> OrderedDict:
 
 
 def get_category(input: str) -> str:
-    """Napr. pre "F1" vrati "f", pre "Ch1" vrati "ch", pre "Ostatné" vráti "Ostatné\" """
+    """E.g. for 'F1' returns 'f', for 'Ch1' returns 'ch', for 'Ostatné' returns 'Ostatné'"""
 
     if input == "Ostatné":
         return "Ostatné"
@@ -31,5 +31,3 @@ def string_starts_with_ch(prefix: str):
     if prefix.lower()[:2] == "ch":
         return True
     return False
-
-

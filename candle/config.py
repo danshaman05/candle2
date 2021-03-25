@@ -30,5 +30,5 @@ class Config:
                             and store your SECRET_KEY there.""")
 
     SERVER_PATH = ''
-    # MYSQL_DATABASE_CHARSET = 'utf8mb4'      # use for collation problem (not implemented yet)
+    # MYSQL_DATABASE_CHARSET = 'utf8mb4'      # TODO: use for collation problem (not implemented yet)
     # app.config['SQLALCHEMY_ECHO'] = True    # show queries, that runs "in background"

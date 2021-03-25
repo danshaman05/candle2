@@ -11,7 +11,7 @@ class Room(db.Model):
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     lessons = db.relationship('Lesson', backref='room',
-                              lazy='dynamic')  # vdaka dynamic mozme s lessons pracovat ako s query (mozme spustit order_by,...)
+                              lazy='dynamic')  # 'lazy dynamic' allows us to work with lessons attribute like with query ( we can run order_by, etc)
 
     def __repr__(self):
         return "<Room %r>" % self.name
@@ -36,16 +36,13 @@ class Teacher(db.Model):
     slug = db.Column(db.String(), nullable=True)
     lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='joined'),
                               lazy='dynamic')
-
-    # fullname = column_property(given_name + " " + family_name)
-
     def __repr__(self):
         return f"Teacher(id:'{self.id}', :'{self.given_name} {self.family_name}' )"
 
     @property
     def short_name(self):
-        """Vrati skratene meno, napr. pre "Andrej Blaho" vrati "A. Blaho" """
-        if self.given_name == '':  # Napr. teacher id 1259
+        """E.g. for 'Andrej Blaho' returns 'A. Blaho'"""
+        if self.given_name == '':  # E.g. teacher id 1259
             return ''
         return self.given_name[0] + ". " + self.family_name
 
@@ -53,7 +50,7 @@ class Teacher(db.Model):
     def fullname(self):
         return self.given_name + " " + self.family_name
 
-    @hybrid_property    # pouzivame ich v SQL queries, preto su hybrid
+    @hybrid_property    # we need it in SQL queries
     def fullname_reversed(self):
         return self.family_name + " " + self.given_name
 
@@ -67,7 +64,7 @@ student_group_lessons = db.Table('student_group_lessons',
 class StudentGroup(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
-    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')    # LAZY OVERENE
+    lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
 
 
 class Lesson(db.Model):
@@ -85,7 +82,7 @@ class Lesson(db.Model):
         return f"Lesson(id:'{self.id_}', room_id:'{self.room_id}' )"
 
     def get_day_abbr(self) -> str:
-        """Vrati skratku dna v tyzdni (abbreviation)."""
+        """Returns abbreviation of the day of the week."""
         days = ['Po', 'Ut', 'St', 'Št', 'Pi']
         return days[self.day]
 
@@ -100,6 +97,7 @@ class Lesson(db.Model):
         return int(Timetable.get_shortest_breaktime() * hours_count)
 
     def get_rowspan(self) -> int:
+        """Returns how many rows takes lesson in the timetable."""
         return (self.end - self.start) // Timetable.get_shortest_lesson()
 
 
@@ -122,7 +120,7 @@ class Subject(db.Model):
     rozsah = db.Column(db.String(30), nullable=True)
     external_id = db.Column(db.String(30), nullable=True)
     lessons = db.relationship('Lesson', backref='subject',
-                              lazy='joined')  # lazy=True znamena, ze sa lessons nacitaju iba pri volani
+                              lazy=True)
 
     def __repr__(self):
         return f"Subject(id:'{self.id_}', name:'{self.name}' )"
@@ -164,6 +162,7 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 
+######################################################
 # TODO:
 @login_manager.unauthorized_handler
 def unauthorized_handler():

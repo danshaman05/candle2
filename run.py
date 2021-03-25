@@ -1,7 +1,7 @@
 from candle import create_app
 
 '''
-Project: Candle-NG (Candle rewrite from PHP to Python)
+Project: Candle (New Generation): Candle rewrite from PHP to Python
 Author: Daniel Grohol
 '''
 
