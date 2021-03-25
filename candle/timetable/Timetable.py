@@ -1,13 +1,13 @@
 from typing import List, Dict, Optional
 from _collections import OrderedDict
 
-''':
-Trieda uchovava timetable a obsahuje funkcie na pracu s nim. 
+'''
+This class represents a timetable. 
 '''
 
 
 class Timetable:
-    # zoznam (list) hodin (objekty triedy Lesson)
+    # list contains objects of model Lesson
     __lessons: List = None
 
     """_layout: 2-rozmerny zoznam (list) hodin usporiadanych pre graficke zobrazenie rozvrhu. 
@@ -19,12 +19,13 @@ class Timetable:
     Dane casy su kluce do __layout."""
     __lessons_in_progress: List[List[Optional[str]]] = None
 
-    # Vyucovacie casy:
-    __TIME_MIN = 490
+    # teaching times:
+    __TIME_MIN = 490    # teaching starts at 8:10 (490 in minutes)
     __TIME_MAX = 1190
-    __SHORTEST_LESSON = 45  # najkratsia hodina ma 45 min
-    __SHORTEST_BREAKTIME = 5  # najkratsia prestavka je 5 min
+    __SHORTEST_LESSON = 45
+    __SHORTEST_BREAKTIME = 5
 
+    # TODO translate to EN:
     # Zoznam (list) casov, kedy zacinaju hodiny (od 8:10 do 19:00)
     __starting_times: Dict[int, str] = {}
 
@@ -170,6 +171,7 @@ class Timetable:
             result[self.__DAYS[i]] = len(self.__layout[i])
         return result
 
+    ########################### Class methods: ###########################
     @classmethod
     def get_infolist_url(cls, endpoint):
         return cls.__INFOLIST_URL + endpoint

@@ -6,7 +6,6 @@ from collections import OrderedDict
 
 def get_ordered_dict(d: Dict) -> OrderedDict:
     """Returns dict (OrderedDict) ordered by Slovak alphabet."""
-
     alphabet = "a b c d e f g h ch i j k l m n o p q r s t u v w x y z Ostatné" # TODO upravit lepsie
     alphabet = alphabet.split(' ')
     order: Dict = {i: alphabet.index(i) for i in alphabet}
@@ -18,7 +17,6 @@ def get_ordered_dict(d: Dict) -> OrderedDict:
 
 def get_category(input: str) -> str:
     """E.g. for 'F1' returns 'f', for 'Ch1' returns 'ch', for 'Ostatné' returns 'Ostatné'"""
-
     if input == "Ostatné":
         return "Ostatné"
     elif string_starts_with_ch(input):
@@ -27,7 +25,8 @@ def get_category(input: str) -> str:
         return input[0].lower()
 
 
-def string_starts_with_ch(prefix: str):
+def string_starts_with_ch(prefix: str) -> bool:
+    """Returns true if string starts with 'ch'."""
     if prefix.lower()[:2] == "ch":
         return True
     return False
