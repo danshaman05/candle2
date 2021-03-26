@@ -1,11 +1,11 @@
-# Candle NG
+# Candle (New generation)
 
 ***IMPORTANT: This readme file is not finished yet.***
 
 
 
 ## Requirements
-- Python 3
+- Python 3.5
 - MySQL
 
 ## Installation (Linux)

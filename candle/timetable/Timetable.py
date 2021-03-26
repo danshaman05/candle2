@@ -1,14 +1,13 @@
 from typing import List, Dict, Optional
 from _collections import OrderedDict
 
-'''
-This class represents a timetable. 
-'''
+
 
 
 class Timetable:
-    # list contains objects of model Lesson
-    __lessons: List = None
+    ''' This class represents a timetable. '''
+
+    __lessons: List = None  # list contains objects of model Lesson
 
     """_layout: 2-rozmerny zoznam (list) hodin usporiadanych pre graficke zobrazenie rozvrhu. 
     Jednotlive urovne su: dni->stlpce. Kazdy stlpec je slovnik (OrderedDict) obsahujuci hodiny ulozene podla kluca (casu), 
@@ -26,13 +25,13 @@ class Timetable:
     __SHORTEST_BREAKTIME = 5
 
     # TODO translate to EN:
-    # Zoznam (list) casov, kedy zacinaju hodiny (od 8:10 do 19:00)
+    # List Zoznam (list) casov, kedy zacinaju hodiny (od 8:10 do 19:00)
     __starting_times: Dict[int, str] = {}
 
-    # Zoznam dni
+    # list of days of the week
     __DAYS = "Pondelok, Utorok, Streda, Štvrtok, Piatok".split(',')
 
-    #Infolist URL:
+    # Infolist URL:
     __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'    # TODO presunut do config.py ?
 
     def __init__(self, lessons_objects):
@@ -49,7 +48,7 @@ class Timetable:
             kluc: cas v minutach
             hodnota: cas v tvare H:MM
         """
-        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50):
+        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50): # TODO some lessons starts in different times (e.g 10:30)
             self.__starting_times[minutes] = self.minutes_2_time(minutes)
 
     def __init_layout(self):
@@ -62,7 +61,7 @@ class Timetable:
             self.__layout.append([od])
 
     def __init_last_started_lessons_list(self):
-        # Inicializuje atribut __last_started_lessons
+        # Initializes attribute __last_started_lessons
         self.__lessons_in_progress = []
         for di in range(len(self.__layout)):
             self.__lessons_in_progress.append([])
