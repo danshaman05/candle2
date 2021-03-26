@@ -24,9 +24,8 @@ class Timetable:
     __SHORTEST_LESSON = 45
     __SHORTEST_BREAKTIME = 5
 
-    # TODO translate to EN:
-    # List Zoznam (list) casov, kedy zacinaju hodiny (od 8:10 do 19:00)
-    __starting_times: Dict[int, str] = {}
+    # List of starting times (from 8:10 to 19:00)
+    __starting_times: List[str] = []
 
     # list of days of the week
     __DAYS = "Pondelok, Utorok, Streda, Štvrtok, Piatok".split(',')
@@ -48,15 +47,16 @@ class Timetable:
             kluc: cas v minutach
             hodnota: cas v tvare H:MM
         """
-        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50): # TODO some lessons starts in different times (e.g 10:30)
-            self.__starting_times[minutes] = self.minutes_2_time(minutes)
+        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50): # TODO some lessons starts in different times (e.g 10:30 )
+            self.__starting_times.append(self.minutes_2_time(minutes))
+        print(len(self.__starting_times))
 
     def __init_layout(self):
         """ Inicializuje 2d list, ktoreho prvky su slovniky (dni -> stlpce -> slovnik)."""
 
         self.__layout = []
         for i in range(5):
-            # pouzivam OrderedDict miesto klasickeho dict, kedze chcem lahko pristupovat k poslednemu vlozenemu prvku:
+            # I use OrderedDict instead of normal dict, because I want to easily access last added element:
             od = OrderedDict()
             self.__layout.append([od])
 
@@ -131,8 +131,12 @@ class Timetable:
     def get_layout(self):
         return self.__layout
 
-    def get_starting_times(self) -> Dict[int, str]:
+    # def get_starting_times(self) -> Dict[int, str]:
+    #     return self.__starting_times
+
+    def get_starting_times(self) -> List[str]:
         return self.__starting_times
+
 
     def get_lesson(self, day_index, column_index, time):
         """Vrati hodinu pre dany den, stlpec a cas."""
@@ -163,12 +167,16 @@ class Timetable:
         """Vrati kluc hodiny do self.__layout (cas), ktora aktualne bezi. Ak taka hodina nebezi, vrati None."""
         return self.__lessons_in_progress[day_index][column_index]
 
-    def get_columns_count(self) -> Dict:
-        """Vrati dict, kde klucom su dni v tyzdni a hodnoty su pocty stlpcov v danych dnoch."""
-        result = {}
-        for i in range(5):
-            result[self.__DAYS[i]] = len(self.__layout[i])
-        return result
+    def get_days(self):
+        """Returns list of days in the week."""
+        return self.__DAYS
+
+    # def get_columns_count(self) -> Dict:
+    #     """Vrati dict, kde klucom su dni v tyzdni a hodnoty su pocty stlpcov v danych dnoch."""
+    #     result = {}
+    #     for i in range(5):
+    #         result[self.__DAYS[i]] = len(self.__layout[i])
+    #     return result
 
     ########################### Class methods: ###########################
     @classmethod

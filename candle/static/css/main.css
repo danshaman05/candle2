@@ -360,10 +360,14 @@ ul.vysledky_hladania li+li {
     margin-bottom: 0.3em;
 }
 
-#rozvrh {
-    border-collapse: collapse;
-    width: 100%;
-}
+/*#rozvrh {*/
+/*    border-collapse: collapse;*/
+/*    width: 100%;*/
+
+/*    display: grid;*/
+/*    grid-template-rows: 1fr 18fr;*/
+/*    grid-template-columns: 1fr repeat(5, 3fr);*/
+/*}*/
 
 #rozvrh tr.startTimeHeader {
     border-top: 2px solid;
@@ -386,18 +390,8 @@ ul.vysledky_hladania li+li {
     border-bottom: 1px solid transparent;
 }
 
-#rozvrh td.startOfDayColumn {
-    border-left: 2px solid;
-}
 
-#rozvrh td.endOfDayColumn {
-    border-right: 2px solid;
-}
 
-#rozvrh td.emptyCell {
-    padding: 0;
-    border-bottom-width: 0;
-}
 
 #rozvrh td.cas {
     text-align: right;
@@ -692,10 +686,59 @@ ul.quickswitch li a {
     overflow-y: auto;
     /* prevent horizontal scrollbar */
     overflow-x: hidden;
-  }
-  /* IE 6 doesn't support max-height
-   * we use height instead, but this forces the menu to always be this tall
-   */
-  * html .ui-autocomplete {
-    height: 100px;
-  }
+}
+/* IE 6 doesn't support max-height
+* we use height instead, but this forces the menu to always be this tall
+*/
+* html .ui-autocomplete {
+height: 100px;
+}
+
+
+
+/* ****************** NO-ROW-TIMETABLE  ******************* */
+
+#rozvrh {
+    display: grid;
+     grid-row-gap: 2px;
+    width: 100%;
+    grid-column-gap: 5px;
+    grid-template-rows: 1fr 18fr;
+    grid-template-columns: 1fr repeat(5, 3fr);
+}
+
+.row1 {
+    max-height: 2em;
+    text-align: center;
+    background-color: #41B883;  /* Vue color  */
+    font-size: 1.25em;
+    padding: 0.45em;
+}
+
+
+
+.row2 {
+    /* text-align: center; */
+    /* height: 600px; */
+    border: 1px solid;
+    border-color: black;
+}
+
+
+.times-column {
+    display: grid;
+    vertical-align: top;
+    text-align: right;
+}
+
+.start-time {
+    font-size: 1.20em;
+}
+
+.day-column {
+    background-image: url('/static/images/timetable-column.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 420px;      /* DOLEZITE */
+    position: relative;
+}
