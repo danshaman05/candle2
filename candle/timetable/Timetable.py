@@ -1,7 +1,7 @@
 from typing import List, Dict, Optional
 from _collections import OrderedDict
 
-
+from timetable.PlacedLesson import PlacedLesson
 
 
 class Timetable:
@@ -43,11 +43,10 @@ class Timetable:
 
     def __init_times(self):
         """
-        Zaplni dictionary __times datami - zaciatkami hodin vyucby na FMFI - v tvare:
-            kluc: cas v minutach
-            hodnota: cas v tvare H:MM
+        Initialize __starting_times list ( starting_times are times when usualy starts lessons at FMFI / FMPH )
         """
-        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50): # TODO some lessons starts in different times (e.g 10:30 )
+        self.__starting_times = []
+        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50):
             self.__starting_times.append(self.minutes_2_time(minutes))
         print(len(self.__starting_times))
 
@@ -91,26 +90,28 @@ class Timetable:
             # pre kazdu hodinu v danom dni:
             for lesson in lessons:
                 added = False
+                column_index = 0
                 # pre kazdy stlpec v danom dni:
-                for column in self.__layout[i]:
+                for column_i, column in enumerate(self.__layout[i]):
                     # ak mozes, skus don dat hodinu
-                    if self.__can_add_lesson(lesson, column):
-                        column[lesson.start] = lesson  #
+                    placed_lesson = PlacedLesson(lesson, column_i)
+                    if self.__can_add_lesson(placed_lesson, column):
+                        column[lesson.start] = placed_lesson  # miesto lesson pridavame PlacedLesson
                         added = True
                         break
                 # ak neslo dat, vytvor novy stlpec a vloz ju don
                 if not added:
                     new_dict = OrderedDict()
-                    new_dict[lesson.start] = lesson
+                    new_dict[lesson.start] = PlacedLesson(lesson)    # miesto lesson pridavame PlacedLesson
                     self.__layout[i].append(new_dict)
 
-    def __can_add_lesson(self, lesson, column: OrderedDict):
+    def __can_add_lesson(self, placed_lesson, column: OrderedDict):
         ''' Vrati True, ak sa hodina da vlozit do stlpca (neprebieha momentalne ina hodina v danom stlpci).
         Pre spravnu funkcnost musi byt column zoradeny podla casu.'''
 
         if len(column) == 0:
             return True
-        if self.__get_last_added_lesson(column).end < lesson.start:
+        if self.__get_last_added_lesson(column).get_end() < placed_lesson.get_start():
             return True
         return False
 
@@ -123,6 +124,8 @@ class Timetable:
     def __end_lesson(self, day_index, column_index, lesson_key):
         # Zmaze hodinu z __layout, kedze uz skoncila.
         del self.__layout[day_index][column_index][lesson_key]
+
+
 
     ########################### "Public" metody: ###########################
     def get_lessons(self):

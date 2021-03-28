@@ -12,7 +12,7 @@
 {% macro print_day_headers() -%}
     {# Vypise hlavicku tabulky - dni v tyzdni - s pozadovanymi sirkami stlpcov. #}
     {% for day in timetable.get_days() -%}
-        <div class="row1">{{ day }}</div>
+        <div class="row1 day-header">{{ day }}</div>
     {%- endfor %}
 {%- endmacro %}
 
@@ -43,8 +43,9 @@
 
 <div id="rozvrh">
     {# ##################### TODO nazov row1 by som zmenil na 'HEADERS'#}
-    <div class="row1" id="timetable-corner">TIME</div>
+    <div class="row1" id="timetable-corner"></div>
     {{ print_day_headers() }}
+    {# ##################### TODO nazov row2 by som zmenil na 'COLUMNS'#}
     <div class="row2 times-column">
         {# Pre kazdy cas z pola starting_times: #}
         {%- for time in timetable.get_starting_times() -%}
@@ -53,9 +54,15 @@
     </div>
     {#   TODO columns: #}
     {#Pre kazdy den:#}
-    {% for ordered_dict in timetable.get_layout() -%}
+    {% for day in timetable.get_layout() -%}
         <div class="row2 day-column">
+            {% for ordered_dict in day %}
+{#                TODO#}
+                {% for time in ordered_dict %}
+                    {% include "timetable/timetable_cell.html" %}
+                {% endfor %}
 
+            {% endfor %}
         </div>
     {%- endfor %}
 {#        #  Vnutro bunky: #}
