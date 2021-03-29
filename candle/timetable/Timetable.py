@@ -1,7 +1,7 @@
 from typing import List, Dict, Optional
 from _collections import OrderedDict
 
-from timetable.PlacedLesson import PlacedLesson
+from .PlacedLesson import PlacedLesson
 
 
 class Timetable:
