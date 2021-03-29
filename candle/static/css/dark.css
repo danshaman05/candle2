@@ -203,7 +203,7 @@ ul.vysledky_hladania li {
     background: transparent url("../images/ikona-typ-n.png") center center no-repeat;
 }
 
-#rozvrh td.lesson.lesson-type-N .typ  {
+#rozvrh .lesson.lesson-type-N .typ  {
     background-color: #666666;
     color: white;
 }

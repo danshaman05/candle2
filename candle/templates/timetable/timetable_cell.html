@@ -1,7 +1,7 @@
 {# Vykresli vnutro bunky v rozvrhu #}
 {% set ns.placed_lesson = ordered_dict[time] %}
 {% set ns.lesson = ns.placed_lesson.lesson %}
-<div class="lesson" style="{{ ns.placed_lesson.get_style() }}">
+<div class="lesson {{ print_lesson_type(ns.lesson) }}" style="{{ ns.placed_lesson.get_style() }}" title="{{ print_lesson_title(ns.lesson) }}">
 {#    TODO pridat title#}
     <div class="wrap">
         <div class="predmet_wrap">

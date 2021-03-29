@@ -360,44 +360,6 @@ ul.vysledky_hladania li+li {
     margin-bottom: 0.3em;
 }
 
-/*#rozvrh {*/
-/*    border-collapse: collapse;*/
-/*    width: 100%;*/
-
-/*    display: grid;*/
-/*    grid-template-rows: 1fr 18fr;*/
-/*    grid-template-columns: 1fr repeat(5, 3fr);*/
-/*}*/
-
-#rozvrh tr.startTimeHeader {
-    border-top: 2px solid;
-}
-
-#rozvrh th {
-    padding: 0.5em;
-    font-weight: normal;
-    width: 20%;
-    border: 2px solid;
-}
-
-#rozvrh td {
-    height: 3em;
-    vertical-align: top;
-    /* Hm, spodny border sa renderoval vo FF aj do nasledujucej bunky,
-       ak sa v tabulke vyskytol rowspan. Nasledovne nastavenie vyzera, ze
-       problem potlaci.
-    */
-    border-bottom: 1px solid transparent;
-}
-
-
-
-
-#rozvrh td.cas {
-    text-align: right;
-    padding: 2px;
-}
-
 #rozvrh.precise td {
     height: 0.3em;
 }
@@ -407,20 +369,11 @@ ul.vysledky_hladania li+li {
     text-align: center;
 }
 
-#rozvrh td.hodina {
-    text-align: center;
-    padding: 2px;
+#rozvrh .lesson {
+    /*text-align: center;*/
+    padding: 0.75em;
     border: 2px solid;
 }
-
-#rozvrh th.zaciatok {
-    width: auto;
-}
-
-/*#rozvrh td.hodina .wrap {*/
-/*    position: relative;*/
-/*!*    height: 100%;*!*/
-/*}*/
 
 #rozvrh .lesson .miestnost {
     position: absolute;
@@ -433,6 +386,7 @@ ul.vysledky_hladania li+li {
     top: 0;
     right: 0;
     text-align: center;
+    border-radius: 4px;
 }
 
 #rozvrh .lesson .typ abbr {
@@ -701,22 +655,24 @@ height: 100px;
 
 #rozvrh {
     display: grid;
-     grid-row-gap: 2px;
+    grid-row-gap: 2px;
     width: 100%;
-    grid-column-gap: 5px;
+    grid-column-gap: 4px;
     grid-template-rows: 1fr 18fr;
     grid-template-columns: 1fr repeat(5, 3fr);
 }
 .row1.day-header{
     max-height: 2em;
     text-align: center;
-    background-color: #41B883;  /* Vue color  */
+    background-color: #63ccff;  /* P-Light: https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=039BE5 */
     font-size: 1.25em;
     padding: 0.45em;
+    border-radius: 4px;
 }
 .row2 {
     border: 1px solid;
     border-color: black;
+    border-radius: 4px;
 }
 .times-column {
     display: grid;
