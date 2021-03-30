@@ -84,7 +84,7 @@ class Timetable:
                 column_index = 0
                 while added == False:
                     if column_index == 6:
-                        raise Exception("Cannot add more than 6 neighbour lessons in one day!") # TODO test it!
+                        raise Exception("Cannot add more than 6 neighbour lessons in one day!")     # TODO catch exception & test this code!
                     # if we don't have enough columns, create a new one:
                     if len(self.__layout[day_index]) - 1 <  column_index:
                         new_dict = OrderedDict()
