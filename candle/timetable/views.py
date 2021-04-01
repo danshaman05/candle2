@@ -60,34 +60,6 @@ def home():
 
 
 
-
-@timetable.route('/get_teachers_list', methods=['GET'])
-def get_teachers_list():
-    query_string = request.args['term']
-
-    query_string = query_string.replace(" ", "%")
-    query_string = query_string.replace(".", "%")
-    query_string = "%{}%".format(query_string)
-
-    teachers = Teacher.query.filter(
-        or_(Teacher.fullname.like(query_string),
-            Teacher.fullname_reversed.like(query_string))) \
-        .order_by(Teacher.family_name) \
-        .limit(50).all()
-
-    array = []
-    for t in teachers:
-        array.append({'id':t.slug, 'value':t.fullname})     # do not change key names (jquery-ui autocomplete widget will not work)
-
-    return jsonify(array)  # posleme tam slug a ucitelovo fullname
-
-
-
-#
-# @timetable.route('/search_teachers', methods=['POST'])
-# def search_teachers():
-
-
 # def check_forms():  # TODO poriesit cez JQUERY!
 #     """skontroluje, ci bolo stlacene nejake tlacidlo z panela.
 #     Ak ano, tak spracuje danu poziadavku a nastavi vysledok v paneli. """

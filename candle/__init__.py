@@ -36,11 +36,13 @@ def create_app(config_class=Config):
     from .teachers.views import teachers
     from .auth.views import auth
     from .timetable_manager.views import timetable_manager
+    from .search.routes import search
     app.register_blueprint(timetable, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(rooms, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(student_groups, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(teachers, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(auth, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(timetable_manager, url_prefix=Config.SERVER_PATH)
+    app.register_blueprint(search, url_prefix=Config.SERVER_PATH)
 
     return app
