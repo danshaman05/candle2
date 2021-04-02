@@ -1,7 +1,7 @@
 <div id="panel">
     <div id="panel_in">
 
-    <div id="panel_throbber">Načítavam...</div>
+{#    <div id="panel_throbber">Načítavam...</div>#}
 
 {#    <div class="panel_cast" id="panel_cast_hodiny">#}
 {#        <h2><a href="#panel_cast_hodiny">Predmety a hodiny</a></h2>#}
@@ -31,14 +31,14 @@
 {#    </div>#}
 
 
+    {# UCITELIA #}
     <div class="panel_cast" id="panel_cast_ucitelia">
         <h2><a href="#panel_cast_ucitelia">Rozvrhy pre učiteľov</a></h2>
         <div class="panel_cast_obsah">
                 <div class="panel_search">
                     <p class="hint">Zadajte meno a/alebo priezvisko učiteľa:</p>
-                    <input type="text" id="showTeachers" name="showTeachers" title="najdi ucitela" placeholder="Hľadať...">
+                    <input type="text" id="showTeachers" name="showTeachers" title="Hľadať učiteľa." placeholder="Hľadať...">
                 </div>
-
             <div class="other_links">
                 <a href="{{ url_for('teachers.list_teachers') }}">Rozvrhy všetkých učiteľov</a>
             </div>
@@ -46,27 +46,24 @@
     </div>
 
 
-{##}
-{#    <div class="panel_cast" id="panel_cast_miestnosti">#}
-{#        <h2><a href="#panel_cast_miestnosti">Rozvrhy pre miestnosti</a></h2>#}
-{#        <div class="panel_cast_obsah">#}
-{##}
-{#            <form method="post" action="">#}
-{#                <div class="panel_search">#}
-{#                TODO TU IDE INPUT A BUTTON#}
-{##}
-{#                </div>#}
-{#            </form>#}
-{##}
-{#            <p class="hint">(názov miestnosti)</p>#}
-{##}
-{#            <div class="other_links">#}
-{#                <a href="{{ url_for('rooms.list_rooms') }}">Rozvrhy všetkých miestností</a>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-{##}
-{##}
+    {# MIESTNOSTI #}
+    <div class="panel_cast" id="panel_cast_miestnosti">
+        <h2><a href="#panel_cast_miestnosti">Rozvrhy pre miestnosti</a></h2>
+        <div class="panel_cast_obsah">
+
+            <form method="post" action="">
+                <div class="panel_search">
+                    <p class="hint">Zadajte názov miestnosti:</p>
+                    <input type="text" id="showRooms" name="showRooms" title="Hľadať miestnosť." placeholder="Hľadať...">
+                </div>
+            </form>
+            <div class="other_links">
+                <a href="{{ url_for('rooms.list_rooms') }}">Rozvrhy všetkých miestností</a>
+            </div>
+        </div>
+    </div>
+
+
 {#    <div class="panel_cast" id="panel_cast_kruzky">#}
 {#        <h2><a href="#panel_cast_kruzky">Rozvrhy pre krúžky</a></h2>#}
 {#        <div class="panel_cast_obsah">#}

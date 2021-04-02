@@ -180,6 +180,10 @@ form {
     padding: 5px;
 }
 
+.panel_cast {
+    margin: 0 0 1.25em 0;
+}
+
 .panel_cast h2, .panel_cast_no_collapse h2 {
     font-size: 100%;
     background-position: right center;
@@ -201,14 +205,20 @@ form {
 }
 
 .panel_search input {
-    /*width: 200px;*/
-    width: 70%;
+    width: 90%;
+    height: 1.5em;
 }
 
 .panel_search input[type="submit"] {
     /*width: 30px;*/
-    width: 25%;
+    /*width: 25%;*/
 }
+
+.panel_cast .other_links, .panel_cast .hint {
+    margin-top: 0.5em;
+    margin-bottom: 0.75em;
+}
+
 
 #panel_schovat {
     width: 32px;

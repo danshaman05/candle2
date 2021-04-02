@@ -3,16 +3,15 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import or_
 
-from ..models import Teacher
+from candle.models import Teacher, Room
 
 search = Blueprint('search', __name__)
 
 
 
-@search.route('/get_teachers_list', methods=['GET'])
-def get_teachers_list():
+@search.route('/get_data/teachers', methods=['GET'])
+def get_teachers_json():
     query_string = request.args['term']         # TODO: request could be JSON
-
     query_string = query_string.replace(" ", "%")
     query_string = query_string.replace(".", "%")
     query_string = "%{}%".format(query_string)
@@ -22,15 +21,20 @@ def get_teachers_list():
             Teacher.fullname_reversed.like(query_string))) \
         .order_by(Teacher.family_name) \
         .limit(50).all()
-
     array = []
+    # send the teacher's slug and fullname via JSON:
     for t in teachers:
-        array.append({'id':t.slug, 'value':t.fullname})     # do not change key names (jquery-ui autocomplete widget will not work)
+        array.append({'id': t.slug, 'value': t.fullname})     # do not change key names ('id' and 'value')! (the jquery-ui autocomplete widget will not work)
+    return jsonify(array)
 
-    return jsonify(array)  # we are sending teacher slug and fullname
 
-
-@search.route('/get_rooms_list', methods=['GET'])
-def get_rooms_list():
-    # TODO
-    pass
+@search.route('/get_data/rooms', methods=['GET'])
+def get_rooms_json():
+    query_string = request.args['term']
+    query_string = query_string.replace(" ", "%")
+    query_string = "%{}%".format(query_string)
+    rooms = Room.query.filter(Room.name.like(query_string)).limit(50).all()
+    array = []
+    for r in rooms:
+        array.append({'id': r.name, 'value': r.name})
+    return jsonify(array)

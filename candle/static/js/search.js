@@ -1,15 +1,29 @@
-function load_teacher( teacher_slug ) {
-    // funkcia, presmeruje na rozvrh
-    // console.log($SCRIPT_ROOT + '/ucitelia/' + teacher_slug);
-    window.location.href = $SCRIPT_ROOT + '/ucitelia/' + teacher_slug
-    }
+function redirect( endpoint ) {
+    // redirect to a timetable
+    window.location.href = $SCRIPT_ROOT + endpoint;
+}
 
+    ////////////////////// TODO: Refactor (three same functions below)
 $( function() {
-    $( "#showTeachers" ).autocomplete({
-      source: $SCRIPT_ROOT + "/get_teachers_list",   // odtial nacita zoznam vsetkych ucitelov
+    $( "#showTeachers" ).autocomplete({     // The Autocomplete is a widget from the jQueryUI framework, see https://jqueryui.com/autocomplete/#remote
+      source: $SCRIPT_ROOT + "/get_data/teachers",
       minLength: 2,
       select: function( event, ui ) {
-          load_teacher(ui.item.id);
+          redirect('/ucitelia/' + ui.item.id);
       }
     });
 });
+
+
+$( function() {
+    $( "#showRooms" ).autocomplete({
+      source: $SCRIPT_ROOT + "/get_data/rooms",
+      minLength: 1,
+      select: function( event, ui ) {
+          redirect('/miestnosti/' + ui.item.id);
+      }
+    });
+});
+
+
+// TODO showGroups:
