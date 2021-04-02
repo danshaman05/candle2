@@ -23,7 +23,6 @@ teacher_lessons = db.Table('teacher_lessons',
                            db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
                            )
 
-
 class Teacher(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
     given_name = db.Column(db.String(50), nullable=True)
@@ -58,7 +57,6 @@ class Teacher(db.Model):
 student_group_lessons = db.Table('student_group_lessons',
                                  db.Column('student_group_id', db.Integer, db.ForeignKey('student_group.id')),
                                  db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')))
-
 
 
 class StudentGroup(db.Model):

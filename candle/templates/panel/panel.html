@@ -31,7 +31,7 @@
 {#    </div>#}
 
 
-    {# UCITELIA #}
+    {# TEACHERS #}
     <div class="panel_cast" id="panel_cast_ucitelia">
         <h2><a href="#panel_cast_ucitelia">Rozvrhy pre učiteľov</a></h2>
         <div class="panel_cast_obsah">
@@ -46,7 +46,7 @@
     </div>
 
 
-    {# MIESTNOSTI #}
+    {# ROOMS #}
     <div class="panel_cast" id="panel_cast_miestnosti">
         <h2><a href="#panel_cast_miestnosti">Rozvrhy pre miestnosti</a></h2>
         <div class="panel_cast_obsah">
@@ -63,30 +63,22 @@
         </div>
     </div>
 
+    {# STUDENT GROUPS #}
+    <div class="panel_cast" id="panel_cast_kruzky">
+        <h2><a href="#panel_cast_miestnosti">Rozvrhy pre krúžky</a></h2>
+        <div class="panel_cast_obsah">
 
-{#    <div class="panel_cast" id="panel_cast_kruzky">#}
-{#        <h2><a href="#panel_cast_kruzky">Rozvrhy pre krúžky</a></h2>#}
-{#        <div class="panel_cast_obsah">#}
-{##}
-{#            <form method="post" action="">#}
-{#                <div class="panel_search">#}
-{#                TODO TU IDE INPUT A BUTTON#}
-{##}
-{#                </div>#}
-{#            </form>#}
-{##}
-{#            <p class="hint">(názov krúžku)</p>#}
-{##}
-{##}
-{##}
-{##}
-{#            <div class="other_links">#}
-{#                <a href="{{ url_for('student_groups.list_student_groups') }}">Rozvrhy všetkých krúžkov</a>#}
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
-
+            <form method="post" action="">
+                <div class="panel_search">
+                    <p class="hint">Zadajte názov krúžku:</p>
+                    <input type="text" id="showGroups" name="showGroups" title="Hľadať krúžok." placeholder="Hľadať...">
+                </div>
+            </form>
+            <div class="other_links">
+                <a href="{{ url_for('student_groups.list_student_groups') }}">Rozvrhy všetkých krúžkov</a>
+            </div>
+        </div>
+    </div>
 
         {# TODO: Nastroje#}
         {#<div class="panel_cast_no_collapse" id="panel_cast_nastroje">#}

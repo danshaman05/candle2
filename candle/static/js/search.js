@@ -3,7 +3,7 @@ function redirect( endpoint ) {
     window.location.href = $SCRIPT_ROOT + endpoint;
 }
 
-    ////////////////////// TODO: Refactor (three same functions below)
+// TEACHERS
 $( function() {
     $( "#showTeachers" ).autocomplete({     // The Autocomplete is a widget from the jQueryUI framework, see https://jqueryui.com/autocomplete/#remote
       source: $SCRIPT_ROOT + "/get_data/teachers",
@@ -14,7 +14,7 @@ $( function() {
     });
 });
 
-
+// ROOMS
 $( function() {
     $( "#showRooms" ).autocomplete({
       source: $SCRIPT_ROOT + "/get_data/rooms",
@@ -25,5 +25,13 @@ $( function() {
     });
 });
 
-
-// TODO showGroups:
+// STUDENT GROUPS
+$( function() {
+    $( "#showGroups" ).autocomplete({
+      source: $SCRIPT_ROOT + "/get_data/groups",
+      minLength: 1,
+      select: function( event, ui ) {
+          redirect('/kruzky/' + ui.item.id);
+      }
+    });
+});

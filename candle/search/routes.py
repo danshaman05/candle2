@@ -3,7 +3,7 @@
 from flask import Blueprint, request, jsonify
 from sqlalchemy import or_
 
-from candle.models import Teacher, Room
+from candle.models import Teacher, Room, StudentGroup
 
 search = Blueprint('search', __name__)
 
@@ -38,3 +38,18 @@ def get_rooms_json():
     for r in rooms:
         array.append({'id': r.name, 'value': r.name})
     return jsonify(array)
+
+
+
+@search.route('/get_data/groups', methods=['GET'])
+def get_groups_json():
+    query_string = request.args['term']
+    query_string = query_string.replace(" ", "%")
+    query_string = "%{}%".format(query_string)
+    groups = StudentGroup.query.filter(StudentGroup.name.like(query_string)).limit(50).all()
+    array = []
+    for g in groups:
+        array.append({'id': g.name, 'value': g.name})
+    return jsonify(array)
+
+
