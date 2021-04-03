@@ -12,6 +12,7 @@ timetable_manager = Blueprint('editable_timetable_manager', __name__)
 @timetable_manager.route("/new_timetable", methods=['POST'])
 # @login_required
 def new_timetable():
+    # TODO docstring
     name = request.form['name']
     name = getUniqueName(name)
     ut = UserTimetable(name=name, user_id=current_user.id)
@@ -23,7 +24,8 @@ def new_timetable():
 @timetable_manager.route("/delete_timetable", methods=['POST'])
 @login_required
 def delete_timetable():
-    rozvrh_url = request.form['url']   # TODO bolo data
+    # TODO docstring
+    rozvrh_url = request.form['url']
     id_ = int(rozvrh_url.split('/')[-1])  # id ziskame z URL
     ut = UserTimetable.query.get(id_)
     db.session.delete(ut)
@@ -44,14 +46,14 @@ def delete_timetable():
 @timetable_manager.route("/duplicate_timetable", methods=['POST'])
 @login_required
 def duplicate_timetable():
-    rozvrh_url = request.form['data']
-    """ Priklady URL:
+    timetable_url = request.form['data']
+    """Examples of URL:
      /ucitelia/Stanislav-Antalic
      /miestnosti/B1-302
      /kruzky/1mFAA
      /moj-rozvrh/751
     """
-    url_list = rozvrh_url.split('/')
+    url_list = timetable_url.split('/')
     if "ucitelia" in url_list:
         i = url_list.index("ucitelia")
         slug = url_list[i + 1]  # pozicia ucitelovho slugu v url
@@ -75,13 +77,12 @@ def duplicate_timetable():
 
     elif "moj-rozvrh" in url_list:
         i = url_list.index("moj-rozvrh")
-        id = url_list[i + 1]
-        old_timetable = UserTimetable.query.get(id)
+        id_ = url_list[i + 1]
+        old_timetable = UserTimetable.query.get(id_)
         new_name = getUniqueName(old_timetable.name)
         new_t = UserTimetable(name=new_name, user_id=current_user.id)
-
     else:
-        raise Exception ("BAD URL!")  # TODO nahradit Error page!
+        raise Exception("BAD URL format!")  # TODO nahradit Error page!
 
     db.session.add(new_t)
     for lesson in old_timetable.lessons:
@@ -112,23 +113,23 @@ def rename_timetable():
 
 
 def getUniqueName(name) -> str:
-    """ Zaisti, aby tento rozvrh nemal rovnaky nazov ako nejaky iny
+    """ This method ensures that this timetable will not have the same name as some other one.
     :param name: meno pre novy rozvrh
     :return: nove unikatne meno pre rozvrh
     """
     pattern = '^(.*) \(\d+\)$'
     match = re.match(pattern, name)
-    # ak (ide mame rozvrh v tvare napriklad "Rozvrh (23)":
+    # if the name is in the format "Name (x)", where x is a number:
     if match:
-        name = match.group(1)  # ziskame to, co matchuje s prvymi zatvorkami (teda ciste meno bez cisla)
+        name = match.group(1)  # get the name before parenthesis (without a number)
 
-    # ziskame mena sucasnych rozvrhov:
+    # get the names of the current timetables:
     timetables_names = [t.name for t in current_user.timetables]
 
     if name not in timetables_names:
         return name
 
-    # skusame ci tvar "name + (index)", je unikatny
+    # try if "name + (index)" is unique:
     index = 2
     while True:
         new_name = f"{name} ({index})"

@@ -11,11 +11,11 @@
 
 {% macro print_day_headers() -%}
     {# Vypise hlavicku tabulky - dni v tyzdni - s pozadovanymi sirkami stlpcov. #}
-    {% for day, columns_count in timetable.get_columns_count().items() %}
-        {% if columns_count == 1 %}
+    {% for day, columns_counts in timetable.get_columns_counts().items() %}
+        {% if columns_counts == 1 %}
             <th>{{ day }}</th>
         {% else %}
-            <th colspan="{{ columns_count }}">{{ day }}</th>
+            <th colspan="{{ columns_counts }}">{{ day }}</th>
         {% endif %}
     {% endfor %}
 {%- endmacro %}

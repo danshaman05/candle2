@@ -5,7 +5,7 @@ from _collections import OrderedDict
 
 
 class Timetable:
-    ''' This class represents a timetable. '''
+    """This class represents a timetable."""
 
     __lessons: List = None  # list contains objects of model Lesson
 
@@ -24,7 +24,6 @@ class Timetable:
     __SHORTEST_LESSON = 45
     __SHORTEST_BREAKTIME = 5
 
-    # TODO translate to EN:
     # List Zoznam (list) casov, kedy zacinaju hodiny (od 8:10 do 19:00)
     __starting_times: Dict[int, str] = {}
 
@@ -52,8 +51,7 @@ class Timetable:
             self.__starting_times[minutes] = self.minutes_2_time(minutes)
 
     def __init_layout(self):
-        """ Inicializuje 2d list, ktoreho prvky su slovniky (dni -> stlpce -> slovnik)."""
-
+        """Inicializuje 2d list, ktoreho prvky su slovniky (dni -> stlpce -> slovnik)."""
         self.__layout = []
         for i in range(5):
             # pouzivam OrderedDict miesto klasickeho dict, kedze chcem lahko pristupovat k poslednemu vlozenemu prvku:
@@ -61,7 +59,7 @@ class Timetable:
             self.__layout.append([od])
 
     def __init_last_started_lessons_list(self):
-        # Initializes attribute __last_started_lessons
+        """Initializes attribute __last_started_lessons"""
         self.__lessons_in_progress = []
         for di in range(len(self.__layout)):
             self.__lessons_in_progress.append([])
@@ -69,11 +67,9 @@ class Timetable:
                 self.__lessons_in_progress[di].append(None)
 
     def __sort_lessons_by_days(self):
-        """Rozdelime hodiny podla dni v tyzdni. Kazdy den bude predstavovat zoznam hodin."""
-
+        """Sorts all lessons by the days in the week. Each day is a list of lessons."""
         if self.__lessons is None:
             raise Exception("Attribute __lessons cannot be None")
-
         days: List[List] = []
         for i in range(5):  # 5 dni v tyzdni
             days.append([])
@@ -105,8 +101,8 @@ class Timetable:
                     self.__layout[i].append(new_dict)
 
     def __can_add_lesson(self, lesson, column: OrderedDict):
-        ''' Vrati True, ak sa hodina da vlozit do stlpca (neprebieha momentalne ina hodina v danom stlpci).
-        Pre spravnu funkcnost musi byt column zoradeny podla casu.'''
+        """Vrati True, ak sa hodina da vlozit do stlpca (neprebieha momentalne ina hodina v danom stlpci).
+        Pre spravnu funkcnost musi byt column zoradeny podla casu."""
 
         if len(column) == 0:
             return True
@@ -142,7 +138,7 @@ class Timetable:
         return lesson
 
     def start_lesson(self, day_index, column_index, time):
-        # zapise ju do __lessons_in_progress
+        """zapise ju do __lessons_in_progress"""
         self.__lessons_in_progress[day_index][column_index] = time
 
     def lesson_in_progress(self, actual_time, day_index, column_index):
@@ -163,7 +159,7 @@ class Timetable:
         """Vrati kluc hodiny do self.__layout (cas), ktora aktualne bezi. Ak taka hodina nebezi, vrati None."""
         return self.__lessons_in_progress[day_index][column_index]
 
-    def get_columns_count(self) -> Dict:
+    def get_columns_counts(self) -> Dict:
         """Vrati dict, kde klucom su dni v tyzdni a hodnoty su pocty stlpcov v danych dnoch."""
         result = {}
         for i in range(5):
@@ -185,7 +181,7 @@ class Timetable:
 
     @classmethod
     def minutes_2_time(cls, time_in_minutes: int) -> str:
-        """ Vrati cas v 24-hodinovom formate."""
+        """Returns time in 24-hour format."""
         hours = time_in_minutes // 60
         minutes = time_in_minutes % 60
         return "%d:%02d" % (hours, minutes)

@@ -17,7 +17,7 @@ def user_timetable(id_):
     lessons = ut.lessons.order_by(Lesson.day, Lesson.start).all()
     t = Timetable(lessons)
     if timetable is None:
-        raise Exception("timetable cannot be None")
+        raise Exception("Timetable cannot be None")
 
     return render_template('timetable/timetable.html',
                            title=ut.name, web_header=ut.name,
@@ -32,21 +32,21 @@ def home():
         # if the user doesn't have any timetable:
         if user_timetables.first() is None:
             # create a new one:
-            user_timetable = UserTimetable(name='Rozvrh', user_id=current_user.id)
-            db.session.add(user_timetable)
+            ut = UserTimetable(name='Rozvrh', user_id=current_user.id)
+            db.session.add(ut)
             db.session.commit()
         else:
             # select the latest one (with the highest id):
-            user_timetable = user_timetables.order_by(UserTimetable.id_)[-1]
-        timetable = Timetable(user_timetable.lessons)
+            ut = user_timetables.order_by(UserTimetable.id_)[-1]
+        timetable = Timetable(ut.lessons)
         if timetable is None:
-            raise Exception("timetable cannot be None")
+            raise Exception("Timetable cannot be None")
         # show timetable:
         return render_template('timetable/timetable.html',
-                               title=user_timetable.name, web_header=user_timetable.name,
+                               title=ut.name, web_header=ut.name,
                                timetable=timetable,
                                user_timetables=current_user.timetables,
-                               selected_timetable_key=user_timetable.id_,
+                               selected_timetable_key=ut.id_,
                                infobox=False)
     else:  # user is logged out, show infobox:
         return render_template('timetable/timetable.html',

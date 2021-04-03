@@ -14,12 +14,14 @@ def list_student_groups():
     groups_list = StudentGroup.query.all()
     student_groups_dict = get_student_groups_sorted_by_first_letter(groups_list)
 
-    return render_template('student_groups/list_student_groups.html', student_groups_dict=student_groups_dict, title="Rozvrhy krúžkov")
+    return render_template('student_groups/list_student_groups.html',
+                           student_groups_dict=student_groups_dict,
+                           title="Rozvrhy krúžkov")
 
 
 @student_groups.route('/kruzky/<group_name>', methods=['GET', 'POST'])
 def timetable(group_name):
-    """ Zobrazi rozvrh pre dany kruzok."""
+    """Shows a timetable for a student-group."""
     web_header = "Rozvrh krúžku " + group_name
     student_group = StudentGroup.query.filter_by(name=group_name).first()
     lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
@@ -36,7 +38,7 @@ def timetable(group_name):
 
 
 def get_student_groups_sorted_by_first_letter(student_groups) -> Dict:
-    '''Vrati dictionary kruzkov (student_groups) zotriedenych podla prveho znaku v nazve kruzku.'''
+    """Returns student-groups in a dictionary sorted by the first letter."""
     result_dict = {}
     for group in student_groups:
         first_letter = group.name[0]

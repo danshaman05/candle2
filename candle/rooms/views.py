@@ -12,57 +12,52 @@ rooms = Blueprint('rooms', __name__)
 
 @rooms.route('/miestnosti')
 def list_rooms():
-    """Vypise vsetky miestnosti (zoznam)"""
+    """Shows all rooms."""
     rooms_list = Room.query.order_by(Room.name).all()
-    rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # ucebne su v jednom dictionary rozdelene podla prefixu
-
+    rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # rooms are in the dictionary sorted by prefix
     return render_template('rooms/list_rooms.html', rooms_dict=rooms_dict, title="Rozvrhy miestností")
 
 
 @rooms.route('/miestnosti/<room_name>', methods=['GET', 'POST'])
 def timetable(room_name):
-    """Zobrazi rozvrh pre danu miestnost:"""
+    """Shows timetable for a room."""
     web_header = "Rozvrh miestnosti " + room_name
     room = Room.query.filter_by(name=room_name).first()
     lessons = room.lessons.order_by(Lesson.day, Lesson.start).all()
-
     t = Timetable.Timetable(lessons)
-
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
     else:
         user_timetables = None
-
-
     return render_template('timetable/timetable.html', room_name=room_name, title=room_name,
                            web_header=web_header, timetable=t,
                            user_timetables=user_timetables, infobox=False)
 
 
 def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
-    '''
+    """
     Rozdeli mena miestnosti podla kategorii do dictionary, kde key je vzdy prefix miestnosti a value su
     dane sufixy ulozene v poli. (napr. F1-108 ma prefix F1 a sufix 108)
     vstup: zoznam objektov triedy models.Room
     vystup: dictionary {string, List stringov}
-    '''
+    """
     d = {}
     for room in rooms_lst:
         name = room.name
-        if name == " ":   # v tabulke room mame jednu miestnost s name " "
+        if name == " ":   # we have one room with name " "
             continue
 
         dash_position = name.find('-')
-        if (dash_position) == -1:  # name neobsahuje '-'
+        if dash_position == -1:  # name doesn't contain '-'
             prefix = suffix = name
         else:
             prefix = name[0 : dash_position]
             suffix = name[dash_position + 1 : ]
 
-        # ak su data v zlom formate:
+        # if the data are in bad format:
         # raise Exception("Bad data format for room. Room must be in format 'prefix-suffix', for example: 'F1-208'")
 
-        #xMieRez je specialny pripad:
+        #xMieRez is a special case:
         if 'xMieRez' in prefix:
             suffix = prefix
             prefix = "Ostatné"

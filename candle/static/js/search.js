@@ -1,5 +1,4 @@
 function redirect( endpoint ) {
-    // redirect to a timetable
     window.location.href = $SCRIPT_ROOT + endpoint;
 }
 

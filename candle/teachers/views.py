@@ -11,10 +11,9 @@ import unidecode
 teachers = Blueprint('teachers', __name__)
 
 
-# Vypise vsetkych ucitelov (zoznam)
 @teachers.route('/ucitelia')
 def list_teachers():
-    """Vypise zoznam vsetkych ucitelov"""
+    """Shows all teachers in the list."""
     teachers_list = Teacher.query.order_by(Teacher.family_name).all()
     teachers_dict = get_teachers_sorted_by_family_name(teachers_list)
     return render_template('teachers/list_teachers.html', teachers_dict=teachers_dict, title="Rozvrhy učiteľov")
@@ -22,18 +21,15 @@ def list_teachers():
 
 @teachers.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
 def timetable(teacher_slug):
-    """ Zobrazi rozvrh daneho ucitela."""
+    """Shows timetable for a teacher."""
     teacher = Teacher.query.filter_by(slug=teacher_slug).first_or_404()
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
-
     t = Timetable.Timetable(lessons)
-
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
     else:
         user_timetables = None
-
     return render_template('timetable/timetable.html',
                            teacher_name=teacher_name, title=teacher_name,
                            web_header=teacher_name, timetable=t,
@@ -41,11 +37,10 @@ def timetable(teacher_slug):
 
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:
-    ''' Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
+    """ Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
     vstup: zoznam objektov triedy models.Teacher zoradenych podla priezviska (family_name)
     vystup: dictionary { string, List objektov Teacher}, kde klucom je zac. pismeno priezviska
-    a hodnoty su objekty triedy Teacher'''
-
+    a hodnoty su objekty triedy Teacher"""
     d = {}
     ostatne = []    # specialna kategoria
     for teacher in teachers:
