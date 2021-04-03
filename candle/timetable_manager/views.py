@@ -56,8 +56,8 @@ def duplicate_timetable():
     url_list = timetable_url.split('/')
     if "ucitelia" in url_list:
         i = url_list.index("ucitelia")
-        slug = url_list[i + 1]  # pozicia ucitelovho slugu v url
-        old_timetable = Teacher.query.filter_by(slug=slug).first_or_404()  # podla slugu najdeme ucitela
+        slug = url_list[i + 1]  # position of the teacher's slug in the URL
+        old_timetable = Teacher.query.filter_by(slug=slug).first_or_404()
         new_name = getUniqueName(old_timetable.short_name)
         new_t = UserTimetable(name=new_name, user_id=current_user.id)
 
@@ -82,7 +82,7 @@ def duplicate_timetable():
         new_name = getUniqueName(old_timetable.name)
         new_t = UserTimetable(name=new_name, user_id=current_user.id)
     else:
-        raise Exception("BAD URL format!")  # TODO nahradit Error page!
+        raise Exception("BAD URL format!")  # TODO nahradit Error page
 
     db.session.add(new_t)
     for lesson in old_timetable.lessons:
@@ -114,8 +114,8 @@ def rename_timetable():
 
 def getUniqueName(name) -> str:
     """ This method ensures that this timetable will not have the same name as some other one.
-    :param name: meno pre novy rozvrh
-    :return: nove unikatne meno pre rozvrh
+    :param name: name for timetable
+    :return: unique name for timetable
     """
     pattern = '^(.*) \(\d+\)$'
     match = re.match(pattern, name)
@@ -123,13 +123,13 @@ def getUniqueName(name) -> str:
     if match:
         name = match.group(1)  # get the name before parenthesis (without a number)
 
-    # get the names of the current timetables:
+    # get the names of current timetables:
     timetables_names = [t.name for t in current_user.timetables]
 
     if name not in timetables_names:
         return name
 
-    # try if "name + (index)" is unique:
+    # add "(index)" after the name, and try if it is unique:
     index = 2
     while True:
         new_name = f"{name} ({index})"

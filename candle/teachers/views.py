@@ -13,7 +13,7 @@ teachers = Blueprint('teachers', __name__)
 
 @teachers.route('/ucitelia')
 def list_teachers():
-    """Shows all teachers in the list."""
+    """Show all teachers in the list."""
     teachers_list = Teacher.query.order_by(Teacher.family_name).all()
     teachers_dict = get_teachers_sorted_by_family_name(teachers_list)
     return render_template('teachers/list_teachers.html', teachers_dict=teachers_dict, title="Rozvrhy učiteľov")
@@ -21,7 +21,7 @@ def list_teachers():
 
 @teachers.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
 def timetable(teacher_slug):
-    """Shows timetable for a teacher."""
+    """Show a timetable for a teacher."""
     teacher = Teacher.query.filter_by(slug=teacher_slug).first_or_404()
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
@@ -37,29 +37,28 @@ def timetable(teacher_slug):
 
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:
-    """ Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
+    """
+    Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
     vstup: zoznam objektov triedy models.Teacher zoradenych podla priezviska (family_name)
     vystup: dictionary { string, List objektov Teacher}, kde klucom je zac. pismeno priezviska
-    a hodnoty su objekty triedy Teacher"""
+    a hodnoty su objekty triedy Teacher
+    """
     d = {}
-    ostatne = []    # specialna kategoria
+    others = []    # specialna kategoria
     for teacher in teachers:
         if teacher.family_name is None or teacher.family_name == '':
             continue
 
         first_letter = (teacher.family_name[0])     # ziskame prve pismeno family_name (priezviska)
         if first_letter.isalpha() == False:    # niektore mena mozu zacinat na '.', alebo '/', (a pod.), tieto osetrime samostatne v kategorii Ostatne
-            ostatne.append(teacher)
+            others.append(teacher)
             continue
         first_letter = unidecode.unidecode(first_letter)    # zmenime ho na pismeno bez diakritiky (napr. Č zmeni na C)
-
         if string_starts_with_ch(teacher.family_name):     # family_name zacinajuce na CH je samostatna kategoria.
             first_letter = 'Ch'
-
         if first_letter not in d:
             d[first_letter] = []
         d[first_letter].append(teacher)
-
-    d['Ostatné'] = ostatne
+    d['Ostatné'] = others
 
     return get_ordered_dict(d)

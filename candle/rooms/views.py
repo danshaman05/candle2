@@ -12,7 +12,7 @@ rooms = Blueprint('rooms', __name__)
 
 @rooms.route('/miestnosti')
 def list_rooms():
-    """Shows all rooms."""
+    """Show all rooms."""
     rooms_list = Room.query.order_by(Room.name).all()
     rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # rooms are in the dictionary sorted by prefix
     return render_template('rooms/list_rooms.html', rooms_dict=rooms_dict, title="Rozvrhy miestností")
@@ -20,7 +20,7 @@ def list_rooms():
 
 @rooms.route('/miestnosti/<room_name>', methods=['GET', 'POST'])
 def timetable(room_name):
-    """Shows timetable for a room."""
+    """Show a timetable for a room."""
     web_header = "Rozvrh miestnosti " + room_name
     room = Room.query.filter_by(name=room_name).first()
     lessons = room.lessons.order_by(Lesson.day, Lesson.start).all()
@@ -36,10 +36,13 @@ def timetable(room_name):
 
 def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
     """
-    Rozdeli mena miestnosti podla kategorii do dictionary, kde key je vzdy prefix miestnosti a value su
-    dane sufixy ulozene v poli. (napr. F1-108 ma prefix F1 a sufix 108)
-    vstup: zoznam objektov triedy models.Room
-    vystup: dictionary {string, List stringov}
+    Return OrderedDict that contains room names sorted by categories.
+
+    The key in the OrderedDict is always the room prefix and the values are the given suffixes
+    stored in the rooms_lst (E.g 'F1-108' has prefix 'F1' and suffix '108').
+
+    :parameter rooms_lst: The list of the Room model objects.
+    :return dictionary of str: List[str]
     """
     d = {}
     for room in rooms_lst:

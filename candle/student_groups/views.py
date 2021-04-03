@@ -11,6 +11,7 @@ student_groups = Blueprint('student_groups', __name__)
 
 @student_groups.route('/kruzky')
 def list_student_groups():
+    """Show all student groups."""
     groups_list = StudentGroup.query.all()
     student_groups_dict = get_student_groups_sorted_by_first_letter(groups_list)
 
@@ -21,7 +22,7 @@ def list_student_groups():
 
 @student_groups.route('/kruzky/<group_name>', methods=['GET', 'POST'])
 def timetable(group_name):
-    """Shows a timetable for a student-group."""
+    """Show a timetable for a student-group."""
     web_header = "Rozvrh krúžku " + group_name
     student_group = StudentGroup.query.filter_by(name=group_name).first()
     lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
@@ -38,7 +39,7 @@ def timetable(group_name):
 
 
 def get_student_groups_sorted_by_first_letter(student_groups) -> Dict:
-    """Returns student-groups in a dictionary sorted by the first letter."""
+    """Return student-groups in a dictionary sorted by the first letter."""
     result_dict = {}
     for group in student_groups:
         first_letter = group.name[0]
