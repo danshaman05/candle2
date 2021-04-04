@@ -2,8 +2,8 @@ from typing import Dict
 from flask import render_template, Blueprint
 from flask_login import current_user
 
-from ..models import StudentGroup, Lesson
-from ..timetable import timetable
+from candle.models import StudentGroup, Lesson
+from candle.timetable import timetable
 
 student_groups = Blueprint('student_groups', __name__)
 

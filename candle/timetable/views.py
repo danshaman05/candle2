@@ -2,7 +2,7 @@ from flask import Blueprint, render_template
 from flask_login import current_user, login_required
 
 from candle import db
-from ..models import UserTimetable, Lesson
+from candle.models import UserTimetable, Lesson
 from timetable.timetable import Timetable
 
 timetable = Blueprint('timetable', __name__)

@@ -2,9 +2,9 @@ from flask import Blueprint, render_template
 from flask_login import current_user
 
 from typing import Dict
-from ..models import Lesson, Teacher
-from ..timetable import timetable
-from ..helpers import get_ordered_dict, string_starts_with_ch
+from candle.models import Lesson, Teacher
+from candle.timetable import timetable
+from candle.helpers import get_ordered_dict, string_starts_with_ch
 import unidecode
 
 

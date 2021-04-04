@@ -13,7 +13,6 @@ def get_ordered_dict(d: Dict) -> OrderedDict:
     return OrderedDict(sorted_items)
 
 
-
 def get_category(input: str) -> str:
     """E.g. for 'F1' returns 'f', for 'Ch1' returns 'ch', for 'Ostatné' returns 'Ostatné'"""
     if input == "Ostatné":

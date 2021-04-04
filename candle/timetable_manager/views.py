@@ -2,8 +2,8 @@ from typing import List
 
 from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
-from .. import db
-from ..models import UserTimetable, Teacher, Room, StudentGroup
+from candle import db
+from candle.models import UserTimetable, Teacher, Room, StudentGroup
 import re
 
 timetable_manager = Blueprint('editable_timetable_manager', __name__)

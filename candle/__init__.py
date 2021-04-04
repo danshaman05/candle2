@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
-from .config import Config
+from candle.config import Config
 
 
 login_manager = LoginManager()  # keeps session data

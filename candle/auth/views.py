@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, request, url_for
 
-from ..models import User
+from candle.models import User
 from flask_login import login_user, logout_user, current_user
 
 
