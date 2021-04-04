@@ -26,19 +26,19 @@ def new_timetable():
 def delete_timetable():
     # TODO docstring
     rozvrh_url = request.form['url']
-    id_ = int(rozvrh_url.split('/')[-1])  # id ziskame z URL
+    id_ = int(rozvrh_url.split('/')[-1])  # get id from the URL
     ut = UserTimetable.query.get(id_)
     db.session.delete(ut)
     db.session.commit()
 
-    # Ak uz nezostal ziaden rozvrh, tak vytvorime novy
+    # if there is no timetable left, create a new one:
     if len(list(current_user.timetables)) == 0:
         new_ut = UserTimetable(name="Rozvrh", user_id=current_user.id)
         db.session.add(new_ut)
         db.session.commit()
         timetable_to_show_id = new_ut.id_
     else:
-        # id naposledy pridaneho rozvrhu
+        # id of last added timetable:
         timetable_to_show_id = current_user.timetables.order_by(UserTimetable.id_)[-1].id_
     return jsonify({'next_url': url_for("timetable.user_timetable", id_=timetable_to_show_id)})
 
@@ -97,11 +97,12 @@ def rename_timetable():
     rozvrh_url = request.form['url']
     new_name = request.form['new_name']
     new_name = getUniqueName(new_name)
-    id_ = int(rozvrh_url.split('/')[-1])  # id ziskame z URL
+    id_ = int(rozvrh_url.split('/')[-1])  # get id from the URL
     ut = UserTimetable.query.get(id_)
     ut.name = new_name
     db.session.commit()
 
+    # render new parts of the webpage:
     tabs_html = render_template("timetable/tabs.html", user_timetables=current_user.timetables, selected_timetable_key=ut.id_, title=ut.name)
     web_header_html = f"<h1>{ut.name}</h1>"
     title_html = render_template('title.html', title=ut.name)
@@ -123,7 +124,7 @@ def getUniqueName(name) -> str:
     if match:
         name = match.group(1)  # get the name before parenthesis (without a number)
 
-    # get the names of current timetables:
+    # get the names of the current timetables:
     timetables_names = [t.name for t in current_user.timetables]
 
     if name not in timetables_names:
