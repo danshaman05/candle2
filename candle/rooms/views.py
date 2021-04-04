@@ -3,7 +3,7 @@ from flask_login import current_user
 
 from ..helpers import get_ordered_dict
 from ..models import Room, Lesson
-from ..timetable import Timetable
+from ..timetable import timetable
 from typing import Dict
 
 
@@ -24,7 +24,7 @@ def timetable(room_name):
     web_header = "Rozvrh miestnosti " + room_name
     room = Room.query.filter_by(name=room_name).first()
     lessons = room.lessons.order_by(Lesson.day, Lesson.start).all()
-    t = Timetable.Timetable(lessons)
+    t = timetable.Timetable(lessons)
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
     else:

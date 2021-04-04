@@ -2,8 +2,6 @@ from typing import List, Dict, Optional
 from _collections import OrderedDict
 
 
-
-
 class Timetable:
     """This class represents a timetable."""
 

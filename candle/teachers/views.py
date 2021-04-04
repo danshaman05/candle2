@@ -3,7 +3,7 @@ from flask_login import current_user
 
 from typing import Dict
 from ..models import Lesson, Teacher
-from ..timetable import Timetable
+from ..timetable import timetable
 from ..helpers import get_ordered_dict, string_starts_with_ch
 import unidecode
 
@@ -25,7 +25,7 @@ def timetable(teacher_slug):
     teacher = Teacher.query.filter_by(slug=teacher_slug).first_or_404()
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
-    t = Timetable.Timetable(lessons)
+    t = timetable.Timetable(lessons)
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
     else:

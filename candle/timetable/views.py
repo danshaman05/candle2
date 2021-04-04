@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 
 from candle import db
 from ..models import UserTimetable, Lesson
-from ..timetable.Timetable import Timetable
+from ..timetable.timetable import Timetable
 
 timetable = Blueprint('timetable', __name__)
 

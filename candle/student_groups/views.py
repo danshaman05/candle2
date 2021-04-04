@@ -3,7 +3,7 @@ from flask import render_template, Blueprint
 from flask_login import current_user
 
 from ..models import StudentGroup, Lesson
-from ..timetable import Timetable
+from ..timetable import timetable
 
 student_groups = Blueprint('student_groups', __name__)
 
@@ -26,7 +26,7 @@ def timetable(group_name):
     web_header = "Rozvrh krúžku " + group_name
     student_group = StudentGroup.query.filter_by(name=group_name).first()
     lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
-    t = Timetable.Timetable(lessons)
+    t = timetable.Timetable(lessons)
 
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
