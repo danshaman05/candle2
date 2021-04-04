@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
@@ -30,13 +30,14 @@ def create_app(config_class=Config):
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     app.jinja_env.add_extension('jinja2.ext.do')
 
-    from .timetable.views import timetable
-    from .rooms.views import rooms
-    from .student_groups.views import student_groups
-    from .teachers.views import teachers
-    from .auth.views import auth
-    from .timetable_manager.views import timetable_manager
-    from .search.routes import search
+    from candle.timetable.views import timetable
+    from candle.rooms.views import rooms
+    from candle.student_groups.views import student_groups
+    from candle.teachers.views import teachers
+    from candle.auth.views import auth
+    from candle.timetable_manager.views import timetable_manager
+    from candle.search.routes import search
+
     app.register_blueprint(timetable, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(rooms, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(student_groups, url_prefix=Config.SERVER_PATH)
