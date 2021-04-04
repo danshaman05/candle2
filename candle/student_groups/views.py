@@ -21,7 +21,7 @@ def list_student_groups():
 
 
 @student_groups.route('/kruzky/<group_name>', methods=['GET', 'POST'])
-def timetable(group_name):
+def show_timetable(group_name):
     """Show a timetable for a student-group."""
     web_header = "Rozvrh krúžku " + group_name
     student_group = StudentGroup.query.filter_by(name=group_name).first()

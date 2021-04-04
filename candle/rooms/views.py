@@ -19,7 +19,7 @@ def list_rooms():
 
 
 @rooms.route('/miestnosti/<room_name>', methods=['GET', 'POST'])
-def timetable(room_name):
+def show_timetable(room_name):
     """Show a timetable for a room."""
     web_header = "Rozvrh miestnosti " + room_name
     room = Room.query.filter_by(name=room_name).first()

@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 
 from candle import db
 from ..models import UserTimetable, Lesson
-from ..timetable.timetable import Timetable
+from timetable.timetable import Timetable
 
 timetable = Blueprint('timetable', __name__)
 
@@ -16,7 +16,7 @@ def user_timetable(id_):
     ut = UserTimetable.query.get(id_)
     lessons = ut.lessons.order_by(Lesson.day, Lesson.start).all()
     t = Timetable(lessons)
-    if timetable is None:
+    if t is None:
         raise Exception("Timetable cannot be None")
 
     return render_template('timetable/timetable.html',
@@ -38,13 +38,13 @@ def home():
         else:
             # select the latest one (with the highest id):
             ut = user_timetables.order_by(UserTimetable.id_)[-1]
-        timetable = Timetable(ut.lessons)
-        if timetable is None:
+        t = Timetable(ut.lessons)
+        if t is None:
             raise Exception("Timetable cannot be None")
         # show timetable:
         return render_template('timetable/timetable.html',
                                title=ut.name, web_header=ut.name,
-                               timetable=timetable,
+                               timetable=t,
                                user_timetables=current_user.timetables,
                                selected_timetable_key=ut.id_,
                                infobox=False)
