@@ -2,29 +2,21 @@
 <html lang="en"
       class="panel_active"
 
-        {# TODO opravit: <?php if(!$panelText) echo 'panel_hidden'; else echo 'panel_active'; ?"#}
-    >
-    {###  HEAD ###}
+        {# TODO opravit: <?php if(!$panelText) echo 'panel_hidden'; else echo 'panel_active'; ?"#}>
     <head>
         {% include('head.html') %}
     </head>
 
 
-    {###  BODY ###}
     <body>
-
-        {### VRCH ###}
         <div id="vrch">
             <div id="vrch_logo"><a href="/">Rozvrh</a></div>
         </div>
 
-        {### FIRST_ROW ###}
         {% include('first_row.html') %}
 
-        {### TIMETABLE_MENU ###}
         {% block timetable_menu %}{% endblock %}
 
-        {### HLAVNY ###}
         <div id="hlavny">
             <div id="obsah_wrap">
                 <div id="obsah_vrch">
@@ -49,12 +41,15 @@
             </div>
         </div>
 
-        {### PANEL ###}
         {% block panel %}{% endblock %}
 
         {% block script %}
+
+            {# JQUERY #}
+            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+            <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js" integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU=" crossorigin="anonymous"></script>
+
             <script src={{ url_for('static', filename='js/csrf_header.js') }}></script>
         {% endblock %}
     </body>
-
 </html>
