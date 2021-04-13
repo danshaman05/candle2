@@ -691,7 +691,6 @@ ul.quickswitch li a {
     font-size: 1pc;
 }
 
-
 /* Icons for lessons:*/
 .lesson-type-C .lesson-type-image {
     background: transparent url("/static/images/ikona-typ-c.png") center center no-repeat;
@@ -726,24 +725,29 @@ ul.quickswitch li a {
 }
 
 
-
-
-
-
 /* JQUERY-UI: */
 /* source: https://jqueryui.com/autocomplete/#maxheight */
 .ui-autocomplete-loading {
-    background:url(http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/images/ui-anim_basic_16x16.gif) no-repeat right center }
+    background:url(http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/images/ui-anim_basic_16x16.gif) no-repeat right center
+}
 
 .ui-autocomplete {
     max-height: 180px;
     overflow-y: auto;
     /* prevent horizontal scrollbar */
     overflow-x: hidden;
-  }
-  /* IE 6 doesn't support max-height
-   * we use height instead, but this forces the menu to always be this tall
-   */
-  * html .ui-autocomplete {
+}
+
+/* IE 6 doesn't support max-height
+* we use height instead, but this forces the menu to always be this tall
+*/
+* html .ui-autocomplete {
     height: 100px;
-  }
+}
+
+.ui-autocomplete-category {
+    font-weight: bold;
+    padding: .2em .4em;
+    margin: .8em 0 .2em;
+    line-height: 1.5;
+}

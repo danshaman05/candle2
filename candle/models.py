@@ -33,10 +33,10 @@ class Teacher(db.Model):
     external_id = db.Column(db.String(), nullable=True)
     login = db.Column(db.String(), nullable=True)
     slug = db.Column(db.String(), nullable=True)
-    lessons = db.relationship('Lesson', secondary=teacher_lessons, backref=db.backref('teachers', lazy='joined'),
-                              lazy='dynamic')
+    lessons = db.relationship('Lesson', secondary=teacher_lessons, lazy='dynamic',
+                              backref=db.backref('teachers', lazy='joined'))
     def __repr__(self):
-        return f"Teacher(id:'{self.id}', :'{self.given_name} {self.family_name}' )"
+        return f"Teacher(id:'{self.id_}', :'{self.given_name} {self.family_name}' )"
 
     @property
     def short_name(self):
@@ -95,8 +95,14 @@ class Lesson(db.Model):
         return int(Timetable.get_shortest_breaktime() * hours_count)
 
     def get_rowspan(self) -> int:
-        """Returns how many rows takes lesson in the timetable."""
+        """Return how many rows takes lesson in the timetable."""
         return (self.end - self.start) // Timetable.get_shortest_lesson()
+
+    def get_teachers_formatted(self):
+        """ Return teachers separated by commas.
+        E.g.: "A. Blaho, D. Bezáková, A. Hrušecká"
+        """
+        return ', '.join([t.short_name for t in self.teachers])
 
 
 class LessonType(db.Model):
@@ -117,8 +123,7 @@ class Subject(db.Model):
     credit_value = db.Column(db.Integer, nullable=False)
     rozsah = db.Column(db.String(30), nullable=True)
     external_id = db.Column(db.String(30), nullable=True)
-    lessons = db.relationship('Lesson', backref='subject',
-                              lazy=True)
+    lessons = db.relationship('Lesson', backref='subject', lazy=True)
 
     def __repr__(self):
         return f"Subject(id:'{self.id_}', name:'{self.name}' )"
