@@ -1,11 +1,9 @@
-#This file contains helper functions
-
 from typing import Dict
 from collections import OrderedDict
 
-
+# TODO rename function
 def get_ordered_dict(d: Dict) -> OrderedDict:
-    """Returns the dict (OrderedDict) ordered by the Slovak alphabet."""
+    """Returns the OrderedDict ordered by the Slovak alphabet."""    # TODO describe it more
     alphabet = "a b c d e f g h ch i j k l m n o p q r s t u v w x y z Ostatné" # TODO improve it
     alphabet = alphabet.split(' ')
     order: Dict = {i: alphabet.index(i) for i in alphabet}

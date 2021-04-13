@@ -22,14 +22,14 @@ $(function(){
           $.post($SCRIPT_ROOT + "/delete_timetable",
               {"url": rozvrh_url})
             .done(function (data) {
-                // if (data['error']){      // Momentalne nemam ziaden error
+                // if (data['error']){      // TODO implement errors
                 //     alert(data['error']);
                 // } else {
                   window.location.replace(data['next_url']);
                 // }
           })
       } else {
-          // Nerobime nic - rozvrh nebude zmazany
+          // Nothing to do.
       }
   });
 });
@@ -43,7 +43,7 @@ $(function(){
               {"data": rozvrh_url})
             .done(function (data) {
                 window.location.href = data['next_url'];
-                // TODO nakoniec by to chcelo zobrazit nejaku flask messages!
+                // TODO show flask-message, or some informative pop-up
           })
   });
 });

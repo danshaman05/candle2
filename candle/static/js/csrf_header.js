@@ -9,4 +9,3 @@ $.ajaxSetup({
         }
     }
 });
-//// (end of) CSRF-protection header
