@@ -21,8 +21,10 @@ python3 -m venv venv
 Activate the environment and install dependencies:
 ```commandline
 source venv/bin/activate
-python3 -m pip install -r requirements.txt
+python3 -m pip install -r requirements/requirements.txt
 ```
+
+During development, install `requirements/dev_requirements.txt`
 
 Generate a Flask Secret key. It's easy with Python:
 ```python
