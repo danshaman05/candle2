@@ -42,7 +42,8 @@ function showLessonsBoxList(item_id, item_category){
 }
 
 // LESSONS
-// We use JqueryUI Autocomplete (categories), see: https://jqueryui.com/autocomplete/#categories
+// This code is from the JqueryUI Autocomplete: Categories example,
+// see: https://jqueryui.com/autocomplete/#categories
 $( function() {
     $.widget( "custom.catcomplete", $.ui.autocomplete, {
           _create: function() {

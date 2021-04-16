@@ -3,58 +3,61 @@ from _collections import OrderedDict
 
 
 class Timetable:
-    """This class represents a timetable."""
+    """Class represents a timetable."""
 
-    __lessons: List = None  # list contains objects of model Lesson
+    __lessons: List = None
+    """list contains objects of model Lesson"""
 
-    """_layout: 2-rozmerny zoznam (list) hodin usporiadanych pre graficke zobrazenie rozvrhu. 
-    Jednotlive urovne su: dni->stlpce. Kazdy stlpec je slovnik (OrderedDict) obsahujuci hodiny ulozene podla kluca (casu), 
-    kedy zacinaju v rozvrhu."""
     __layout: List = None
+    """Layout is a two-dimensional list which represents a timetable layout. 
+     It is a list of 5 lists - one for every day of the week. Every "day" is a list of "columns". Each column 
+    is represented by one OrderedDict which maps starting times to the lesson objects. 
+    (days: List -> columns: List[OrderedDict])
+    Note, that we use OrderedDict instead of dict, because the order of the lessons added to it is important in our algorithm. """
 
-    """2-rozmerny zoznam (list), kt. pre kazdy stlpec uchovava cas hodiny, ktora v nom prave bezi. 
-    Dane casy su kluce do __layout."""
     __lessons_in_progress: List[List[Optional[str]]] = None
 
     # teaching times:
-    __TIME_MIN = 490    # teaching starts at 8:10 (490 in minutes)
+    __TIME_MIN = 490    # teaching starts at 8:10 (=490 in minutes)
     __TIME_MAX = 1190
     __SHORTEST_LESSON = 45
     __SHORTEST_BREAKTIME = 5
 
-    # List Zoznam (list) casov, kedy zacinaju hodiny (od 8:10 do 19:00)
-    __starting_times: Dict[int, str] = {}
+    __starting_times: Dict[int, str] = {}   # TODO move to new data/CSV-file?
+    """ List of starting times - times in which lessons usually starts at FMPH (from 8:10 to 19:00)
+        Data format:
+            key: time in minutes
+            value: time in format H:MM
+    """
 
-    # list of days of the week
-    __DAYS = "Pondelok, Utorok, Streda, Štvrtok, Piatok".split(',')
+    __DAYS = "Pondelok, Utorok, Streda, Štvrtok, Piatok".split(',')     # TODO move to new folder data/CSV-file?
+    """list of days of the week"""
+
 
     # Infolist URL:
-    __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'    # TODO presunut do config.py ?
+    __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'  # TODO move to new data/CSV-file?
 
     def __init__(self, lessons_objects):
         self.__init_times()
         self.__lessons = lessons_objects
         self.__init_layout()
-        lessons_sorted_by_days = self.__sort_lessons_by_days()  # usporiadame si hodiny podla dni v tyzdni
+        lessons_sorted_by_days = self.__sort_lessons_by_days()
         self.__set_layout(lessons_sorted_by_days)
         self.__init_last_started_lessons_list()
 
     def __init_times(self):
-        """
-        Zaplni dictionary __times datami - zaciatkami hodin vyucby na FMFI - v tvare:
-            kluc: cas v minutach
-            hodnota: cas v tvare H:MM
-        """
-        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50): # TODO some lessons starts in different times (e.g 10:30)
+        """Fills __starting_times dictionary with data."""
+        for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50):     # TODO some lessons starts in different times (e.g 10:30)
             self.__starting_times[minutes] = self.minutes_2_time(minutes)
 
-    def __init_layout(self):
-        """Inicializuje 2d list, ktoreho prvky su slovniky (dni -> stlpce -> slovnik)."""
+    def __init_layout(self): # TODO
+        """Initializes layout (2d list)."""
         self.__layout = []
         for i in range(5):
             # pouzivam OrderedDict miesto klasickeho dict, kedze chcem lahko pristupovat k poslednemu vlozenemu prvku:
             od = OrderedDict()
-            self.__layout.append([od])
+            column = [od]
+            self.__layout.append(column)
 
     def __init_last_started_lessons_list(self):
         """Initializes attribute __last_started_lessons"""
@@ -114,11 +117,6 @@ class Timetable:
         return column[last_lesson_key]
 
 
-    def __end_lesson(self, day_index, column_index, lesson_key):
-        # Zmaze hodinu z __layout, kedze uz skoncila.
-        del self.__layout[day_index][column_index][lesson_key]
-
-    ########################### "Public" metody: ###########################
     def get_lessons(self):
         return self.__lessons
 
@@ -164,7 +162,6 @@ class Timetable:
             result[self.__DAYS[i]] = len(self.__layout[i])
         return result
 
-    ########################### Class methods: ###########################
     @classmethod
     def get_infolist_url(cls, endpoint):
         return cls.__INFOLIST_URL + endpoint
@@ -179,7 +176,7 @@ class Timetable:
 
     @classmethod
     def minutes_2_time(cls, time_in_minutes: int) -> str:
-        """Returns time in 24-hour format."""
+        """Return time in 24-hour format."""
         hours = time_in_minutes // 60
         minutes = time_in_minutes % 60
         return "%d:%02d" % (hours, minutes)
