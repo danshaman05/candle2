@@ -78,27 +78,29 @@ def lesson_search_handler():
     query_string = query_string.replace(" ", "%")
     query_string = "%{}%".format(query_string)
 
-    # Select unique names of the subjects. (each subject must have at least one lesson, so we join with Lessons):
+    # Select unique subject names (each subject must have at least one lesson, so we join with Lessons):
     subjects = Subject.query.join(Lesson).filter(Subject.name.ilike(query_string))\
         .with_entities(Subject.name).distinct()\
         .order_by(Subject.name)\
         .limit(20).all()
 
-    # search in subject short-codes:
+    # Search in subject short-codes:
     subjects_c = Subject.query.join(Lesson).filter(Subject.short_code.ilike(query_string))\
         .with_entities(Subject.short_code).distinct()\
         .order_by(Subject.short_code)\
         .limit(20).all()
 
-    # search in teachers who have at least one lesson (filter out those who don't have a given_name)
+    # Search in teachers who have at least one lesson (filter out those who don't have a given_name):
     teachers = Teacher.query.join(teacher_lessons).join(Lesson) \
-        .filter(Teacher.given_name != '')\
+        .filter(Teacher.given_name != '') \
         .filter(Teacher.fullname.ilike(query_string) | Teacher.fullname_reversed.ilike(query_string))\
         .order_by(Teacher.family_name) \
         .limit(20).all()
 
-    # search in rooms (that have at least one lesson):
-    rooms = Room.query.join(Lesson).filter(Room.name.ilike(query_string))\
+    # Search in rooms that have at least one lesson:
+    rooms = Room.query.join(Lesson)\
+        .with_entities(Room.name).distinct()\
+        .filter(Room.name.ilike(query_string))\
         .order_by(Room.name)\
         .limit(20).all()
 
@@ -118,7 +120,7 @@ def lesson_search_handler():
 @search.route('/get_html/lessons_list', methods=['POST'])
 def lessons_list():
     """
-    Return HTML template with the list of subjects and lessons.
+    Return HTML template with the list of subjects and lessons for the panel search.
     """
     item_id = request.form.get('item-id')
     item_category = request.form.get('item-category')
