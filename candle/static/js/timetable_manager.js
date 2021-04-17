@@ -61,8 +61,7 @@ $(function(){
     }
     $.post($SCRIPT_ROOT + "/rename_timetable",
         {"url": document.URL, "new_name": name}
-        )
-        .done(function (data){
+        ).done(function (data){
             const taby_selector = '#rozvrh_taby';
             const web_header_selector = '#web_header'
 
@@ -77,3 +76,23 @@ $(function(){
   });
 });
 
+function lesson_checkbox_handler(checkbox) {
+    let action = "";
+    if (checkbox.checked){
+        action = "add"
+    } else {
+       action = "remove"
+    }
+    $.post(`/add_or_remove_lesson`,
+    {"lesson_id": checkbox.value,
+                "action": action,
+                "window_pathname": window.location.pathname}
+    ).done(function (data){
+        $('#rozvrh').fadeOut(function (){
+            $('#rozvrh').html(data['layout_html']).fadeIn();
+        });
+        $('#rozvrhList').fadeOut(function () {
+            $('#rozvrhList').html(data['list_html']).fadeIn();
+        });
+    })
+}

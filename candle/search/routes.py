@@ -1,7 +1,7 @@
 """This blueprint contains AJAX routes that corresponds to the search function."""
 
 from flask import Blueprint, request, jsonify, render_template
-from candle.models import Teacher, Room, StudentGroup, Lesson, teacher_lessons, Subject
+from candle.models import Teacher, Room, StudentGroup, Lesson, teacher_lessons, Subject, UserTimetable
 
 search = Blueprint('search', __name__)
 
@@ -122,6 +122,17 @@ def lessons_list():
     """
     item_id = request.form.get('item-id')
     item_category = request.form.get('item-category')
+    pathname = request.form.get('pathname')
+    pathname_list = pathname.split('/')
+
+    #Let's check, if we can show add/remove checkboxes:
+    show_buttons, timetable_lessons = False, []     # init variables
+    if "moj-rozvrh" in pathname_list:   # if we are on the user's timetable route:
+        show_buttons = True
+        # get lessons of the current user's timetable:
+        current_timetable_id = pathname_list[-1]
+        ut = UserTimetable.query.get(current_timetable_id)
+        timetable_lessons = ut.lessons
 
     subjects = []
     if item_category == 'Predmety':
@@ -141,5 +152,6 @@ def lessons_list():
         subjects = Subject.query.filter(Subject.short_code == item_id)\
             .order_by(Subject.short_code).all()
 
-    return render_template('panel/lessons_search-results.html', subjects=subjects)
+    return render_template('panel/lessons_search-results.html', subjects=subjects,
+                           show_buttons=show_buttons, timetable_lessons=timetable_lessons)
 

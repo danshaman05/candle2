@@ -3,8 +3,9 @@ from typing import List
 from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
 from candle import db
-from candle.models import UserTimetable, Teacher, Room, StudentGroup
+from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson
 import re
+from timetable.timetable import Timetable
 
 timetable_manager = Blueprint('editable_timetable_manager', __name__)
 
@@ -137,3 +138,28 @@ def getUniqueName(name) -> str:
         if new_name not in timetables_names:
             return new_name
         index += 1
+
+
+@timetable_manager.route('/add_or_remove_lesson', methods=['POST'])
+@login_required
+def add_or_remove_lesson():
+    """Add/Remove lesson to/from user's timetable. Return timetable templates (layout & list)."""
+    lesson_id = request.form.get('lesson_id')
+    action = request.form.get('action')
+    window_pathname = request.form.get('window_pathname')
+    timetable_id = window_pathname.split('/')[-1]  # TODO it's not the best idea to rely just on the URL path... maybe we need state-management
+    ut = UserTimetable.query.get(timetable_id)
+    lesson = Lesson.query.get(lesson_id)
+
+    if action == 'add':
+        ut.lessons.append(lesson)
+    elif action == 'remove':
+        ut.lessons.remove(lesson)
+    db.session.commit()
+    t = Timetable(lessons=ut.lessons)
+
+    timetable_layout = render_template('timetable/timetable_content.html', timetable=t)
+    timetable_list = render_template('timetable/list.html', timetable=t)
+
+    return jsonify({'layout_html': timetable_layout,
+                    'list_html': timetable_list})

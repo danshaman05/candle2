@@ -37,9 +37,11 @@ class Timetable:
     # Infolist URL:
     __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'  # TODO move to new data/CSV-file?
 
-    def __init__(self, lessons_objects):
+    def __init__(self, lessons=None):
+        if lessons is None:
+            raise Exception("Cannot create timetable without lessons!")
         self.__init_times()
-        self.__lessons = lessons_objects
+        self.__lessons = lessons
         self.__init_layout()
         lessons_sorted_by_days = self.__sort_lessons_by_days()
         self.__set_layout(lessons_sorted_by_days)

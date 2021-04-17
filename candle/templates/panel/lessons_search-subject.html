@@ -1,0 +1,58 @@
+<li class="predmet">
+    <div class="predmet_header">
+{#        <input id="panel_subject_cb_{{ subject.id_ }}" class="predmet_check" type="checkbox" name="subject[]" value="{{ subject.id_ }}" title="Zobraziť predmet">#}
+{#         <label for="panel_subject_cb_{{ subject.id_ }}" class="predmet_nazov">{{ subject.name }}</label>#}
+        {#            TODO BUTTON#}
+{#        <button class="btn" id="add_lesson-{{ subject.id }}"><i class="fa fa-plus" aria-hidden="true"></i></button>#}
+        <span class="predmet_nazov">{{ subject.name }}</span>
+        <div class="predmet_info">
+            <table>
+                <thead class="pristupnost">
+                    <tr>
+                        <th>ECTS kód</th>
+                        <th>Rozsah</th>
+                        <th>Odkazy</th>
+                    </tr>
+                </thead>
+                <tbody>
+                        <tr>
+                            <td class="predmet_kod">{{ subject.short_code }}</td>
+                            <td class="rozsah">{{ subject.rozsah }}</td>
+    {#                        TODO infolist URL: use url_for() instead of hard-coded link:#}
+                            <td class="odkazy"><a href="https://sluzby.fmph.uniba.sk/infolist/SK/{{ subject.short_code }}.html">viac info...</a></td>
+                        </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <table class="vysledky">
+        <thead>
+            <tr>
+              <th>Typ</th><th>Kedy</th><th>Kde</th><th>Kto</th>
+            </tr>
+       </thead>
+        <tbody>
+            {% for lesson in subject.lessons %}
+                <tr>
+                <td class="lesson-type-cell"><abbr class="lesson-type lesson-type-{{ lesson.type.code|upper }}" title="{{ lesson.type.name }}">
+                  <span class="lesson-type-in">{{ lesson.type.code }}</span><span class="lesson-type-image"></span></abbr>
+                </td>
+                <td class="kedy">{{ lesson.get_day_abbr() }}&nbsp;{{ lesson.get_start() }}</td>
+                <td class="kde">{{ lesson.room.name }}</td>
+                <td class="kto">{{ lesson.get_teachers_formatted() }}</td>
+                {% if show_buttons -%}
+                        <td class="last">
+                            {% if lesson in timetable_lessons %}
+                                {% set chked, aria_label = "checked", "Pridať do" %}
+                            {% else %}
+                                {% set chked, aria_label = "", "Odobrať z" %}
+                            {% endif %}
+                            <input type="checkbox" id="panel_lesson_cb_{{ lesson.id_ }}" value="{{ lesson.id_ }}" {{ chked }} aria-label="{{ aria_label }} rozvrhu" onchange="lesson_checkbox_handler(this)" title="Zobraziť v rozvrhu"/>
+                            <label class="pristupnost" for="panel_lesson_cb_{{ lesson.id_ }}">{{ lesson.get_day_abbr() }} {{ lesson.get_start() }} {{ lesson.subject.name }}</label>
+                        </td>
+                {%- endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</li>

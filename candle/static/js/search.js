@@ -37,7 +37,11 @@ $( function() {
 
 function showLessonsBoxList(item_id, item_category){
     const selector = "#list_lessons_box";
-    let data = {'item-id': item_id, 'item-category': item_category}
+    let data = {
+        'pathname': window.location.pathname,
+        'item-id': item_id,
+        'item-category': item_category
+    }
     $(selector).load($SCRIPT_ROOT + "/get_html/lessons_list", data).hide().fadeIn();
 }
 
@@ -76,4 +80,3 @@ $( function() {
       }
     });
 });
-
