@@ -9,9 +9,9 @@
 
 {#            <form method="post" action="">#}
                 <div class="panel_search">
+                    <input type="search" name="showLessons" id="showLessons" title="Hľadať hodiny" placeholder="Hľadať..." role="searchbox">
                     <label for="showLessons">Hľadať hodiny</label>
-                    <input type="text" name="showLessons" id="showLessons" title="Hľadať hodiny" placeholder="Hľadať...">
-{#                    <button type="submit">Hľadaj</button>#}
+                    {#                    <button type="submit">Hľadaj</button>#}
                 </div>
 {#            </form>#}
             (názov/kód predmetu, učiteľ, miestnosť)
@@ -28,7 +28,8 @@
         <div class="panel_cast_obsah">
                 <div class="panel_search">
                     <p class="hint">Zadajte meno a/alebo priezvisko učiteľa:</p>
-                    <input type="search" id="showTeachers" name="showTeachers" title="Hľadať učiteľa." placeholder="Hľadať...">
+                    <input type="search" id="showTeachers" name="showTeachers" title="Hľadať učiteľa." placeholder="Hľadať..." role="searchbox">
+                    <label for="showTeachers">Hľadať učiteľov</label>
                 </div>
             <div class="other_links">
                 <a href="{{ url_for('teachers.list_teachers') }}">Rozvrhy všetkých učiteľov</a>
@@ -46,6 +47,7 @@
                 <div class="panel_search">
                     <p class="hint">Zadajte názov miestnosti:</p>
                     <input type="search" id="showRooms" name="showRooms" title="Hľadať miestnosť." placeholder="Hľadať...">
+                    <label for="showStudentGroups">Hľadať miestnosti</label>
                 </div>
             </form>
             <div class="other_links">
@@ -62,7 +64,8 @@
             <form method="post" action="">
                 <div class="panel_search">
                     <p class="hint">Zadajte názov krúžku:</p>
-                    <input type="search" id="showGroups" name="showGroups" title="Hľadať krúžok." placeholder="Hľadať...">
+                    <input type="search" id="showGroups" name="showGroups" title="Hľadať krúžok." placeholder="Hľadať..." >
+                    <label for="showStudentGroups">Hľadať krúžky</label>
                 </div>
             </form>
             <div class="other_links">

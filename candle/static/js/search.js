@@ -73,7 +73,7 @@ $( function() {
 
     $( "#showLessons" ).catcomplete({
         source: $SCRIPT_ROOT + "/get_data/lesson_search",
-        delay: 0,
+        delay: 400,     // in miliseconds
         minLength: 1,
         select: function( event, ui ) {
             showLessonsBoxList(ui.item.id, ui.item.category);
