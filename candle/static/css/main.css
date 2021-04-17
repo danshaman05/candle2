@@ -375,6 +375,7 @@ ul.vysledky_hladania li+li {
 #rozvrh {
     border-collapse: collapse;
     width: 100%;
+    border-style: groove;
 }
 
 #rozvrh tr.startTimeHeader {
@@ -383,9 +384,10 @@ ul.vysledky_hladania li+li {
 
 #rozvrh th {
     padding: 0.5em;
-    font-weight: normal;
+    font-weight: bold;
     width: 20%;
     border: 2px solid;
+    border-radius: 7px;
 }
 
 #rozvrh td {
@@ -429,6 +431,7 @@ ul.vysledky_hladania li+li {
     text-align: center;
     padding: 2px;
     border: 2px solid;
+    border-radius: 8px;
 }
 
 #rozvrh th.zaciatok {

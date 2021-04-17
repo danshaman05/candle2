@@ -124,8 +124,8 @@ ul.vysledky_hladania li {
 }
 
 #rozvrh th {
-    background: #D3D5DD;
-    color: black;
+    background-color: lightskyblue;
+    color: #333333;
     border-color: #4E546A;
 }
 
