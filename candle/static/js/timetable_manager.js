@@ -1,3 +1,4 @@
+'use strict';
 
 $(function(){
   $("#novy_rozvrh").on('click',function(){

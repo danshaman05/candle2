@@ -1,3 +1,5 @@
+'use strict';
+
 function redirect( endpoint ) {
     window.location.href = $SCRIPT_ROOT + endpoint;
 }
