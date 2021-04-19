@@ -3,7 +3,7 @@ from typing import List
 from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
 from candle import db
-from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson
+from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Subject
 import re
 from timetable.timetable import Timetable
 
@@ -155,6 +155,38 @@ def add_or_remove_lesson():
         ut.lessons.append(lesson)
     elif action == 'remove':
         ut.lessons.remove(lesson)
+    else:
+        raise Exception("Bad JSON data format! Value for 'action' should be 'add' or 'remove'.")
+    db.session.commit()
+    t = Timetable(lessons=ut.lessons)
+
+    timetable_layout = render_template('timetable/timetable_content.html', timetable=t)
+    timetable_list = render_template('timetable/list.html', timetable=t)
+
+    return jsonify({'layout_html': timetable_layout,
+                    'list_html': timetable_list})
+
+
+@timetable_manager.route('/add_or_remove_subject', methods=['POST'])
+@login_required
+def add_or_remove_subject():
+    """Add/Remove subject (with all lessons) to/from user's timetable. Return timetable templates (layout & list)."""
+    subject_id = request.form.get('subject_id')
+    action = request.form.get('action')
+    window_pathname = request.form.get('window_pathname')
+    timetable_id = window_pathname.split('/')[-1]  # TODO it's not the best idea to rely just on the URL path... maybe we need state-management
+    ut = UserTimetable.query.get(timetable_id)
+    subject = Subject.query.get(subject_id)
+
+    if action == 'add':
+        for l in subject.lessons:
+            if l not in ut.lessons:
+                ut.lessons.append(l)
+    elif action == 'remove':
+        for l in subject.lessons:
+            ut.lessons.remove(l)
+    else:
+        raise Exception("Bad JSON data format! Value for 'action' should be 'add' or 'remove'.")
     db.session.commit()
     t = Timetable(lessons=ut.lessons)
 

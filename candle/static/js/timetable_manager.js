@@ -77,23 +77,59 @@ $(function(){
   });
 });
 
-function lesson_checkbox_handler(checkbox) {
+function lesson_checkbox_handler(checkbox, subject_id) {
+    // function is called from the HTML ("onclick" attribute)
+
+    // CSS selector for subject's checkbox:
+    let subject_cb_selector = `input[class='predmet_check'][value='${subject_id}']`;
+    // CSS selector for subject's lessons checkboxes:
+    let lessons_cbs_selector = `input[name=${subject_id}]`;
+
     let action = "";
     if (checkbox.checked){
         action = "add"
+        // if all lessons of this subject are checked:
+        if ($(lessons_cbs_selector + ':checked').length === $(lessons_cbs_selector).length){
+            // set subject's checkbox to "checked" also:
+            $(subject_cb_selector).prop("checked", true) ;
+        }
     } else {
        action = "remove"
+        // uncheck subject's checkbox:
+        $(subject_cb_selector).prop("checked", false) ;
     }
     $.post(`/add_or_remove_lesson`,
     {"lesson_id": checkbox.value,
                 "action": action,
                 "window_pathname": window.location.pathname}
     ).done(function (data){
-        $('#rozvrh').fadeOut(function (){
-            $('#rozvrh').html(data['layout_html']).fadeIn();
-        });
-        $('#rozvrhList').fadeOut(function () {
-            $('#rozvrhList').html(data['list_html']).fadeIn();
-        });
+            $('#rozvrh').html(data['layout_html']);
+            $('#rozvrhList').html(data['list_html']);
+    })
+}
+
+
+function subject_checkbox_handler(checkbox) {
+    // function is called from the HTML ("onclick" attribute)
+
+    let subject_id = checkbox.value;
+    // CSS selector for subject's lessons checkboxes:
+    let lessons_cbs_selector = `input[name=${subject_id}]`;
+
+    let action = "";
+    if (checkbox.checked){
+        action = "add"
+        $(lessons_cbs_selector).prop("checked", true) ;
+    } else {
+       action = "remove";
+       $(lessons_cbs_selector).prop("checked", false) ;
+    }
+    $.post(`/add_or_remove_subject`,
+    {"subject_id": checkbox.value,
+                "action": action,
+                "window_pathname": window.location.pathname}
+    ).done(function (data){
+            $('#rozvrh').html(data['layout_html']);
+            $('#rozvrhList').html(data['list_html']);
     })
 }

@@ -128,13 +128,13 @@ def lessons_list():
     pathname_list = pathname.split('/')
 
     #Let's check, if we can show add/remove checkboxes:
-    show_buttons, timetable_lessons = False, []     # init variables
+    show_checkboxes, timetable_lessons = False, []     # init variables
     if "moj-rozvrh" in pathname_list:   # if we are on the user's timetable route:
-        show_buttons = True
+        show_checkboxes = True
         # get lessons of the current user's timetable:
         current_timetable_id = pathname_list[-1]
         ut = UserTimetable.query.get(current_timetable_id)
-        timetable_lessons = ut.lessons
+        timetable_lessons = ut.lessons.all()
 
     subjects = []
     if item_category == 'Predmety':
@@ -154,6 +154,7 @@ def lessons_list():
         subjects = Subject.query.filter(Subject.short_code == item_id)\
             .order_by(Subject.short_code).all()
 
+
     return render_template('panel/lessons_search-results.html', subjects=subjects,
-                           show_buttons=show_buttons, timetable_lessons=timetable_lessons)
+                           show_checkboxes=show_checkboxes, timetable_lessons=timetable_lessons)
 

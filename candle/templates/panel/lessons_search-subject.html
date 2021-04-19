@@ -1,10 +1,20 @@
 <li class="predmet">
     <div class="predmet_header">
-{#        <input id="panel_subject_cb_{{ subject.id_ }}" class="predmet_check" type="checkbox" name="subject[]" value="{{ subject.id_ }}" title="Zobraziť predmet">#}
-{#         <label for="panel_subject_cb_{{ subject.id_ }}" class="predmet_nazov">{{ subject.name }}</label>#}
-        {#            TODO BUTTON#}
-{#        <button class="btn" id="add_lesson-{{ subject.id }}"><i class="fa fa-plus" aria-hidden="true"></i></button>#}
-        <span class="predmet_nazov">{{ subject.name }}</span>
+        {% if show_checkboxes -%}
+            {# Subject-checkbox #}
+            {#   For each subject we need to find out, if all his lessons were added to the timetable.#}
+            {% set ns = namespace() %}
+            {% set ns.chked = 'checked' %}
+            {% for l in subject.lessons %}
+                {% if l not in timetable_lessons %}
+                    {% set ns.chked = '' %}
+                    {% break %}
+                {% endif %}
+            {% endfor %}
+            <input id="panel_subject_cb_{{ subject.id_ }}" class="predmet_check" type="checkbox"
+                   value="{{ subject.id_ }}" {{ ns.chked }} title="Zobraziť predmet" onclick="subject_checkbox_handler(this)">
+             <label for="panel_subject_cb_{{ subject.id_ }}" class="predmet_nazov">{{ subject.name }}</label>
+        {% endif %}
         <div class="predmet_info">
             <table>
                 <thead class="pristupnost">
@@ -15,12 +25,12 @@
                     </tr>
                 </thead>
                 <tbody>
-                        <tr>
-                            <td class="predmet_kod">{{ subject.short_code }}</td>
-                            <td class="rozsah">{{ subject.rozsah }}</td>
-    {#                        TODO infolist URL: use url_for() instead of hard-coded link:#}
-                            <td class="odkazy"><a href="https://sluzby.fmph.uniba.sk/infolist/SK/{{ subject.short_code }}.html">viac info...</a></td>
-                        </tr>
+                    <tr>
+                        <td class="predmet_kod">{{ subject.short_code }}</td>
+                        <td class="rozsah">{{ subject.rozsah }}</td>
+    {#                        TODO infolist URL: use url_for() or a variable instead of hard-coded link:#}
+                        <td class="odkazy"><a href="https://sluzby.fmph.uniba.sk/infolist/SK/{{ subject.short_code }}.html">viac info...</a></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -40,14 +50,17 @@
                 <td class="kedy">{{ lesson.get_day_abbr() }}&nbsp;{{ lesson.get_start() }}</td>
                 <td class="kde">{{ lesson.room.name }}</td>
                 <td class="kto">{{ lesson.get_teachers_formatted() }}</td>
-                {% if show_buttons -%}
+                {# Lesson-checkbox #}
+                {% if show_checkboxes -%}
                         <td class="last">
                             {% if lesson in timetable_lessons %}
                                 {% set chked, aria_label = "checked", "Pridať do" %}
                             {% else %}
                                 {% set chked, aria_label = "", "Odobrať z" %}
                             {% endif %}
-                            <input type="checkbox" id="panel_lesson_cb_{{ lesson.id_ }}" value="{{ lesson.id_ }}" {{ chked }} aria-label="{{ aria_label }} rozvrhu" onchange="lesson_checkbox_handler(this)" title="Zobraziť v rozvrhu"/>
+                            <input type="checkbox" id="panel_lesson_cb_{{ lesson.id_ }}" value="{{ lesson.id_ }}"
+                                   name="{{ subject.id_ }}" {{ chked }} aria-label="{{ aria_label }} rozvrhu"
+                                   onclick="lesson_checkbox_handler(this, {{ subject.id_ }} )" title="Zobraziť v rozvrhu"/>
                             <label class="pristupnost" for="panel_lesson_cb_{{ lesson.id_ }}">{{ lesson.get_day_abbr() }} {{ lesson.get_start() }} {{ lesson.subject.name }}</label>
                         </td>
                 {%- endif %}
