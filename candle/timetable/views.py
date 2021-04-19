@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from flask_login import current_user, login_required
 
 from candle import db
@@ -21,10 +21,10 @@ def user_timetable(id_):
 
     return render_template('timetable/timetable.html',
                            title=ut.name, web_header=ut.name, timetable=t,
-                           user_timetables=user_timetables, selected_timetable_key=id_)
+                           user_timetables=user_timetables, selected_timetable_key=id_, infobox=False)
 
 
-@timetable.route('/', methods=['GET', 'POST'])
+@timetable.route('/', methods=['GET'])
 def home():
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
@@ -37,16 +37,10 @@ def home():
         else:
             # select the latest one (with the highest id):
             ut = user_timetables.order_by(UserTimetable.id_)[-1]
-        t = Timetable(ut.lessons)
-        if t is None:
-            raise Exception("Timetable cannot be None")
-        # show timetable:
-        return render_template('timetable/timetable.html',
-                               title=ut.name, web_header=ut.name,
-                               timetable=t,
-                               user_timetables=current_user.timetables,
-                               selected_timetable_key=ut.id_,
-                               infobox=False)
+
+        # redirect to user's timetable view:
+        return redirect('/moj-rozvrh/' + str(ut.id_))
+
     else:  # user is logged out, show infobox:
         return render_template('timetable/timetable.html',
                                title='Rozvrh',
