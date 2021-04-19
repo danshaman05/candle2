@@ -387,7 +387,6 @@ ul.vysledky_hladania li+li {
     font-weight: bold;
     width: 20%;
     border: 2px solid;
-    border-radius: 7px;
 }
 
 #rozvrh td {
@@ -584,6 +583,7 @@ h1 {
 
 #obsah_in table.vysledky_podrobneho_hladania {
     width: 100%;
+    border-style: groove;
 }
 
 #obsah_in table.aktualne {
@@ -691,7 +691,7 @@ ul.quickswitch li a {
     padding: 0.4ex 0.5em;
 }
 
-#infobox {
+#welcome {
     margin: 2em;
     font-size: 1pc;
 }
