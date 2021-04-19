@@ -32,7 +32,7 @@ def show_timetable(room_name):
         user_timetables = None
     return render_template('timetable/timetable.html', room_name=room_name, title=room_name,
                            web_header=web_header, timetable=t,
-                           user_timetables=user_timetables, infobox=False)
+                           user_timetables=user_timetables, show_welcome=False)
 
 
 def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:

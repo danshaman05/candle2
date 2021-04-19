@@ -35,7 +35,7 @@ def show_timetable(group_name):
     return render_template('timetable/timetable.html', title=group_name,
                            student_group_name=group_name,
                            web_header=web_header, timetable=t,
-                           user_timetables=user_timetables, infobox=False)
+                           user_timetables=user_timetables, show_welcome=False)
 
 
 def get_student_groups_sorted_by_first_letter(student_groups) -> Dict:
