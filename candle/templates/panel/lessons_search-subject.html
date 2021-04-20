@@ -47,7 +47,7 @@
                 <td class="lesson-type-cell"><abbr class="lesson-type lesson-type-{{ lesson.type.code|upper }}" title="{{ lesson.type.name }}">
                   <span class="lesson-type-in">{{ lesson.type.code }}</span><span class="lesson-type-image"></span></abbr>
                 </td>
-                <td class="kedy">{{ lesson.get_day_abbr() }}&nbsp;{{ lesson.get_start() }}</td>
+                <td class="kedy">{{ lesson.day_abbreviated }}&nbsp;{{ lesson.start_formatted }}</td>
                 <td class="kde">{{ lesson.room.name }}</td>
                 <td class="kto">{{ lesson.get_teachers_formatted() }}</td>
                 {# Lesson-checkbox #}
@@ -61,7 +61,7 @@
                             <input type="checkbox" id="panel_lesson_cb_{{ lesson.id_ }}" value="{{ lesson.id_ }}"
                                    name="{{ subject.id_ }}" {{ chked }} aria-label="{{ aria_label }} rozvrhu"
                                    onclick="lesson_checkbox_handler(this, {{ subject.id_ }} )" title="Zobraziť v rozvrhu"/>
-                            <label class="pristupnost" for="panel_lesson_cb_{{ lesson.id_ }}">{{ lesson.get_day_abbr() }} {{ lesson.get_start() }} {{ lesson.subject.name }}</label>
+                            <label class="pristupnost" for="panel_lesson_cb_{{ lesson.id_ }}">{{ lesson.day_abbreviated }} {{ lesson.start_formatted }} {{ lesson.subject.name }}</label>
                         </td>
                 {%- endif %}
                 </tr>

@@ -149,7 +149,7 @@ class Timetable:
         if lesson is None:
             raise Exception("Lesson cannot be None.")
 
-        if (lesson.start < actual_time) and (lesson.end + lesson.get_breaktime() > actual_time):
+        if (lesson.start < actual_time) and (lesson.end + lesson.breaktime > actual_time):
             return True
         return False
 

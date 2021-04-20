@@ -79,22 +79,27 @@ class Lesson(db.Model):
     def __repr__(self):
         return f"Lesson(id:'{self.id_}', room_id:'{self.room_id}' )"
 
-    def get_day_abbr(self) -> str:
+    @property
+    def day_abbreviated(self) -> str:
         """Returns abbreviation of the day of the week."""
         days = ['Po', 'Ut', 'St', 'Št', 'Pi']
         return days[self.day]
 
-    def get_start(self):
+    @property
+    def start_formatted(self):
         return Timetable.minutes_2_time(self.start)
 
-    def get_end(self):
+    @property
+    def end_formatted(self):
         return Timetable.minutes_2_time(self.end)
 
-    def get_breaktime(self) -> int:
-        hours_count = self.get_rowspan()
+    @property
+    def breaktime(self) -> int:
+        hours_count = self.rowspan
         return int(Timetable.get_shortest_breaktime() * hours_count)
 
-    def get_rowspan(self) -> int:
+    @property
+    def rowspan(self) -> int:
         """Return how many rows takes lesson in the timetable."""
         return (self.end - self.start) // Timetable.get_shortest_lesson()
 
