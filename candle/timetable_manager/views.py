@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from candle import db
 from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Subject
 import re
-from timetable.timetable import Timetable
+from candle.timetable.timetable import Timetable
 
 timetable_manager = Blueprint('editable_timetable_manager', __name__)
 
