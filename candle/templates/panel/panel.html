@@ -4,27 +4,20 @@
 {#    <div id="panel_throbber">Načítavam...</div>#}
 
     <div class="panel_cast" id="panel_cast_hodiny">
-        <h2><a href="#panel_cast_hodiny">Predmety a hodiny</a></h2>
+        <button class="panel_cast_button">Predmety a hodiny</button>
         <div class="panel_cast_obsah">
-
-{#            <form method="post" action="">#}
                 <div class="panel_search">
+                    <p class="hint">Názov/kód predmetu, učiteľ, miestnosť:</p>
                     <input type="search" name="showLessons" id="showLessons" title="Hľadať hodiny" placeholder="Hľadať..." role="searchbox">
                     <label for="showLessons">Hľadať hodiny</label>
-                    {#                    <button type="submit">Hľadaj</button>#}
                 </div>
-{#            </form>#}
-            (názov/kód predmetu, učiteľ, miestnosť)
-            <div id="list_lessons_box">
-                <p>Pomocou formuláru vyššie vyhľadajte predmety alebo hodiny</p>
-            </div>
+            <div id="list_lessons_box"></div>
         </div>
     </div>
 
-
     {# TEACHERS #}
     <div class="panel_cast" id="panel_cast_ucitelia">
-        <h2><a href="#panel_cast_ucitelia">Rozvrhy pre učiteľov</a></h2>
+        <button class="panel_cast_button">Rozvrhy pre učiteľov</button>
         <div class="panel_cast_obsah">
                 <div class="panel_search">
                     <p class="hint">Zadajte meno a/alebo priezvisko učiteľa:</p>
@@ -40,16 +33,13 @@
 
     {# ROOMS #}
     <div class="panel_cast" id="panel_cast_miestnosti">
-        <h2><a href="#panel_cast_miestnosti">Rozvrhy pre miestnosti</a></h2>
+        <button class="panel_cast_button">Rozvrhy pre miestnosti</button>
         <div class="panel_cast_obsah">
-
-            <form method="post" action="">
                 <div class="panel_search">
                     <p class="hint">Zadajte názov miestnosti:</p>
                     <input type="search" id="showRooms" name="showRooms" title="Hľadať miestnosť." placeholder="Hľadať...">
                     <label for="showStudentGroups">Hľadať miestnosti</label>
                 </div>
-            </form>
             <div class="other_links">
                 <a href="{{ url_for('rooms.list_rooms') }}">Rozvrhy všetkých miestností</a>
             </div>
@@ -58,34 +48,19 @@
 
     {# STUDENT GROUPS #}
     <div class="panel_cast" id="panel_cast_kruzky">
-        <h2><a href="#panel_cast_miestnosti">Rozvrhy pre krúžky</a></h2>
+        <button class="panel_cast_button">Rozvrhy pre krúžky</button>
         <div class="panel_cast_obsah">
-
-            <form method="post" action="">
                 <div class="panel_search">
                     <p class="hint">Zadajte názov krúžku:</p>
                     <input type="search" id="showGroups" name="showGroups" title="Hľadať krúžok." placeholder="Hľadať..." >
                     <label for="showStudentGroups">Hľadať krúžky</label>
                 </div>
-            </form>
             <div class="other_links">
                 <a href="{{ url_for('student_groups.list_student_groups') }}">Rozvrhy všetkých krúžkov</a>
             </div>
         </div>
     </div>
 
-        {# TODO: Nastroje#}
-        {#<div class="panel_cast_no_collapse" id="panel_cast_nastroje">#}
-        {#    <h2>Nástroje</h2>#}
-        {#    <div class="panel_cast_obsah">#}
-        {#        <ul>#}
-        {#            <li><a href="/2016-2017-zima/volne-miestnosti/parametre-vyhladavania">Vyhľadávanie voľných miestností</a></li>#}
-        {#            <li><a href="/2016-2017-zima/hodiny-v-intervaloch/parametre-vyhladavania">Vyhľadávanie hodín podľa času</a></li>#}
-        {#            <li><a href="/2016-2017-zima/aktualne">Aktuálne prebiehajúca výučba</a></li>#}
-        {#            <li><a href="/2016-2017-zima/aktualne-volne-miestnosti">Aktuálne voľné miestnosti</a></li>#}
-        {#        </ul>#}
-        {#    </div>#}
-        {#</div>#}
 
     </div>
 </div>

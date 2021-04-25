@@ -165,6 +165,7 @@ form {
     position: relative;
 }
 
+/* PANEL */
 #panel {
     width: 290px;
     position: absolute;
@@ -181,7 +182,7 @@ form {
 }
 
 .panel_cast {
-    margin: 0 0 1.25em 0;
+    margin: 0 0 0.75em 0;
 }
 
 .panel_cast h2, .panel_cast_no_collapse h2 {
@@ -211,9 +212,6 @@ form {
     padding: 4px;
 }
 
-.panel_cast_obsah {
-    padding: 0 2% 0 2%;
-}
 
 
 .panel_cast .other_links, .panel_cast .hint {
@@ -261,6 +259,45 @@ form {
     padding-left: 1.5em;
 }
 
+
+.panel_cast_button {
+    padding: 0.65em 0.5em 0 0.5em;
+    color: white;
+    font-weight: bold;
+    background-color: #333;
+    cursor: pointer;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    border-radius: 4px;
+}
+
+/* Button Icon: */
+.panel_cast_button:after {
+    content: url("/static/images/expand_vertical_more.png");
+    float: right;
+    margin-left: 5px;
+    transform: scale(.8);
+}
+.panel_cast_button.active:after {
+    content: url("/static/images/expand_vertical_less.png");
+    transform: scale(.8);
+}
+panel_cast_button.active, .panel_cast_button:hover {
+  background-color: #555;
+}
+
+.panel_cast_obsah {
+    padding: 0 2% 0 2%;
+
+    /* slide-down animation: */
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    max-height: 0;
+}
+
+/* Vysledky hladania */
 ul.vysledky_hladania {
     padding: 0;
     margin: 0;
@@ -280,6 +317,7 @@ ul.vysledky_hladania li+li {
     margin-top: 0.4em;
 }
 
+/* PREDMETY */
 .predmet_header {
     display: block;
     padding: 3px;
@@ -372,6 +410,7 @@ ul.vysledky_hladania li+li {
     margin-bottom: 0.3em;
 }
 
+/*ROZVRH*/
 #rozvrh {
     border-collapse: collapse;
     width: 100%;
@@ -756,3 +795,4 @@ ul.quickswitch li a {
     margin: .8em 0 .2em;
     line-height: 1.5;
 }
+

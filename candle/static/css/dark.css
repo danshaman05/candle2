@@ -56,13 +56,13 @@ html, body {
     color: white;
 }
 
-.jsactive .panel_cast h2 {
-    background-image: url("../images/bg-collapse-group.png");
-}
+/*.jsactive .panel_cast h2 {*/
+/*    background-image: url("../images/collapse-vertical.png");*/
+/*}*/
 
-.panel_cast.collapsed h2 {
-    background-image: url("../images/bg-expand-group.png");
-}
+/*.panel_cast.collapsed h2 {*/
+/*    background-image: url("../images/expand-vertical.png");*/
+/*}*/
 
 .panel_cast h2 a, .panel_cast_no_collapse h2 {
     color: white;
