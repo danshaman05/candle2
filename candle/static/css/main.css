@@ -214,11 +214,13 @@ form {
 
 
 
-.panel_cast .other_links, .panel_cast .hint {
-    margin-top: 0.5em;
-    margin-bottom: 0.75em;
+.panel_cast .hint {
+    margin: 0.5em 0 0.5em 0;
 }
 
+.panel_cast .other_links {
+    margin: 0.5em 0 0 0;
+}
 
 #panel_schovat {
     width: 32px;
@@ -244,11 +246,21 @@ form {
     height: 21px;
 }
 
-.panel_cast.collapsed .panel_cast_obsah {
-    display: none;
+.panel_cast_obsah {
+    padding: 0 2% 0 2%;
+
+    /* slide-down animation: */
+    overflow: hidden;
+    transition: max-height 0.2s ease-out;
+    max-height: 0;
 }
 
-#panel_cast_nastroje .panel_cast_obsah {
+.panel_cast.collapsed .panel_cast_obsah {
+    display: none;
+    /*margin-bottom: 0.5em;*/
+}
+
+#panel_cast_nastroje {
     padding: 0.3em;
 }
 
@@ -288,14 +300,7 @@ panel_cast_button.active, .panel_cast_button:hover {
   background-color: #555;
 }
 
-.panel_cast_obsah {
-    padding: 0 2% 0 2%;
 
-    /* slide-down animation: */
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-    max-height: 0;
-}
 
 /* Vysledky hladania */
 ul.vysledky_hladania {
