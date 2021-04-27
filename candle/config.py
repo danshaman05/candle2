@@ -11,9 +11,8 @@ if os.path.exists(ENV_FILE_PATH) == False:
 load_dotenv(ENV_FILE_PATH)
 
 
-# TODO: Add more configurations. Check https://flask.palletsprojects.com/en/1.1.x/config/#development-production
 class Config:
-    DEBUG = True
+    DEBUG = False
     TESTING = False
     CSRF_ENABLED = True
     SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -32,3 +31,12 @@ class Config:
     SERVER_PATH = ''
     # MYSQL_DATABASE_CHARSET = 'utf8mb4'      # TODO: use for collation problem (not implemented yet)
     # app.config['SQLALCHEMY_ECHO'] = True    # show queries, that runs "in background"
+
+class ProductionConfig(Config):
+    SERVER_PATH = ''   # change if necessary
+
+class DevelopmentConfig(Config):
+    DEBUG = True
+
+class TestingConfig(Config):
+    DEBUG = True
