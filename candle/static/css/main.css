@@ -165,7 +165,6 @@ form {
     position: relative;
 }
 
-/* PANEL */
 #panel {
     width: 290px;
     position: absolute;
@@ -257,7 +256,6 @@ form {
 
 .panel_cast.collapsed .panel_cast_obsah {
     display: none;
-    /*margin-bottom: 0.5em;*/
 }
 
 #panel_cast_nastroje {
@@ -470,56 +468,46 @@ ul.vysledky_hladania li+li {
     text-align: center;
 }
 
-#rozvrh td.hodina {
-    text-align: center;
-    padding: 2px;
+#rozvrh .lesson {
+    /*text-align: center;*/
+    padding: 0.75em;
     border: 2px solid;
-    border-radius: 8px;
 }
 
-#rozvrh th.zaciatok {
-    width: auto;
-}
-
-#rozvrh td.hodina .wrap {
-    position: relative;
-/*    height: 100%;*/
-}
-
-#rozvrh td.hodina .miestnost {
+#rozvrh .lesson .miestnost {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-#rozvrh td.hodina .typ {
+#rozvrh .lesson .typ {
     position: absolute;
     top: 0;
     right: 0;
     text-align: center;
 }
 
-#rozvrh td.hodina .typ abbr {
+#rozvrh .lesson .typ abbr {
     text-decoration: none;
     border-bottom-style: none;
     padding: 0 0.5em;
 }
 
-#rozvrh td.hodina .predmet_wrap {
+#rozvrh .lesson .predmet_wrap {
     padding-top: 4px;
 }
 
-#rozvrh td.hodina .predmet {
+#rozvrh .lesson .predmet {
     padding-top: 1em;
 }
 
-#rozvrh td.hodina .vybrany {
+#rozvrh .lesson .vybrany {
     position: absolute;
     right: 2px;
     bottom: 2px;
 }
 
-#rozvrh td.hodina .poznamka {
+#rozvrh .lesson .poznamka {
     font-style: italic;
 }
 
@@ -801,3 +789,53 @@ ul.quickswitch li a {
     line-height: 1.5;
 }
 
+
+
+/* ****************** NO-ROW-TIMETABLE  ******************* */
+/*TODO RENAME CLASS NAMES:*/
+
+#rozvrh {
+    display: grid;
+    grid-row-gap: 2px;
+    width: 100%;
+    grid-column-gap: 4px;
+    grid-template-rows: 1fr 18fr;
+    grid-template-columns: 1fr repeat(5, 3fr);
+}
+.row1.day-header{
+    max-height: 2em;
+    text-align: center;
+    background-color: #63ccff;  /* P-Light: https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=039BE5 */
+    font-size: 1.25em;
+    padding: 0.45em;
+    border-radius: 4px;
+}
+.row2 {
+    border: 1px solid;
+    border-color: black;
+    border-radius: 4px;
+}
+.times-column {
+    display: grid;
+    vertical-align: top;
+    text-align: right;
+    border: none;
+}
+
+.start-time {
+    font-size: 1.20em;
+}
+.day-column {
+    background-image: url('/static/images/timetable-column.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    min-height: 420px;      /* IMPORTANT */
+    position: relative;
+}
+
+.lesson {
+    position: absolute;
+    border: 3px solid #73AD21;
+    border-radius: 6px;
+    right: 0;
+}
