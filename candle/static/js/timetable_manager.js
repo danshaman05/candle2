@@ -124,6 +124,7 @@ function subject_checkbox_handler(checkbox) {
        action = "remove";
        $(lessons_cbs_selector).prop("checked", false) ;
     }
+
     $.post(`/add_or_remove_subject`,
     {"subject_id": checkbox.value,
                 "action": action,
