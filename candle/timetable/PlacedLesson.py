@@ -6,7 +6,7 @@ class PlacedLesson:
         self.lesson = lesson
         self.topPercent = self.minutes2percentage(lesson.start)  # position from top in %
         self.column = column
-        self.bottomPercent = 100 - self.minutes2percentage(lesson.end + lesson.get_breaktime()) # position from bottom in %. It corrensponds to the end of the lesson.
+        self.bottomPercent = 100 - self.minutes2percentage(lesson.end + lesson.breaktime) # position from bottom in %. It corrensponds to the end of the lesson.
 
     def get_style(self):
         """Returns css style required for positioning of the lesson in the timetable."""

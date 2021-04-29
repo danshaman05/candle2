@@ -32,7 +32,7 @@
 
 
 {% macro print_lesson_title(lesson) -%}
-    {{ lesson.room.name }}, {{ lesson.get_day_abbr() }} {{ lesson.get_start() }}-{{ lesson.get_end() }}, {{ lesson.subject.short_code }}:
+    {{ lesson.room.name }}, {{ lesson.day_abbreviated }} {{ lesson.start_formatted }}-{{ lesson.end_formatted }}, {{ lesson.subject.short_code }}:
     {% for teacher in lesson.teachers -%}
         {{ teacher.short_name }}
         {%- if not loop.last -%}

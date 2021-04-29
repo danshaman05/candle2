@@ -74,7 +74,7 @@ class Timetable:
             for ci in range(len(self.__layout[di])):
                 self.__lessons_in_progress[di].append(None)
 
-    def __sort_lessons_by_days(self):
+    def __get_lessons_sorted_by_days(self):
         """Sorts all lessons by the days in the week. Each day is a list of lessons."""
         if self.__lessons is None:
             raise Exception("Attribute __lessons cannot be None")
