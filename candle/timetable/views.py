@@ -21,7 +21,8 @@ def user_timetable(id_):
 
     return render_template('timetable/timetable.html',
                            title=ut.name, web_header=ut.name, timetable=t,
-                           user_timetables=user_timetables, selected_timetable_key=id_, show_welcome=False)
+                           user_timetables=user_timetables, selected_timetable_key=id_,
+                           show_welcome=False, editable=True)
 
 
 @timetable.route('/')
