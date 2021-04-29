@@ -17,8 +17,12 @@
             <p> alebo sa <a href="{{ url_for('auth.login') }}">prihláste</a> a budete si môct vytvárať vlastné rozvrhy. [TODO: šípka ukazuje vpravo hore]</p>
         </div>
     {% else %}
-        {% include('timetable/timetable_content.html') %}
-        {% include('timetable/list.html') %}
+        <div id="rozvrh">
+            {% include('timetable/timetable_content.html') %}
+        </div>
+        <table id="rozvrhList" class="vysledky_podrobneho_hladania">
+            {% include('timetable/list.html') %}
+        </table>
     {% endif %}
 {% endblock %}
 

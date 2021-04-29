@@ -48,32 +48,28 @@
 {##################### (end of) MACROs ###################}
 
 
-
 {% set ns = namespace() %}
 {% set ns.layout = timetable.get_layout() %}
 
-<div id="rozvrh">
-    {# ##################### TODO nazov row1 by som zmenil na 'HEADERS'#}
-    <div class="row1" id="timetable-corner"></div>
-    {{ print_day_headers() }}
-    {# ##################### TODO nazov row2 by som zmenil na 'COLUMNS'#}
-    <div class="row2 times-column">
-        {# Pre kazdy cas z pola starting_times: #}
-        {% for time in timetable.get_starting_times() -%}
-            <div class="start-time">{{ time }}</div>
-        {%- endfor %}
-    </div>
-    {#   TODO columns: #}
-    {#Pre kazdy den:#}
-    {% for day in timetable.get_layout() -%}
-        <div class="row2 day-column">
-            {% for ordered_dict in day %}
-{#                TODO#}
-                {% for time in ordered_dict %}
-                    {% include "timetable/timetable_cell.html" %}
-                {% endfor %}
-
-            {% endfor %}
-        </div>
+{# ##################### TODO nazov row1 by som zmenil na 'HEADERS'#}
+<div class="row1" id="timetable-corner"></div>
+{{ print_day_headers() }}
+{# ##################### TODO nazov row2 by som zmenil na 'COLUMNS'#}
+<div class="row2 times-column">
+    {# Pre kazdy cas z pola starting_times: #}
+    {% for time in timetable.get_starting_times() -%}
+        <div class="start-time">{{ time }}</div>
     {%- endfor %}
 </div>
+{#   TODO columns: #}
+{#Pre kazdy den:#}
+{% for day in timetable.get_layout() -%}
+    <div class="row2 day-column">
+        {% for ordered_dict in day %}
+{#                TODO#}
+            {% for time in ordered_dict %}
+                {% include "timetable/timetable_cell.html" %}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{%- endfor %}
