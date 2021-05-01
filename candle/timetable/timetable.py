@@ -101,10 +101,11 @@ class Timetable:
                 while added == False:
                     if column_index == 6:
                         raise Exception("Cannot add more than 6 neighbour lessons in one day!")     # TODO catch exception & test this code!
-                    # if we don't have enough columns, create a new one:
+                    # if we don't have enough columns, create a new one and place here lesson:
                     if len(self.__layout[day_index]) - 1 <  column_index:
-                        new_dict = OrderedDict()
+                        new_dict = OrderedDict({lesson.start: PlacedLesson(lesson, column_index)})
                         self.__layout[day_index].append(new_dict)
+                        break
                     # try to add the lesson:
                     if self.__can_add_lesson(lesson, self.__layout[day_index][column_index]):
                         self.__layout[day_index][column_index][lesson.start] = PlacedLesson(lesson, column_index)
@@ -127,9 +128,6 @@ class Timetable:
         return column[last_lesson_key]
 
 
-
-
-    ########################### "Public" metody: ###########################
     def get_lessons(self):
         return self.__lessons
 
