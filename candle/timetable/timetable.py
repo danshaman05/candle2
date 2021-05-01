@@ -12,11 +12,9 @@ class Timetable:
     """list contains objects of model Lesson"""
 
     __layout: List = None
-    """Layout is a two-dimensional list which represents a timetable layout. 
-     It is a list of 5 lists - one for every day of the week. Every "day" is a list of "columns". Each column 
-    is represented by one OrderedDict which maps starting times to the lesson objects. 
-    (days: List -> columns: List[OrderedDict])
-    Note, that we use OrderedDict instead of dict, because the order of the lessons added to it is important in our algorithm. """
+    """Layout is a three-dimensional list that represents a timetable layout. 
+     It is a list of 5 lists - one for every day of the week. Every "day" is a list of "columns". Each column is a list of PlacedLessons.
+    (days: List -> columns: List[PlacedLesson])"""
 
     __lessons_in_progress: List[List[Optional[str]]] = None
 
@@ -59,12 +57,11 @@ class Timetable:
             self.__starting_times.append(self.minutes_2_time(minutes))
 
     def __init_layout(self):
-        """ Initializes 2d list which contains OrderedDict-s (days -> columns -> OrderedDict)."""
+        """ Initializes layout as a 2d list (day: List -> column: List )."""
         self.__layout = []
         for i in range(5):
-            # I use OrderedDict instead of normal dict, because I want to easily access a last added element:
-            od = OrderedDict()  # TODO: Maybe we should go only with lists...
-            self.__layout.append([od])
+            first_column = []
+            self.__layout.append([first_column])
 
     def __init_last_started_lessons_list(self):
         """Initializes attribute __last_started_lessons"""
@@ -86,6 +83,7 @@ class Timetable:
         return days
 
     def __set_layout(self):
+        # TODO docstring
         """ Nastavi atribut self.__layout. Vlozi lessons do , tak, ze pre kazdy den vytvori
          pozadovany pocet stlpcov. Kazdy stlpec je OrderedDict. Algoritmus sa vzdy snazi pridavat hodiny
          do co "najviac laveho" stlpca. """
@@ -103,16 +101,16 @@ class Timetable:
                         raise Exception("Cannot add more than 6 neighbour lessons in one day!")     # TODO catch exception & test this code!
                     # if we don't have enough columns, create a new one and place here lesson:
                     if len(self.__layout[day_index]) - 1 <  column_index:
-                        new_dict = OrderedDict({lesson.start: PlacedLesson(lesson, column_index)})
-                        self.__layout[day_index].append(new_dict)
+                        new_column = [PlacedLesson(lesson, column_index)]
+                        self.__layout[day_index].append(new_column)
                         break
                     # try to add the lesson:
                     if self.__can_add_lesson(lesson, self.__layout[day_index][column_index]):
-                        self.__layout[day_index][column_index][lesson.start] = PlacedLesson(lesson, column_index)
+                        self.__layout[day_index][column_index].append(PlacedLesson(lesson, column_index))
                         break
                     column_index += 1
 
-    def __can_add_lesson(self, lesson, column: OrderedDict):
+    def __can_add_lesson(self, lesson, column: List):
         """Vrati True, ak sa hodina da vlozit do stlpca (neprebieha momentalne ina hodina v danom stlpci).
         Pre spravnu funkcnost musi byt column zoradeny podla casu."""
 
@@ -124,8 +122,7 @@ class Timetable:
 
     def __get_last_added_lesson(self, column):
         """Vrati lesson, ktora bola naposledy pridana do daneho column."""
-        last_lesson_key = next(reversed(column))
-        return column[last_lesson_key]
+        return column[-1]
 
 
     def get_lessons(self):
@@ -133,10 +130,6 @@ class Timetable:
 
     def get_layout(self):
         return self.__layout
-
-    #TODO overit python hints:
-    # def get_starting_times(self) -> Dict[int, str]:
-    #     return self.__starting_times
 
     def get_starting_times(self) -> List[str]:
         return self.__starting_times
