@@ -56,14 +56,6 @@ html, body {
     color: white;
 }
 
-/*.jsactive .panel_cast h2 {*/
-/*    background-image: url("../images/collapse-vertical.png");*/
-/*}*/
-
-/*.panel_cast.collapsed h2 {*/
-/*    background-image: url("../images/expand-vertical.png");*/
-/*}*/
-
 .panel_cast h2 a, .panel_cast_no_collapse h2 {
     color: white;
 }
@@ -134,41 +126,29 @@ ul.vysledky_hladania li {
     color: white;
 }
 
-#rozvrh td.startOfDayColumn {
-    border-left-color: #4E546A;
-}
-
-#rozvrh td.endOfDayColumn {
-    border-right-color: #4E546A;
-}
-
-#rozvrh .lesson {
+#rozvrh .hodina {
     background: #D3D5DD;
     color: black;
     border-color: #4E546A;
 }
 
-#rozvrh .lesson.highlighted {
+#rozvrh .hodina.highlighted {
     background: #f0ec96;
 }
 
-#rozvrh .lesson.selected {
+#rozvrh .hodina.selected {
     background: #f5f7ff;
 }
 
-#rozvrh .lesson.highlighted.selected {
+#rozvrh .hodina.highlighted.selected {
     background: #fff9c2;
 }
 
-#rozvrh th.zaciatok {
-    background: transparent;
-}
-
-#rozvrh .lesson .miestnost a {
+#rozvrh .hodina .miestnost a {
     color: black;
 }
 
-#rozvrh .lesson a.subjectName {
+#rozvrh .hodina a.subjectName {
     color: black;
 }
 
@@ -176,7 +156,7 @@ ul.vysledky_hladania li {
     background: transparent url("../images/ikona-typ-c.png") center center no-repeat;
 }
 
-#rozvrh .lesson.lesson-type-C .typ {
+#rozvrh .hodina.lesson-type-C .typ {
     background-color: #800000;
     color: white;
 }
@@ -185,7 +165,7 @@ ul.vysledky_hladania li {
     background: transparent url("../images/ikona-typ-k.png") center center no-repeat;
 }
 
-#rozvrh .lesson.lesson-type-K .typ  {
+#rozvrh .hodina.lesson-type-K .typ  {
     background-color: #aa8800;
     color: white;
 }
@@ -194,7 +174,7 @@ ul.vysledky_hladania li {
     background: transparent url("../images/ikona-typ-l.png") center center no-repeat;
 }
 
-#rozvrh .lesson.lesson-type-L .typ  {
+#rozvrh .hodina.lesson-type-L .typ  {
     background-color: #338000;
     color: white;
 }
@@ -203,7 +183,7 @@ ul.vysledky_hladania li {
     background: transparent url("../images/ikona-typ-n.png") center center no-repeat;
 }
 
-#rozvrh .lesson.lesson-type-N .typ  {
+#rozvrh .hodina.lesson-type-N .typ  {
     background-color: #666666;
     color: white;
 }
@@ -212,19 +192,19 @@ ul.vysledky_hladania li {
     background: transparent url("../images/ikona-typ-p.png") center center no-repeat;
 }
 
-#rozvrh .lesson.lesson-type-P .typ  {
+#rozvrh .hodina.lesson-type-P .typ  {
     background-color: #3771c8;
     color: white;
 }
 
 
-#rozvrh .lesson.lesson-type-S .typ  {
+#rozvrh .hodina.lesson-type-S .typ  {
     background-color: #800066;
     color: white;
 }
 
 
-#rozvrh .lesson.lesson-type-V .typ  {
+#rozvrh .hodina.lesson-type-V .typ  {
     background-color: #008066;
     color: white;
 }

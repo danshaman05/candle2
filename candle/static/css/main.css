@@ -8,7 +8,7 @@ html, body {
 }
 
 html.panel_hidden, body.panel_hidden {
-    background-position: -290px 0px;
+    background-position: -290px 0;
 }
 
 form {
@@ -88,7 +88,7 @@ form {
 }
 
 #vrch_riadok2 li input {
-   margin: 0px 0px 0px 5px;
+   margin: 0 0 0 5px;
 }
 
 #vrch2 {
@@ -428,83 +428,47 @@ ul.vysledky_hladania li+li {
     border: 2px solid;
 }
 
-#rozvrh td {
-    height: 3em;
-    vertical-align: top;
-    /* Hm, spodny border sa renderoval vo FF aj do nasledujucej bunky,
-       ak sa v tabulke vyskytol rowspan. Nasledovne nastavenie vyzera, ze
-       problem potlaci.
-    */
-    border-bottom: 1px solid transparent;
-}
-
-#rozvrh td.startOfDayColumn {
-    border-left: 2px solid;
-}
-
-#rozvrh td.endOfDayColumn {
-    border-right: 2px solid;
-}
-
-#rozvrh td.emptyCell {
-    padding: 0;
-    border-bottom-width: 0;
-}
-
-#rozvrh td.cas {
-    text-align: right;
-    padding: 2px;
-}
-
-#rozvrh.precise td {
-    height: 0.3em;
-}
-
-#rozvrh td.zaciatok {
-    width: 4em;
-    text-align: center;
-}
-
-#rozvrh .lesson {
+#rozvrh .hodina {
     /*text-align: center;*/
     padding: 0.75em;
     border: 2px solid;
+    background-color: #D3D5DD;
 }
 
-#rozvrh .lesson .miestnost {
+#rozvrh .hodina .miestnost {
     position: absolute;
     top: 0;
     left: 0;
 }
 
-#rozvrh .lesson .typ {
+#rozvrh .hodina .typ {
     position: absolute;
     top: 0;
     right: 0;
     text-align: center;
 }
 
-#rozvrh .lesson .typ abbr {
+#rozvrh .hodina .typ abbr {
     text-decoration: none;
     border-bottom-style: none;
     padding: 0 0.5em;
 }
 
-#rozvrh .lesson .predmet_wrap {
+#rozvrh .hodina .predmet_wrap {
     padding-top: 4px;
 }
 
-#rozvrh .lesson .predmet {
+#rozvrh .hodina .predmet {
     padding-top: 1em;
 }
 
-#rozvrh .lesson .vybrany {
+#rozvrh .hodina .vybrany {
     position: absolute;
     right: 2px;
     bottom: 2px;
 }
 
-#rozvrh .lesson .poznamka {
+#rozvrh .hodina .poznamka {
     font-style: italic;
 }
 
@@ -512,6 +476,7 @@ ul.vysledky_hladania li+li {
     display: none;
 }
 
+/*   PANEL    */
 #panel .predmet td.lesson-type-cell {
     width: 25px;
 }
@@ -629,7 +594,7 @@ h1 {
     font-weight: normal;
 }
 
-#obsah_in table.vysledky_podrobneho_hladania td
+#obsah_in table.vysledky_podrobneho_hladania td,
 #obsah_in table.aktualne td {
     padding: 0.3em;
 }
@@ -830,9 +795,10 @@ ul.quickswitch li a {
     position: relative;
 }
 
-.lesson {
+.hodina {
     position: absolute;
     border: 3px solid #73AD21;
     border-radius: 6px;
-    right: 0;
+    /*right: 0;*/
+    overflow: hidden;
 }
