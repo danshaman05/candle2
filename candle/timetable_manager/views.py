@@ -158,7 +158,7 @@ def add_or_remove_lesson():
     else:
         raise Exception("Bad JSON data format! Value for 'action' should be 'add' or 'remove'.")
     db.session.commit()
-    t = Timetable(lessons=ut.lessons)
+    t = Timetable(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
 
     timetable_layout = render_template('timetable/timetable_content.html', timetable=t)
     timetable_list = render_template('timetable/list.html', timetable=t)
@@ -188,7 +188,7 @@ def add_or_remove_subject():
     else:
         raise Exception("Bad JSON data format! Value for 'action' should be 'add' or 'remove'.")
     db.session.commit()
-    t = Timetable(lessons=ut.lessons)
+    t = Timetable(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
 
     timetable_layout = render_template('timetable/timetable_content.html', timetable=t)
     timetable_list = render_template('timetable/list.html', timetable=t)
