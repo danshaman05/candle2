@@ -459,7 +459,8 @@ ul.vysledky_hladania li+li {
 }
 
 #rozvrh .hodina .predmet {
-    padding-top: 1em;
+    padding: 3px;
+    text-align: center;
 }
 
 #rozvrh .hodina .vybrany {
