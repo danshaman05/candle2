@@ -85,6 +85,7 @@ form {
 
 #vrch_riadok2 li {
     display: inline-block;
+    margin-right: 2px;
 }
 
 #vrch_riadok2 li input {
@@ -364,6 +365,8 @@ ul.vysledky_hladania li+li {
     bottom: 2px;
     right: 2px;
 }
+
+
 
 .predmet table.vysledky {
     border-collapse: collapse;
@@ -768,10 +771,13 @@ ul.quickswitch li a {
 .row1.day-header{
     max-height: 2em;
     text-align: center;
-    background-color: #63ccff;  /* P-Light: https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=039BE5 */
+    background-color: yellow;  /* P-Light: https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=039BE5 */
     font-size: 1.25em;
     padding: 0.45em;
-    border-radius: 4px;
+    border-radius: 5px;
+    font-weight: bold;
+    border-bottom: 2px solid;
+    color: black;
 }
 .row2 {
     border: 1px solid;
