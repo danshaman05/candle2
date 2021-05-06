@@ -37,6 +37,7 @@ def create_app(config_class=Config):
     from candle.auth.views import auth
     from candle.timetable_manager.views import timetable_manager
     from candle.search.routes import search
+    from candle.errors.handlers import errors
 
     app.register_blueprint(timetable, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(rooms, url_prefix=Config.SERVER_PATH)
@@ -45,5 +46,6 @@ def create_app(config_class=Config):
     app.register_blueprint(auth, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(timetable_manager, url_prefix=Config.SERVER_PATH)
     app.register_blueprint(search, url_prefix=Config.SERVER_PATH)
+    app.register_blueprint(errors, url_prefix=Config.SERVER_PATH)
 
     return app

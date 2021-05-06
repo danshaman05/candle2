@@ -367,7 +367,6 @@ ul.vysledky_hladania li+li {
 }
 
 
-
 .predmet table.vysledky {
     border-collapse: collapse;
     width: 100%;
@@ -809,3 +808,19 @@ ul.quickswitch li a {
     /*right: 0;*/
     overflow: hidden;
 }
+
+.error {
+    text-align: center;
+    margin: 10%;
+    font-size: 1.25em;
+}
+
+.error.image404 {
+    min-width: 100px;
+    max-width: 220px;
+    width: 30%;
+}
+
+/*.error.image404 {*/
+/*    text-align: center;*/
+/*}*/

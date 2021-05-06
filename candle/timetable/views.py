@@ -14,6 +14,9 @@ def user_timetable(id_):
     id_ = int(id_)
     user_timetables = current_user.timetables
     ut = UserTimetable.query.get(id_)
+    if ut is None:
+        return render_template('errors/404.html'), 404
+
     lessons = ut.lessons.order_by(Lesson.day, Lesson.start).all()
     t = Timetable(lessons)
     if t is None:
