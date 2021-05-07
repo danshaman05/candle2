@@ -821,6 +821,10 @@ ul.quickswitch li a {
     width: 30%;
 }
 
+#welcome {
+    font-size: 1.25em;
+}
+
 /*.error.image404 {*/
 /*    text-align: center;*/
 /*}*/

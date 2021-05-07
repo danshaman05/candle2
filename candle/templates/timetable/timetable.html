@@ -11,9 +11,9 @@
 {% block obsah %}
     {% if show_welcome %}
         <div id="welcome">
-            <h2>Vitajte v systéme Candle! </h2>
-            <p>Vyhľadajte rozvrh v ľavom paneli, [TODO: sipky ukazuju dolava do panelu]</p>
-            <p> alebo sa <a href="{{ url_for('auth.login') }}">prihláste</a> a budete si môct vytvárať vlastné rozvrhy. [TODO: šípka ukazuje vpravo hore]</p>
+            <h2>Vitajte v systéme Candle!</h2>
+            <p>Vyhľadajte rozvrh v ľavom paneli,</p>
+            <p> alebo sa <a href="{{ url_for('auth.login') }}">prihláste</a> a budete si môct vytvárať vlastné rozvrhy.</p>
         </div>
     {% else %}
         <div id="rozvrh">
