@@ -282,8 +282,7 @@ form {
     outline: none;
     border-radius: 4px;
 }
-
-/* Button Icon: */
+/* ****************** Button Icon: ******************* */
 .panel_cast_button:after {
     content: url("/static/images/expand_vertical_more.png");
     float: right;
@@ -299,8 +298,7 @@ panel_cast_button.active, .panel_cast_button:hover {
 }
 
 
-
-/* Vysledky hladania */
+/* ******************  Vysledky hladania   ******************* */
 ul.vysledky_hladania {
     padding: 0;
     margin: 0;
@@ -319,8 +317,7 @@ ul.vysledky_hladania li {
 ul.vysledky_hladania li+li {
     margin-top: 0.4em;
 }
-
-/* PREDMETY */
+/* ****************** PREDMETY  ******************* */
 .predmet_header {
     display: block;
     padding: 3px;
@@ -414,7 +411,7 @@ ul.vysledky_hladania li+li {
     margin-bottom: 0.3em;
 }
 
-/*ROZVRH*/
+/* ****************** ROZVRH  ******************* */
 #rozvrh {
     width: 100%;
 }
@@ -479,7 +476,7 @@ ul.vysledky_hladania li+li {
     display: none;
 }
 
-/*   PANEL    */
+/* ****************** PANEL  ******************* */
 #panel .predmet td.lesson-type-cell {
     width: 25px;
 }
@@ -693,7 +690,7 @@ ul.quickswitch li a {
     font-size: 1pc;
 }
 
-/* Icons for lessons:*/
+/* ****************** Lesson icons  ******************* */
 .lesson-type-C .lesson-type-image {
     background: transparent url("/static/images/ikona-typ-c.png") center center no-repeat;
 }
@@ -726,8 +723,7 @@ ul.quickswitch li a {
     background: transparent url("/static/images/ikona-typ-v.png") center center no-repeat;
 }
 
-
-/* JQUERY-UI: */
+/* ****************** JQUERY-UI  ******************* */
 /* source: https://jqueryui.com/autocomplete/#maxheight */
 .ui-autocomplete-loading {
     background:url(http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.2/themes/smoothness/images/ui-anim_basic_16x16.gif) no-repeat right center
@@ -805,10 +801,11 @@ ul.quickswitch li a {
     position: absolute;
     border: 3px solid #73AD21;
     border-radius: 6px;
-    /*right: 0;*/
     overflow: hidden;
 }
 
+
+/* ****************** ERRORS  ******************* */
 .error {
     text-align: center;
     margin: 10%;
@@ -824,7 +821,3 @@ ul.quickswitch li a {
 #welcome {
     font-size: 1.25em;
 }
-
-/*.error.image404 {*/
-/*    text-align: center;*/
-/*}*/
