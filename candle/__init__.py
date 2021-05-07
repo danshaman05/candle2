@@ -13,12 +13,6 @@ csrf = CSRFProtect()    # We need CSRF protection for our AJAX calls. More info:
 db = SQLAlchemy()
 
 
-# TODO Create an error module and move it there
-# @app.errorhandler(CSRFError)
-# def csrf_error(reason):
-#     return render_template('errors/csrf_error.html', reason=reason)
-
-
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)

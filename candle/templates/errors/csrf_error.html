@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
-
-{#  TODO!  #}
-
-CSRF ERROR!
-{{ reason }}
+{% block obsah_in %}
+    <div class="error error403">
+        <h1>Uuups. Chyba (400).</h1>
+        <p>CSRF verifikácia zlyhala. Vaša požiadavka nebola spracovaná.</p>
+        <p>Dôvod: {{ reason }}</p>
+    </div>
+{% endblock %}
