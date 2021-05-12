@@ -1,34 +1,4 @@
-import urllib.request, urllib.error, urllib.parse
-
-import pytest
-from bs4 import BeautifulSoup
-
-@pytest.fixture
-def url_old():
-    """change this URL to match with the old Candle instance"""
-    return "https://candle.fmph.uniba.sk/2016-2017-zima"
-
-@pytest.fixture
-def url_new():
-    """change this URL to match with the server's URL"""
-    return "http://127.0.0.1:5000"
-
-
-def get_page(url=None):
-    """return HTML as string"""
-    if url is None:
-        raise Exception("URL cannot be None!")
-    response = urllib.request.urlopen(url)
-    if response.code != 200:
-        raise Exception("Response code is not 200!")
-    page = response.read().decode("UTF-8")
-    return page
-
-
-def get_bs_soup(page):
-    soup = BeautifulSoup(page, 'html.parser')
-    return soup
-
+from tests.helpers import *
 
 def get_entities(soup=None):
     """Return all entities for the current endpoint.
@@ -119,17 +89,3 @@ def test_groups_count(url_old, url_new):
 def test_groups_sets(url_old, url_new):
     """Both have same student-groups."""
     entities_sets('/kruzky', url_old=url_old, url_new=url_new)
-
-
-
-# Others:
-def print_first_characters(page):
-    """print out first 300 characters of page"""
-	print(page[:300])
-
-
-def save_page_locally(page=None):
-    if page is None:
-        raise Exception("response_byte_object cannot be None!")
-    with open('old_candle_ucitelia.html', 'w') as f:
-        f.write(page)
