@@ -1,5 +1,3 @@
-from typing import List
-
 from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
 from candle import db
@@ -7,13 +5,12 @@ from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Su
 import re
 from candle.timetable.timetable import Timetable
 
-timetable_manager = Blueprint('editable_timetable_manager', __name__)
+timetable_manager = Blueprint('timetable_manager', __name__)
 
 
+@login_required
 @timetable_manager.route("/new_timetable", methods=['POST'])
-# @login_required
 def new_timetable():
-    # TODO docstring
     name = request.form['name']
     name = getUniqueName(name)
     ut = UserTimetable(name=name, user_id=current_user.id)
@@ -22,10 +19,9 @@ def new_timetable():
     return url_for("timetable.user_timetable", id_=ut.id_)
 
 
-@timetable_manager.route("/delete_timetable", methods=['POST'])
 @login_required
+@timetable_manager.route("/delete_timetable", methods=['POST'])
 def delete_timetable():
-    # TODO docstring
     rozvrh_url = request.form['url']
     id_ = int(rozvrh_url.split('/')[-1])  # get id from the URL
     ut = UserTimetable.query.get(id_)
@@ -44,8 +40,8 @@ def delete_timetable():
     return jsonify({'next_url': url_for("timetable.user_timetable", id_=timetable_to_show_id)})
 
 
-@timetable_manager.route("/duplicate_timetable", methods=['POST'])
 @login_required
+@timetable_manager.route("/duplicate_timetable", methods=['POST'])
 def duplicate_timetable():
     timetable_url = request.form['data']
     """Examples of URL:
@@ -83,7 +79,7 @@ def duplicate_timetable():
         new_name = getUniqueName(old_timetable.name)
         new_t = UserTimetable(name=new_name, user_id=current_user.id)
     else:
-        raise Exception("BAD URL format!")  # TODO nahradit Error page
+        raise Exception("BAD URL format!")
 
     db.session.add(new_t)
     for lesson in old_timetable.lessons:
@@ -92,8 +88,8 @@ def duplicate_timetable():
     return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_t.id_)})
 
 
-@timetable_manager.route("/rename_timetable", methods=['POST'])
 @login_required
+@timetable_manager.route("/rename_timetable", methods=['POST'])
 def rename_timetable():
     rozvrh_url = request.form['url']
     new_name = request.form['new_name']
@@ -115,7 +111,7 @@ def rename_timetable():
 
 
 def getUniqueName(name) -> str:
-    """ This method ensures that this timetable will not have the same name as some other one.
+    """Ensure that this timetable will not have the same name as some other one.
     :param name: name for timetable
     :return: unique name for timetable
     """
@@ -140,14 +136,14 @@ def getUniqueName(name) -> str:
         index += 1
 
 
-@timetable_manager.route('/add_or_remove_lesson', methods=['POST'])
 @login_required
+@timetable_manager.route('/add_or_remove_lesson', methods=['POST'])
 def add_or_remove_lesson():
     """Add/Remove lesson to/from user's timetable. Return timetable templates (layout & list)."""
     lesson_id = request.form.get('lesson_id')
     action = request.form.get('action')
     window_pathname = request.form.get('window_pathname')
-    timetable_id = window_pathname.split('/')[-1]  # TODO it's not the best idea to rely just on the URL path... maybe we need state-management
+    timetable_id = window_pathname.split('/')[-1]
     ut = UserTimetable.query.get(timetable_id)
     lesson = Lesson.query.get(lesson_id)
 
@@ -167,8 +163,8 @@ def add_or_remove_lesson():
                     'list_html': timetable_list})
 
 
-@timetable_manager.route('/add_or_remove_subject', methods=['POST'])
 @login_required
+@timetable_manager.route('/add_or_remove_subject', methods=['POST'])
 def add_or_remove_subject():
     """Add/Remove subject (with all lessons) to/from user's timetable. Return timetable templates (layout & list)."""
     subject_id = request.form.get('subject_id')

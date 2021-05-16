@@ -1,5 +1,6 @@
 'use strict';
 
+//Collapsible search menu:
 var buttons = document.getElementsByClassName("panel_cast_button");
 let i;
 for (i = 0; i < buttons.length; i++) {

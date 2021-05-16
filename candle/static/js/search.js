@@ -7,7 +7,7 @@ function redirect( endpoint ) {
 // TEACHERS
 $( function() {
     $( "#showTeachers" ).autocomplete({     // The Autocomplete is a widget from the jQueryUI framework, see https://jqueryui.com/autocomplete/#remote
-      source: $SCRIPT_ROOT + "/get_data/teachers",
+      source: $SCRIPT_ROOT + Flask.url_for('search.get_teachers_json'),
       minLength: 2,
       select: function( event, ui ) {
           redirect('/ucitelia/' + ui.item.id);
@@ -18,7 +18,7 @@ $( function() {
 // ROOMS
 $( function() {
     $( "#showRooms" ).autocomplete({
-      source: $SCRIPT_ROOT + "/get_data/rooms",
+      source: $SCRIPT_ROOT + Flask.url_for('search.get_rooms_json'),
       minLength: 1,
       select: function( event, ui ) {
           redirect('/miestnosti/' + ui.item.id);
@@ -29,7 +29,7 @@ $( function() {
 // STUDENT GROUPS
 $( function() {
     $( "#showGroups" ).autocomplete({
-      source: $SCRIPT_ROOT + "/get_data/groups",
+      source: $SCRIPT_ROOT + Flask.url_for('search.get_groups_json'),
       minLength: 1,
       select: function( event, ui ) {
           redirect('/kruzky/' + ui.item.id);
@@ -44,7 +44,7 @@ function showLessonsBoxList(item_id, item_category){
         'item-id': item_id,
         'item-category': item_category
     }
-    $(selector).load($SCRIPT_ROOT + "/get_html/lessons_list", data).hide().fadeIn();
+    $(selector).load($SCRIPT_ROOT + Flask.url_for('search.lessons_list'), data).hide().fadeIn();
 }
 
 // LESSONS
@@ -74,7 +74,7 @@ $( function() {
         });
 
     $( "#showLessons" ).catcomplete({
-        source: $SCRIPT_ROOT + "/get_data/lesson_search",
+        source: $SCRIPT_ROOT + Flask.url_for('search.lesson_search_handler'),
         delay: 400,     // in miliseconds
         minLength: 1,
         select: function( event, ui ) {

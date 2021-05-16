@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 from candle.config import Config
+from flask_jsglue import JSGlue
 
 
 login_manager = LoginManager()  # keeps session data
@@ -11,6 +12,7 @@ login_manager.login_view = 'auth.login'
 
 csrf = CSRFProtect()    # We need CSRF protection for our AJAX calls. More info: https://stackoverflow.com/questions/31888316/how-to-use-flask-wtforms-csrf-protection-with-ajax
 db = SQLAlchemy()
+jsglue = JSGlue()
 
 
 def create_app(config_class=Config):
@@ -23,6 +25,8 @@ def create_app(config_class=Config):
 
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     app.jinja_env.add_extension('jinja2.ext.do')
+
+    jsglue.init_app(app)
 
     from candle.timetable.views import timetable
     from candle.rooms.views import rooms
