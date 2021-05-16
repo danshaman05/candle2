@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, url_for
 from flask_login import current_user, login_required
 
 from candle import db
@@ -43,7 +43,7 @@ def home():
             ut = user_timetables.order_by(UserTimetable.id_)[-1]
 
         # redirect to user's timetable view:
-        return redirect('/moj-rozvrh/' + str(ut.id_))
+        return redirect(url_for('timetable.user_timetable', id_=ut.id_) )
 
     else:  # user is logged out, show welcome-info:
         return render_template('timetable/timetable.html', title='Rozvrh', show_welcome=True)
