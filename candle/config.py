@@ -28,12 +28,12 @@ class Config:
                             Check README.md for the instructions how to create .env file
                             and store your SECRET_KEY there.""")
 
-    SERVER_PATH = ''
     # MYSQL_DATABASE_CHARSET = 'utf8mb4'      # TODO: use for collation problem (not implemented yet)
     # app.config['SQLALCHEMY_ECHO'] = True    # show queries, that runs "in background"
 
+
 class ProductionConfig(Config):
-    SERVER_PATH = ''   # change if necessary
+    ...
 
 class DevelopmentConfig(Config):
     DEBUG = True

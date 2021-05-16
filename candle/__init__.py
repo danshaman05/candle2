@@ -5,6 +5,8 @@ from flask_wtf.csrf import CSRFProtect
 from candle.config import Config
 from flask_jsglue import JSGlue
 
+from werkzeug.middleware.dispatcher import DispatcherMiddleware
+from werkzeug.wrappers import Response
 
 login_manager = LoginManager()  # keeps session data
 login_manager.login_view = 'auth.login'
@@ -17,6 +19,14 @@ jsglue = JSGlue()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+
+    # Use middleware for 2016 path-prefix. Used for testing.  Source: https://dlukes.github.io/flask-wsgi-url-prefix.html#mwe
+    if app.config['ENV'] == "development":
+        app.wsgi_app = DispatcherMiddleware(
+            Response('Not Found', status=404),
+            {'/2016-2017-zima': app.wsgi_app}
+        )
+
     app.config.from_object(config_class)
 
     db.init_app(app)
@@ -37,13 +47,13 @@ def create_app(config_class=Config):
     from candle.search.routes import search
     from candle.errors.handlers import errors
 
-    app.register_blueprint(timetable, url_prefix=Config.SERVER_PATH)
-    app.register_blueprint(rooms, url_prefix=Config.SERVER_PATH)
-    app.register_blueprint(student_groups, url_prefix=Config.SERVER_PATH)
-    app.register_blueprint(teachers, url_prefix=Config.SERVER_PATH)
-    app.register_blueprint(auth, url_prefix=Config.SERVER_PATH)
-    app.register_blueprint(timetable_manager, url_prefix=Config.SERVER_PATH)
-    app.register_blueprint(search, url_prefix=Config.SERVER_PATH)
-    app.register_blueprint(errors, url_prefix=Config.SERVER_PATH)
+    app.register_blueprint(timetable)
+    app.register_blueprint(rooms)
+    app.register_blueprint(student_groups)
+    app.register_blueprint(teachers)
+    app.register_blueprint(auth)
+    app.register_blueprint(timetable_manager)
+    app.register_blueprint(search)
+    app.register_blueprint(errors)
 
     return app
