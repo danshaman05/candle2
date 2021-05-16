@@ -25,22 +25,19 @@ def login():
     ais_login = request.environ.get('REMOTE_USER')
     user = User.query.filter_by(login=ais_login).first()
     if user:
-        login_user(user, remember=True)  # defaultne si zapamatame usera, aby sa najblizsie nemusel zas prihlasovat
-        #flash('Prihlasovanie prebehlo uspesne.')  # TODO (flash messages by boli krajsie ako nevypisat nic ...)
+        login_user(user, remember=True)
+        #flash('Prihlasovanie prebehlo uspesne.')
 
-        #TODO mozno toto treba riesit cez "next" - co bude bezpecnejsie
-        return redirect(request.referrer) if request.referrer else redirect(url_for("timetable.home"))
+        return redirect(url_for("timetable.home"))
 
     else:
         ...
         #flash('Prihlasenie bolo neuspesne.')
-        # TODO mozno lepsie je presmerovat / ukazat nejaku error page
-    return redirect(request.referrer)   # vrati sa na stranku kde sme boli predtym
+        return redirect(url_for("timetable.home"))
 
 
 @auth.route('/odhlasit', methods=['GET'])
 @require_remote_user
 def logout():
     logout_user()
-    # return redirect(request.referrer)
     return redirect(url_for('timetable.home'))
