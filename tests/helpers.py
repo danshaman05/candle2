@@ -11,9 +11,16 @@ def get_page(url=None):
     page = response.read().decode("UTF-8")
     return page
 
+
 def get_bs_soup(page):
     soup = BeautifulSoup(page, 'html.parser')
     return soup
+
+
+def print_elements_count(elements=None, timetable_instance=None, resource_name=None):
+    """parameter timetable_instance should be "old" or "new"""
+    t_count = len(elements)
+    print(f"\n----There are {t_count} {resource_name} in {timetable_instance} Candle.---")
 
 
 def print_first_characters(page=None):
@@ -24,5 +31,5 @@ def print_first_characters(page=None):
 def save_page_locally(page=None):
     if page is None:
         raise Exception("response_byte_object cannot be None!")
-    with open('old_candle_ucitelia.html', 'w') as f:
+    with open('candle-saved-page.html', 'w') as f:
         f.write(page)

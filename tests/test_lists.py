@@ -1,91 +1,70 @@
-from tests.helpers import *
+from typing import List
 
-def get_entities(soup=None):
-    """Return all entities for the current endpoint.
-    Entity is a teacher, room or a student group."""
-    assert soup is not None
-    # return soup.find("#obsah_in")
-    return soup.select("#obsah_in li")
+import pytest
 
+from tests.helpers import get_page, get_bs_soup, print_elements_count
 
-def print_entities_count(entities=None, timetable_instance=None, entity_name=None):
-    """parameter timetable_instance should be "old" or "new"""
-    t_count = len(entities)
-    print(f"\n----There are {t_count} {entity_name} in {timetable_instance} timetable.---")
+resources = [
+    '/miestnosti',
+    '/ucitelia',
+    '/kruzky'
+]
 
+# A-tag TEXT
+@pytest.mark.parametrize("path", resources)
+def test_same_a_text(path, url_old_2016, url_new_2016):
+    """E.g.: both list of teachers rooms, etc have same text inside <a> elements."""
+    elements1 = get_list_of_elements(url=url_old_2016 + path, selector="#obsah_in li > a")
+    elements2 = get_list_of_elements(url=url_new_2016 + path, selector="#obsah_in li > a")
 
+    texts1: list[str] = get_texts_sorted(elements1)
+    texts2: list[str] = get_texts_sorted(elements2)
 
-def entities_count(endpoint, url_old, url_new):
-    """Both have same entities count. (E.g. same number of teachers in a list.)"""
-    entity = endpoint.strip('/')
-    """entity is room, teacher or student-group"""
+    print_elements_count(texts1, "OLD", "a-text")
+    print_elements_count(texts2, "NEW", "a-text")
 
-    # OLD CANDLE
-    p1 = get_page(url_old + endpoint)
-    s1 = get_bs_soup(p1)
-    entities1 = get_entities(s1)
-    print_entities_count(entities1, "OLD", entity_name=entity)
-
-    # NEW CANDLE
-    p2 = get_page(url_new + endpoint)
-    s2 = get_bs_soup(p2)
-    entities2 = get_entities(s2)
-    print_entities_count(entities2, "NEW", entity_name=entity)
-
-    assert len(entities1) != 0
-    assert len(entities1) == len(entities2)
+    assert len(texts1) != 0
+    assert texts1 == texts2
 
 
-def entities_sets(endpoint, url_old, url_new):
-    """Both have same entities."""
+#A-tag HREF LINK
+@pytest.mark.parametrize("path", resources)
+def test_same_a_href_links(path, url_old_2016, url_new_2016):
+    """E.g.: both list of teachers (or rooms, etc) have same <a> href links."""
 
-    # OLD CANDLE
-    p1 = get_page(url_old + endpoint)
-    s1 = get_bs_soup(page=p1)
-    entities1 = get_entities(soup=s1)
+    elements1 = get_list_of_elements(url=url_old_2016 + path, selector="#obsah_in li > a")
+    elements2 = get_list_of_elements(url=url_new_2016 + path, selector="#obsah_in li > a")
 
-    set1 = set()
-    for e in entities1:
-        set1.add(e.get_text())
+    href_links1 = get_href_links_sorted(elements1)
+    href_links2 = get_href_links_sorted(elements2)
 
-    # NEW CANDLE
-    p2 = get_page(url_new + endpoint)
-    s2 = get_bs_soup(p2)
-    entities2 = get_entities(s2)
+    assert len(href_links1) != 0
+    assert href_links1 == href_links2
 
-    set2 = set()
-    for e in entities2:
-        set2.add(e.get_text())
 
-    assert set1 == set2
+# A-tag ELEMENT
+@pytest.mark.parametrize("path", resources)
+def test_same_a_elements(path, url_old_2016, url_new_2016):
+    """E.g.: both list of teachers (or rooms, etc.) have same <a> elements."""
+
+    list1 = get_list_of_elements(url=url_old_2016 + path, selector="#obsah_in li > a")
+    list2 = get_list_of_elements(url=url_new_2016 + path, selector="#obsah_in li > a")
+
+    assert len(list1) != 0
+    assert list1 == list2
 
 
 
-def test_teachers_count(url_old, url_new):
-    """Both have same teachers count."""
-    entities_count(endpoint='/ucitelia', url_old=url_old, url_new=url_new)
+def get_list_of_elements(url, selector):
+    print(url)
+    page = get_page(url)
+    soup = get_bs_soup(page=page)
+    elements = soup.select(selector)
+    return [e for e in elements]
 
+def get_href_links_sorted(elements: List):
+    return sorted([e['href'] for e in elements])
 
-def test_teachers_sets(url_old, url_new):
-    """Both have same teachers."""
-    entities_sets('/ucitelia', url_old=url_old, url_new=url_new)
-
-
-def test_rooms_count(url_old, url_new):
-    """Both have same rooms count."""
-    entities_count('/miestnosti', url_old=url_old, url_new=url_new)
-
-
-def test_rooms_sets(url_old, url_new):
-    """Both have same rooms."""
-    entities_sets('/miestnosti', url_old=url_old, url_new=url_new)
-
-
-def test_groups_count(url_old, url_new):
-    """Both have same student-groups count."""
-    entities_count('/kruzky', url_old=url_old, url_new=url_new)
-
-
-def test_groups_sets(url_old, url_new):
-    """Both have same student-groups."""
-    entities_sets('/kruzky', url_old=url_old, url_new=url_new)
+def get_texts_sorted(elements: List):
+    """Return sorted list of texts inside <a> tag elements."""
+    return sorted([e.get_text() for e in elements])
