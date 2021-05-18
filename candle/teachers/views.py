@@ -24,7 +24,7 @@ def list_teachers():
 @teachers.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
 def show_timetable(teacher_slug):
     """Show a timetable for a teacher."""
-    teacher = Teacher.query.filter_by(slug=teacher_slug).first_or_404()
+    teacher = Teacher.query.filter(Teacher.slug==teacher_slug).first_or_404()
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
     t = timetable.Timetable(lessons)
