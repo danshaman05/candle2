@@ -1,9 +1,7 @@
-{# Vypise vsetkych ucitelov #}
+{# Print out all teachers #}
 
 {% extends "base.html" %}
-{% block title %}Rozvrhy učiteľov{% endblock %}
 
-{% block web_header %}Rozvrhy učiteľov{% endblock %}
 {% block obsah_in %}
     {{ super() }}
         <p>
@@ -12,7 +10,7 @@
             {% endfor %}
         </p>
 
-    {# Kategorie miestnosti: #}
+        {# For each categeroy:#}
         {% for category_key in teachers_dict %}
         <h2 id="{{ category_key }}">{{ category_key }}</h2>
             <ul>

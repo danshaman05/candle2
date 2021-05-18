@@ -1,10 +1,7 @@
-{# Vypise vsetky kruzky #}
+{# Print out all student-groups #}
 
 {% extends "base.html" %}
 
-{% block title %}Rozvrhy krúžkov{% endblock %}
-
-{% block web_header %}Rozvrhy krúžkov{% endblock %}
 {% block obsah_in %}
     {{ super() }}
         <p>
@@ -13,13 +10,13 @@
             {% endfor %}
         </p>
 
-    {# Kategorie miestnosti: #}
+        {# For each categeroy:#}
         {% for category in student_groups_dict %}
         <h2 id="{{ category }}">{{ category }}</h2>
             <ul>
                 {% for group in student_groups_dict[category] -%}
                     <li><a href="{{ url_for('student_groups.show_timetable', group_name=group.name) }}">{{ group.name }}</a></li>
-                {%-  endfor %}
+                {%- endfor %}
             </ul>
         {% endfor %}
 {% endblock %}

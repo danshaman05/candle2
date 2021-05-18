@@ -41,7 +41,7 @@
         </div>
         <div class="hodina_info">
             <div class="miestnost">
-                <a href="{{ url_for('rooms.show_timetable', room_name=placed_lesson.lesson.room.name) }}">{{ placed_lesson.lesson.room.name }}</a>
+                <a href="{{ url_for('rooms.show_timetable', room_url_id=placed_lesson.lesson.room.name) }}">{{ placed_lesson.lesson.room.name }}</a>
             </div>
             <div class="typ">
                 <abbr title="{{ placed_lesson.lesson.type.name }}">{{ placed_lesson.lesson.type.code| upper()}}</abbr>

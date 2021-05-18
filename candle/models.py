@@ -7,11 +7,29 @@ from candle.timetable.timetable import Timetable
 
 class Room(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
-    name = db.Column(db.String(30), nullable=False)
+    name = db.Column('name', db.String(30), nullable=False)
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
     capacity = db.Column(db.Integer, nullable=False)
     lessons = db.relationship('Lesson', backref='room',
                               lazy='dynamic')  # 'lazy dynamic' allows us to work with lessons attribute like with query ( we can run order_by, etc)
+
+    @property
+    def prefix(self):
+        # xMieRez is a special case:
+        if 'xMieRez' in self.name:
+            return "Ostatné"
+
+        first_dash_position = self.name.find('-')
+        if first_dash_position == -1:  # name doesn't contain '-'
+            return self.name
+        return self.name[0 : first_dash_position]
+
+    @property
+    def url_id(self):
+        if '.' in self.name:     # TODO add more problematic characters
+            return self.id_
+        return self.name
+
 
     def __repr__(self):
         return "<Room %r>" % self.name

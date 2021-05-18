@@ -3,7 +3,7 @@ from collections import OrderedDict
 
 # TODO rename function
 def get_ordered_dict(d: Dict) -> OrderedDict:
-    """Returns the OrderedDict ordered by the Slovak alphabet."""    # TODO describe it more
+    """Return an OrderedDict ordered by the Slovak alphabet."""
     alphabet = "a b c d e f g h ch i j k l m n o p q r s t u v w x y z Ostatné" # TODO improve it
     alphabet = alphabet.split(' ')
     order: Dict = {i: alphabet.index(i) for i in alphabet}
@@ -22,7 +22,7 @@ def get_category(input: str) -> str:
 
 
 def string_starts_with_ch(prefix: str) -> bool:
-    """Returns true if string starts with 'ch'."""
+    """Return  true if string starts with 'ch'."""
     if prefix.lower()[:2] == "ch":
         return True
     return False

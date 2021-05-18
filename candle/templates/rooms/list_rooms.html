@@ -1,8 +1,7 @@
-{# Vypise vsetky miestnosti #}
+{# Print out all rooms #}
 
 {% extends "base.html" %}
 
-{% block web_header %}Rozvrhy miestností{% endblock %}
 {% block obsah_in %}
     {{ super() }}
         <p>
@@ -11,13 +10,13 @@
             {% endfor %}
         </p>
 
-    {# Kategorie miestnosti: #}
+        {# For each categeroy:#}
         {% for room_prefix in rooms_dict %}
         <h2 id="{{ room_prefix }}">{{ room_prefix }}</h2>
             <ul>
-                {% for room in rooms_dict[room_prefix] %}
-                <li><a href="{{ url_for('rooms.show_timetable', room_name = room) }}">{{ room }}</a></li>
-                {%  endfor %}
+                {% for room in rooms_dict[room_prefix] -%}
+                    <li><a href="{{ url_for('rooms.show_timetable', room_url_id=room.url_id) }}">{{ room.name }}</a></li>
+                {%- endfor %}
             </ul>
         {% endfor %}
 {% endblock %}
