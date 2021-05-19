@@ -9,7 +9,7 @@
     <th>Vyučujúci</th>
     <th>Poznámka</th>
 </tr>
-{% for lesson in timetable.get_lessons() -%}
+{%- for lesson in timetable.get_lessons() -%}
     <tr>
         <td>{{ lesson.day_abbreviated }}</td>
         <td>{{ lesson.start_formatted }}</td>
@@ -18,26 +18,26 @@
         <td>{{ lesson.type }}</td>
         <td>{{ lesson.subject.short_code }}</td>
         <td>
-            {% if lesson.subject.short_code -%}
+            {%- if lesson.subject.short_code -%}
                 <a href="{{ timetable.get_infolist_url(lesson.subject.short_code) }}.html">{{ lesson.subject.name }}</a>
-            {% else %}
+            {%- else -%}
                 {{ lesson.subject.name }}
-            {%- endif %}
+            {%- endif -%}
         </td>
         <td>
-            {% for teacher in lesson.teachers -%}
-                {% if teacher.slug %}
+            {%- for teacher in lesson.teachers -%}
+                {%- if teacher.slug %}
                     <a href="{{ url_for('teachers.show_timetable', teacher_slug=teacher.slug) }}">{{ teacher.short_name }}</a>
                     {%- if not loop.last -%}
                         {{ ', ' }}
-                    {%- endif %}
-                {% endif %}
-            {%- endfor %}
+                    {%- endif -%}
+                {%- endif -%}
+            {%- endfor -%}
         </td>
-        {% if lesson.note -%}
+        {%- if lesson.note -%}
             <td>{{ lesson.note }}</td>
         {%- else %}
             <td></td>
-        {% endif %}
+        {%- endif -%}
     </tr>
-{%- endfor %}
+{%- endfor -%}
