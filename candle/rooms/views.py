@@ -2,7 +2,7 @@ from flask import render_template, Blueprint
 from flask_login import current_user
 
 from candle.helpers import get_ordered_dict
-from candle.models import Room, Lesson
+from candle.models import Room, Lesson, Subject
 from candle.timetable import timetable
 from typing import Dict
 
@@ -24,7 +24,8 @@ def list_rooms():
 def show_timetable(room_url_id):
     """Show a timetable for a room."""
     room = Room.query.filter((Room.name == room_url_id) | (Room.id_==room_url_id)).first()
-    lessons = room.lessons.order_by(Lesson.day, Lesson.start).all()
+    lessons = room.lessons.join(Subject).order_by(Lesson.day, Lesson.start, Subject.name).all()
+
 
     t = timetable.Timetable(lessons)
     if current_user.is_authenticated:
