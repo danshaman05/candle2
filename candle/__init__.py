@@ -29,17 +29,13 @@ def create_app(config_class=Config):
 
     app.config.from_object(config_class)
 
-    db.init_app(app)
-    login_manager.init_app(app)
-    csrf.init_app(app)
+    init_extensions(app)
+    register_blueprints(app)
 
-    app.jinja_env.trim_blocks = True
-    app.jinja_env.lstrip_blocks = True
-    app.jinja_env.add_extension('jinja2.ext.loopcontrols')
-    app.jinja_env.add_extension('jinja2.ext.do')
+    return app
 
-    jsglue.init_app(app)
 
+def register_blueprints(app):
     from candle.timetable.views import timetable
     from candle.rooms.views import rooms
     from candle.student_groups.views import student_groups
@@ -58,4 +54,15 @@ def create_app(config_class=Config):
     app.register_blueprint(search)
     app.register_blueprint(errors)
 
-    return app
+
+def init_extensions(app):
+    db.init_app(app)
+    login_manager.init_app(app)
+    csrf.init_app(app)
+
+    app.jinja_env.trim_blocks = True
+    app.jinja_env.lstrip_blocks = True
+    app.jinja_env.add_extension('jinja2.ext.loopcontrols')
+    app.jinja_env.add_extension('jinja2.ext.do')
+
+    jsglue.init_app(app)
