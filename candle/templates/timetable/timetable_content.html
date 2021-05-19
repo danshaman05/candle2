@@ -32,10 +32,10 @@
 {#Pre kazdy den:#}
 {% for day in timetable.get_layout() -%}
     <div class="row2 day-column">
-        {% for column in day %}
-            {% for placed_lesson in column %}
+        {% for column in day -%}
+            {% for placed_lesson in column -%}
                 {% include "timetable/timetable_cell.html" %}
-            {% endfor %}
-        {% endfor %}
+            {%- endfor %}
+        {%- endfor %}
     </div>
 {%- endfor %}
