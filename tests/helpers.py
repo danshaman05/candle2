@@ -1,4 +1,6 @@
 import urllib.request, urllib.error, urllib.parse
+from typing import List
+
 from bs4 import BeautifulSoup
 
 def get_page(url=None):
@@ -17,6 +19,23 @@ def get_bs_soup(page):
     return soup
 
 
+def get_list_of_elements(url, selector):
+    print(url)
+    page = get_page(url)
+    soup = get_bs_soup(page=page)
+    elements = soup.select(selector)
+    return [e for e in elements]
+
+
+def get_href_links_sorted(elements: List):
+    return sorted([e['href'] for e in elements])
+
+
+def get_texts_sorted(elements: List):
+    """Return sorted list of texts inside <a> tag elements."""
+    return sorted([e.get_text() for e in elements])
+
+
 def print_elements_count(elements=None, timetable_instance=None, resource_name=None):
     """parameter timetable_instance should be "old" or "new"""
     t_count = len(elements)
@@ -33,3 +52,15 @@ def save_page_locally(page=None):
         raise Exception("response_byte_object cannot be None!")
     with open('candle-saved-page.html', 'w') as f:
         f.write(page)
+
+
+# def get_first_element(url, selector):
+#     """Return first element that matches css selector.
+#     Raise exception if there are more than one matching elements. """
+#     page = get_page(url)
+#     soup = get_bs_soup(page=page)
+#     elements = soup.select(selector)
+#     if len(elements) > 1:
+#         raise Exception("""There are more than one elements for this selector!
+#                         This method should return only one. Use get_list_of_elements method instead.""")
+#     return elements[0]

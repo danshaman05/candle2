@@ -7,17 +7,21 @@ _path_2016zima = "/2016-2017-zima"
 
 
 @pytest.fixture()
-def url_old_2016():
-    """change this URL to match with the old Candle instance"""
+def url_candle_2016():
+    """Unnecessary unless you test with 2016 Candle instance."""
     return _url_candle + _path_2016zima
 
 
 @pytest.fixture()
-def url_new_2016():
-    """change this URL to match with the server's URL"""
+def url_localhost_2016():
+    """Unnecessary unless you test with 2016 Candle instance."""
     return _url_localhost + _path_2016zima
 
 
-# @pytest.fixture()
-# def url_candle():
-#     return "https://candle.fmph.uniba.sk"
+@pytest.fixture()
+def url_candle():
+    return _url_candle
+
+@pytest.fixture()
+def url_localhost():
+    return _url_localhost
