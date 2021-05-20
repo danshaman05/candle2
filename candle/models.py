@@ -52,7 +52,7 @@ class Teacher(db.Model):
     login = db.Column(db.String(), nullable=True)
     slug = db.Column(db.String(), nullable=True)
     lessons = db.relationship('Lesson', secondary=teacher_lessons, lazy='dynamic',
-                              backref=db.backref('teachers', lazy='joined'))
+                              backref=db.backref('teachers', lazy='joined', order_by="asc(Teacher.family_name)"))
     def __repr__(self):
         return f"Teacher(id:'{self.id_}', :'{self.given_name} {self.family_name}' )"
 

@@ -26,7 +26,7 @@
         </td>
         <td>
             {%- for teacher in lesson.teachers -%}
-                {%- if teacher.slug %}
+                {%- if teacher.slug -%}
                     <a href="{{ url_for('teachers.show_timetable', teacher_slug=teacher.slug) }}">{{ teacher.short_name }}</a>
                     {%- if not loop.last -%}
                         {{ ', ' }}
