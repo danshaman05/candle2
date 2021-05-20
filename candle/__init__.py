@@ -28,10 +28,8 @@ def create_app(config_class=Config):
         )
 
     app.config.from_object(config_class)
-
     init_extensions(app)
     register_blueprints(app)
-
     return app
 
 

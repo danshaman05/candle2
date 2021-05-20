@@ -2,8 +2,7 @@ import pytest
 
 _url_candle = "https://candle.fmph.uniba.sk"
 _url_localhost = "http://127.0.0.1:5000"
-_path_2016zima = "/2016-2017-zima"
-
+_path_2016zima = "/2016-2017-zima"  # remove or edit if testing with newer Candle instance
 
 
 @pytest.fixture()

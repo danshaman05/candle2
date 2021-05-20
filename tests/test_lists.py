@@ -1,5 +1,3 @@
-from typing import List
-
 import pytest
 
 from tests.helpers import print_elements_count, get_list_of_elements, get_href_links_sorted, \
@@ -16,6 +14,7 @@ resources = [
 @pytest.mark.parametrize("path", resources)
 def test_same_a_text(path, url_candle_2016, url_localhost_2016):
     """E.g.: both list of teachers rooms, etc have same text inside <a> elements."""
+
     a_tags1 = get_list_of_elements(url=url_candle_2016 + path, selector="#obsah_in li > a")
     a_tags2 = get_list_of_elements(url=url_localhost_2016 + path, selector="#obsah_in li > a")
 
