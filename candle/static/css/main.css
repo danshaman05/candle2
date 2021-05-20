@@ -284,16 +284,16 @@ form {
 }
 /* ****************** Button Icon: ******************* */
 .panel_cast_button:after {
-    content: url("/static/images/expand_vertical_more.png");
+    content: url("../images/expand_vertical_more.png");
     float: right;
     margin-left: 5px;
     transform: scale(.8);
 }
 .panel_cast_button.active:after {
-    content: url("/static/images/expand_vertical_less.png");
+    content: url("../images/expand_vertical_less.png");
     transform: scale(.8);
 }
-panel_cast_button.active, .panel_cast_button:hover {
+.panel_cast_button.active, .panel_cast_button:hover {
   background-color: #555;
 }
 
@@ -301,8 +301,7 @@ panel_cast_button.active, .panel_cast_button:hover {
 /* ******************  Vysledky hladania   ******************* */
 ul.vysledky_hladania {
     padding: 0;
-    margin: 0;
-    margin-top: 0.5em;
+    margin: 0.5em 0 0;
     max-height: 400px;
     overflow: auto;
     position: relative;
@@ -515,9 +514,8 @@ ul.vysledky_hladania li+li {
 }
 
 .flash_notice {
-    margin: 0 30px;
     padding: 0.4em;
-    margin-bottom: 0.8em;
+    margin: 0 30px 0.8em;
 }
 
 .flash_error {
@@ -692,35 +690,35 @@ ul.quickswitch li a {
 
 /* ****************** Lesson icons  ******************* */
 .lesson-type-C .lesson-type-image {
-    background: transparent url("/static/images/ikona-typ-c.png") center center no-repeat;
+    background: transparent url("../images/ikona-typ-c.png") center center no-repeat;
 }
 
 .lesson-type-K .lesson-type-image {
-    background: transparent url("/static/images/ikona-typ-k.png") center center no-repeat;
+    background: transparent url("../images/ikona-typ-k.png") center center no-repeat;
 }
 
 
 .lesson-type-L .lesson-type-image {
-    background: transparent url("/static/images/ikona-typ-l.png") center center no-repeat;
+    background: transparent url("../images/ikona-typ-l.png") center center no-repeat;
 }
 
 
 .lesson-type-N .lesson-type-image {
-    background: transparent url("/static/images/ikona-typ-n.png") center center no-repeat;
+    background: transparent url("../images/ikona-typ-n.png") center center no-repeat;
 }
 
 
 .lesson-type-P .lesson-type-image {
-    background: transparent url("/static/images/ikona-typ-p.png") center center no-repeat;
+    background: transparent url("../images/ikona-typ-p.png") center center no-repeat;
 }
 
 .lesson-type-S .lesson-type-image {
-    background: transparent url("/static/images/ikona-typ-s.png") center center no-repeat;
+    background: transparent url("../images/ikona-typ-s.png") center center no-repeat;
 }
 
 
 .lesson-type-V .lesson-type-image {
-    background: transparent url("/static/images/ikona-typ-v.png") center center no-repeat;
+    background: transparent url("../images/ikona-typ-v.png") center center no-repeat;
 }
 
 /* ****************** JQUERY-UI  ******************* */
@@ -790,7 +788,7 @@ ul.quickswitch li a {
     font-size: 1.1em;
 }
 .day-column {
-    background-image: url('/static/images/timetable-column.png');
+    background-image: url('../images/timetable-column.png');
     background-repeat: no-repeat;
     background-size: 100% 100%;
     min-height: 420px;      /* IMPORTANT */
