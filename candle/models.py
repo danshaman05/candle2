@@ -58,9 +58,9 @@ class Teacher(db.Model):
 
     @property
     def short_name(self):
-        """E.g. for 'Andrej Blaho' returns 'A. Blaho'"""
-        if self.given_name == '':  # E.g. teacher id 1259
-            return ''
+        """E.g. for 'Andrej Blaho' return 'A. Blaho'"""
+        if self.given_name is None or self.given_name.strip() == '':
+            return self.family_name
         return self.given_name[0] + ". " + self.family_name
 
     @hybrid_property
