@@ -9,7 +9,6 @@ resources = [
     '/kruzky'
 ]
 
-
 # A-tag TEXT
 @pytest.mark.parametrize("path", resources)
 def test_same_a_text(path, url_candle_2016, url_localhost_2016):
@@ -27,7 +26,8 @@ def test_same_a_text(path, url_candle_2016, url_localhost_2016):
     assert len(texts1) != 0
     assert texts1 == texts2
 
-#A-tag HREF LINK
+
+# A-tag HREF LINK
 @pytest.mark.parametrize("path", resources)
 def test_same_a_href_links(path, url_candle_2016, url_localhost_2016):
     """E.g.: both list of teachers (or rooms, etc) have same <a> href links."""
@@ -41,6 +41,7 @@ def test_same_a_href_links(path, url_candle_2016, url_localhost_2016):
     assert len(href_links1) != 0
     assert href_links1 == href_links2
 
+
 # A-tag ELEMENT
 @pytest.mark.parametrize("path", resources)
 def test_same_a_elements(path, url_candle_2016, url_localhost_2016):
@@ -51,7 +52,3 @@ def test_same_a_elements(path, url_candle_2016, url_localhost_2016):
 
     assert len(a_tags1) != 0
     assert a_tags1 == a_tags2
-
-
-
-
