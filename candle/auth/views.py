@@ -11,7 +11,7 @@ auth = Blueprint('auth', __name__)
 def require_remote_user(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
-        if not current_app.config['DEBUG']:
+        if current_app.config['ENV'] == 'production':
             if request.environ.get('REMOTE_USER') is None:
                 flash('User not logged in', 'error')
                 return redirect(url_for('timetable.home'))
