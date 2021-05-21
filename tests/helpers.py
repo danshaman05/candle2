@@ -39,7 +39,7 @@ def get_texts_sorted(elements: List):
 def print_elements_count(elements=None, timetable_instance=None, resource_name=None):
     """parameter timetable_instance should be "old" or "new"""
     t_count = len(elements)
-    print(f"\n----There are {t_count} {resource_name} in {timetable_instance} Candle.---")
+    print(f"\n----There are {t_count} {resource_name}s in {timetable_instance} Candle.---")
 
 
 def print_first_characters(page=None):

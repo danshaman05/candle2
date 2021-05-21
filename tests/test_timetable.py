@@ -38,10 +38,12 @@ def get_sorted_table_rows(tr_list):
             if isinstance(td, NavigableString):
                 continue
             counter += 1
-            if counter == 8:      # we need to skip list of teachers - they are not sorted in the old Candle, so we can't test them by 1:1 method
+            # We need to skip the list of teachers - they are not sorted in the old Candle,
+            #   so we can't test them with 1:1 method:
+            if counter == 8:
                 continue
             lst1.append(td.text.strip())
         lst.append(lst1)
 
-    """Sort rows (tr elements) by these columns: day, start, code, type, note and room"""
+    """Sort rows (tr elements) by columns: day, start, code, type, note and room."""
     return sorted(lst, key=lambda row: (row[0], row[1], row[5], row[4], row[7], row[3]))

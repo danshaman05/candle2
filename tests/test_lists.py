@@ -44,8 +44,8 @@ def test_same_a_href_links(path, url_candle_2016, url_localhost_2016):
 
 # A-tag ELEMENT
 @pytest.mark.parametrize("path", resources)
-def test_same_a_elements(path, url_candle_2016, url_localhost_2016):
-    """E.g.: both list of teachers (or rooms, etc.) have same <a> elements."""
+def test_same_a_elements_in_same_order(path, url_candle_2016, url_localhost_2016):
+    """E.g.: both list of teachers (or rooms, etc.) have same <a> elements in same order."""
 
     a_tags1 = get_list_of_elements(url=url_candle_2016 + path, selector="#obsah_in li > a")
     a_tags2 = get_list_of_elements(url=url_localhost_2016 + path, selector="#obsah_in li > a")
