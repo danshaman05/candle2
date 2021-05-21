@@ -20,11 +20,15 @@ def list_student_groups():
                            title="Rozvrhy krúžkov")
 
 
-@student_groups.route('/kruzky/<group_name>', methods=['GET', 'POST'])
-def show_timetable(group_name):
+@student_groups.route('/kruzky/<group_url_id>', methods=['GET'])
+def show_timetable(group_url_id: str):
     """Show a timetable for a student-group."""
-    web_header = "Rozvrh krúžku " + group_name
-    student_group = StudentGroup.query.filter_by(name=group_name).first()
+
+    if group_url_id.isnumeric():
+        student_group = StudentGroup.query.filter_by(id_=group_url_id).first_or_404()
+    else:
+        student_group = StudentGroup.query.filter_by(name=group_url_id).first_or_404()
+    web_header = "Rozvrh krúžku " + student_group.name
     lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
     t = timetable.Timetable(lessons)
 
@@ -32,8 +36,8 @@ def show_timetable(group_name):
         user_timetables = current_user.timetables
     else:
         user_timetables = None
-    return render_template('timetable/timetable.html', title=group_name,
-                           student_group_name=group_name,
+    return render_template('timetable/timetable.html', title=student_group.name,
+                           student_group_name=student_group.name,
                            web_header=web_header, timetable=t,
                            user_timetables=user_timetables, show_welcome=False)
 

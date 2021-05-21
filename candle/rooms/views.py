@@ -23,9 +23,12 @@ def list_rooms():
 @rooms.route('/miestnosti/<room_url_id>')
 def show_timetable(room_url_id):
     """Show a timetable for a room."""
-    room = Room.query.filter((Room.name == room_url_id) | (Room.id_==room_url_id)).first()
-    lessons = room.lessons.join(Subject).order_by(Lesson.day, Lesson.start, Subject.name).all()
+    if room_url_id.isnumeric():
+        room = Room.query.filter_by(id_=room_url_id).first_or_404()
+    else:
+        room = Room.query.filter_by(name=room_url_id).first_or_404()
 
+    lessons = room.lessons.join(Subject).order_by(Lesson.day, Lesson.start, Subject.name).all()
 
     t = timetable.Timetable(lessons)
     if current_user.is_authenticated:

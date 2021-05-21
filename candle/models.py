@@ -1,3 +1,5 @@
+from typing import Union
+
 from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 
@@ -26,7 +28,7 @@ class Room(db.Model):
 
     @property
     def url_id(self):
-        if '.' in self.name:     # TODO add more problematic characters
+        if '.' in self.name or '_' in self.name:     # TODO add more problematic characters
             return self.id_
         return self.name
 
@@ -81,6 +83,12 @@ class StudentGroup(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
+
+    @property
+    def url_id(self) -> Union[str, int]:
+        if '.' in self.name or '_' in self.name:     # TODO add more problematic characters
+            return self.id_
+        return self.name
 
 
 class Lesson(db.Model):
