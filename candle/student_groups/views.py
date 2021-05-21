@@ -12,7 +12,7 @@ student_groups = Blueprint('student_groups', __name__)
 @student_groups.route('/kruzky')
 def list_student_groups():
     """Show all student groups."""
-    groups_list = StudentGroup.query.all()
+    groups_list = StudentGroup.query.order_by(StudentGroup.name).all()
     student_groups_dict = get_student_groups_sorted_by_first_letter(groups_list)
 
     return render_template('student_groups/list_student_groups.html',
