@@ -14,10 +14,9 @@ def list_student_groups():
     """Show all student groups."""
     groups_list = StudentGroup.query.order_by(StudentGroup.name).all()
     student_groups_dict = get_student_groups_sorted_by_first_letter(groups_list)
-
-    return render_template('student_groups/list_student_groups.html',
-                           student_groups_dict=student_groups_dict,
-                           title="Rozvrhy krúžkov")
+    title = "Rozvrhy krúžkov"
+    return render_template('student_groups/list_student_groups.html', student_groups_dict=student_groups_dict,
+                           title=title, web_header=title)
 
 
 @student_groups.route('/kruzky/<group_url_id>', methods=['GET'])

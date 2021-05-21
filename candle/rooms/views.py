@@ -15,9 +15,9 @@ def list_rooms():
     """Show all rooms."""
     rooms_list = Room.query.order_by(Room.name).all()
     rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # rooms are in the dictionary sorted by prefix
-    return render_template('rooms/list_rooms.html',
-                           rooms_dict=rooms_dict,
-                           title="Rozvrhy miestností")
+    title = "Rozvrhy miestností"
+    return render_template('rooms/list_rooms.html', rooms_dict=rooms_dict, title=title,
+                           web_header=title)
 
 
 @rooms.route('/miestnosti/<room_url_id>')
@@ -27,16 +27,17 @@ def show_timetable(room_url_id):
         room = Room.query.filter_by(id_=room_url_id).first_or_404()
     else:
         room = Room.query.filter_by(name=room_url_id).first_or_404()
+    web_header = "Rozvrh miestnosti " + room.name
 
     lessons = room.lessons.join(Subject).order_by(Lesson.day, Lesson.start, Subject.name).all()
-
     t = timetable.Timetable(lessons)
     if current_user.is_authenticated:
         user_timetables = current_user.timetables
     else:
         user_timetables = None
     return render_template('timetable/timetable.html', room_name=room.name, title=room.name,
-                           timetable=t, user_timetables=user_timetables, show_welcome=False)
+                           timetable=t, user_timetables=user_timetables, show_welcome=False,
+                           web_header=web_header)
 
 
 def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
