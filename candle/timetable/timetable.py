@@ -50,8 +50,9 @@ class Timetable:
 
     def __set_start_time(self):
         """Set the __TIME_MIN attribute according to the first lesson in the layout."""
-        while self.__lessons[0].start < self.__TIME_MIN:
-            self.__TIME_MIN -= self.get_shortest_lesson() + self.get_shortest_breaktime()
+        if self.__lessons:
+            while self.__lessons[0].start < self.__TIME_MIN:
+                self.__TIME_MIN -= self.get_shortest_lesson() + self.get_shortest_breaktime()
 
 
     def __init_layout(self):
