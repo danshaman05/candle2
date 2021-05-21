@@ -1,9 +1,11 @@
 
+
 class PlacedLesson:
     """This class deals with how the lesson is positioned in the timetable.
     PlacedLesson is positioned by CSS position:absolute property."""
 
-    def __init__(self, lesson, column=0):
+    def __init__(self, timetable, lesson, column=0):
+        self.timetable = timetable
         self.lesson = lesson
         self.column = column
         """Column in which the lesson is placed in."""
@@ -56,16 +58,14 @@ class PlacedLesson:
         """Return True, if the lesson has any neighbour, else False."""
         return True if self.neigs else False
 
+    def minutes2percentage(self, minutes):
+        """Calculate time in minutes to percentage of the height of the column."""
+        return int((minutes - self.timetable.minimum_time) / self.timetable.teaching_duration * 100)
+
     @property
     def neigs(self):
         """Return all lesson's neighbours."""
         return self.right_neigs.union(self.left_neigs)
-
-    @classmethod
-    def minutes2percentage(cls, minutes):
-        """Calculate time in minutes to percentage of the height of the column."""
-        return int((minutes - 490) / 700 * 100)
-
 
     def print_info(self):
         """Only for debug purpose. Print info about placed lesson."""

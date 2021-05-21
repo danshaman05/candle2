@@ -1,4 +1,4 @@
-from typing import List, Dict
+from typing import List
 from candle.timetable.placed_lesson import PlacedLesson
 from candle.timetable.component import Component
 
@@ -44,8 +44,15 @@ class Timetable:
     def __init_times(self):
         """Initialize __starting_times list ( starting_times are times when usualy starts lessons at FMFI / FMPH )"""
         self.__starting_times = []
+        self.__set_start_time()
         for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50):
             self.__starting_times.append(self.minutes_2_time(minutes))
+
+    def __set_start_time(self):
+        """Set the __TIME_MIN attribute according to the first lesson in the layout."""
+        while self.__lessons[0].start < self.__TIME_MIN:
+            self.__TIME_MIN -= self.get_shortest_lesson() + self.get_shortest_breaktime()
+
 
     def __init_layout(self):
         """ Initializes layout as a 2d list (day: List -> column: List )."""
@@ -93,7 +100,7 @@ class Timetable:
 
                     # try to add the lesson:
                     if self.__can_add_lesson(lesson, self.__layout[day_index][column_index]):
-                        placed_lesson = PlacedLesson(lesson, column_index)
+                        placed_lesson = PlacedLesson(timetable=self, lesson=lesson, column=column_index)
                         self.__add_neighbours(placed_lesson, day_index)
                         # ak prave ziadna ina hodina nebezi - ide o dalsi komponent:
                         if placed_lesson.has_neigs() == False:
@@ -190,6 +197,15 @@ class Timetable:
     def get_days(self):
         """Return list of days in the week."""
         return self.__DAYS
+
+    @property
+    def minimum_time(self):
+        return self.__TIME_MIN
+
+    @property
+    def teaching_duration(self):
+        """Return how much time in minutes teaching lasts for a whole day."""
+        return self.__TIME_MAX - self.__TIME_MIN
 
 
     @classmethod

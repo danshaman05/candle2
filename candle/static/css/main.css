@@ -788,7 +788,8 @@ ul.quickswitch li a {
     font-size: 1.1em;
 }
 .day-column {
-    background-image: url('../images/timetable-column.png');
+    /*TODO this currently doesn't fit with all layouts:
+       background-image: url('../images/timetable-column.png');*/
     background-repeat: no-repeat;
     background-size: 100% 100%;
     min-height: 420px;      /* IMPORTANT */
