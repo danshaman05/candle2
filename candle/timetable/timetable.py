@@ -21,23 +21,19 @@ class Timetable:
     __SHORTEST_LESSON = 45
     __SHORTEST_BREAKTIME = 5
 
-    __starting_times: Dict[int, str] = {}   # TODO move to new data/CSV-file?
-    """ List of starting times - times in which lessons usually starts at FMPH (from 8:10 to 19:00)
-        Data format:
-            key: time in minutes
-            value: time in format H:MM
-    """
-    # List of starting times (from 8:10 to 19:00)
+    #  List of starting times - times in which lessons usually starts at FMPH (from 8:10 to 19:00)
     __starting_times: List[str] = []
 
-    __DAYS = "Pondelok, Utorok, Streda, Štvrtok, Piatok".split(',')     # TODO move to new folder data/CSV-file?
+    __DAYS = "Pondelok, Utorok, Streda, Štvrtok, Piatok".split(',')
     """list of days of the week"""
 
-
     # Infolist URL:
-    __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'  # TODO move to new data/CSV-file?
+    __INFOLIST_URL = 'https://sluzby.fmph.uniba.sk/infolist/SK/'
 
     def __init__(self, lessons=None):
+        """
+        :param lessons: Objects of the Lesson model sorted by day and start-time.
+        """
         if lessons is None:
             raise Exception("Cannot create timetable without lessons!")
         self.__lessons = lessons
