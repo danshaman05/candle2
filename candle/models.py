@@ -6,8 +6,18 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from candle import db, login_manager
 from candle.timetable.timetable import Timetable
 
+class Entity(db.Model):
+    """Abstract class for Room, Student-Group and Teacher."""
+    __abstract__ = True
 
-class Room(db.Model):
+    @property
+    def url_id(self) -> Union[str, int]:
+        if '.' in self.name or '_' in self.name:     # TODO add more problematic characters
+            return self.id_
+        return self.name
+
+
+class Room(Entity):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column('name', db.String(30), nullable=False)
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
@@ -26,13 +36,6 @@ class Room(db.Model):
             return self.name
         return self.name[0 : first_dash_position]
 
-    @property
-    def url_id(self):
-        if '.' in self.name or '_' in self.name:     # TODO add more problematic characters
-            return self.id_
-        return self.name
-
-
     def __repr__(self):
         return "<Room %r>" % self.name
 
@@ -40,10 +43,9 @@ class Room(db.Model):
 teacher_lessons = db.Table('teacher_lessons',
                            db.Column('id', db.Integer, primary_key=True),
                            db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id')),
-                           db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id'))
-                           )
+                           db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')))
 
-class Teacher(db.Model):
+class Teacher(Entity):
     id_ = db.Column('id', db.Integer, primary_key=True)
     given_name = db.Column(db.String(50), nullable=True)
     family_name = db.Column(db.String(50), nullable=False)
@@ -79,16 +81,11 @@ student_group_lessons = db.Table('student_group_lessons',
                                  db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')))
 
 
-class StudentGroup(db.Model):
+class StudentGroup(Entity):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
 
-    @property
-    def url_id(self) -> Union[str, int]:
-        if '.' in self.name or '_' in self.name:     # TODO add more problematic characters
-            return self.id_
-        return self.name
 
 
 class Lesson(db.Model):
