@@ -16,7 +16,7 @@ class Timetable:
 
 
     # teaching times:
-    __TIME_MIN = 490    # teaching starts at 8:10 (490 in minutes)
+    __TIME_MIN = 440    # teaching starts at 7:20 (440 in minutes)
     __TIME_MAX = 1190
     __SHORTEST_LESSON = 45
     __SHORTEST_BREAKTIME = 5

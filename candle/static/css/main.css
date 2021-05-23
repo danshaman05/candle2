@@ -758,7 +758,7 @@ ul.quickswitch li a {
     grid-row-gap: 2px;
     width: 100%;
     grid-column-gap: 4px;
-    grid-template-rows: 1fr 18fr;
+    grid-template-rows: 1fr 19fr;
     grid-template-columns: 1fr repeat(5, 5fr);
 }
 .row1.day-header{
@@ -788,9 +788,11 @@ ul.quickswitch li a {
     font-size: 1.1em;
 }
 .day-column {
-    /*TODO this currently doesn't fit with all layouts:
-       background-image: url('../images/timetable-column.png');*/
-    background-repeat: no-repeat;
+background-image:
+        repeating-linear-gradient(to bottom,
+            transparent 1px,
+            transparent 47px,
+            silver 48px);
     background-size: 100% 100%;
     min-height: 420px;      /* IMPORTANT */
     position: relative;
