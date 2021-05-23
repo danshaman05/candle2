@@ -44,15 +44,17 @@ class Timetable:
     def __init_times(self):
         """Initialize __starting_times list ( starting_times are times when usualy starts lessons at FMFI / FMPH )"""
         self.__starting_times = []
-        self.__set_start_time()
+        self.__set_teaching_times()
         for minutes in range(self.__TIME_MIN, self.__TIME_MAX, 50):
             self.__starting_times.append(self.minutes_2_time(minutes))
 
-    def __set_start_time(self):
-        """Set the __TIME_MIN attribute according to the first lesson in the layout."""
+    def __set_teaching_times(self):
+        """Set the __TIME_MIN and __TIME_MAX attributes according to the first and last lessons in the layout."""
         if self.__lessons:
             while self.__lessons[0].start < self.__TIME_MIN:
                 self.__TIME_MIN -= self.get_shortest_lesson() + self.get_shortest_breaktime()
+            while self.__lessons[-1].end > self.__TIME_MAX:
+                self.__TIME_MAX += self.get_shortest_lesson() + self.get_shortest_breaktime()
 
 
     def __init_layout(self):
