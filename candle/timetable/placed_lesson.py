@@ -26,7 +26,7 @@ class PlacedLesson:
     @property
     def get_css_style(self):
         """Returns css style required for positioning of the lesson in the timetable."""
-        return f"top: {self.topPercent}%; bottom: {self.bottomPercent}%; left: {self.get_left_position()}%; right: {self.get_right_position()}%;"
+        return f"top: calc({self.topPercent}% + 2px); bottom: {self.bottomPercent}%; left: {self.get_left_position()}%; right: {self.get_right_position()}%;"
 
     def get_start(self):
         return self.lesson.start
@@ -60,7 +60,7 @@ class PlacedLesson:
 
     def minutes2percentage(self, minutes):
         """Calculate time in minutes to percentage of the height of the column."""
-        return int((minutes - self.timetable.minimum_time) / self.timetable.teaching_duration * 100)
+        return (minutes - self.timetable.minimum_time) / self.timetable.teaching_duration * 100
 
     @property
     def neigs(self):
