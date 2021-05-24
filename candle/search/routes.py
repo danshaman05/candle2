@@ -6,7 +6,7 @@ from candle.models import Teacher, Room, StudentGroup, Lesson, teacher_lessons, 
 search = Blueprint('search', __name__)
 
 
-@search.route('/get_data/teachers', methods=['GET'])
+@search.route('/get_data/teachers')
 def get_teachers_json():
     """Find all teachers by query string typed in the search bar and send them back in a JSON.
 
@@ -31,7 +31,8 @@ def get_teachers_json():
         array.append({'id': t.slug, 'value': t.fullname})     # do not change key names ('id' and 'value')! (the jquery-ui autocomplete widget will not work)
     return jsonify(array)
 
-@search.route('/get_data/rooms', methods=['GET'])
+
+@search.route('/get_data/rooms')
 def get_rooms_json():
     """Find all rooms by query string typed in the search bar and send them back in a JSON.
 
@@ -51,7 +52,8 @@ def get_rooms_json():
         array.append({'id': r.name, 'value': r.name})
     return jsonify(array)
 
-@search.route('/get_data/groups', methods=['GET'])
+
+@search.route('/get_data/groups')
 def get_groups_json():
     """Find all student groups by query string typed in the search bar and send them back in a JSON.
 
@@ -115,7 +117,6 @@ def lesson_search_handler():
         array.append({'id': r.name, 'label': r.name, 'category': 'Miestnosti'})
 
     return jsonify(array)
-
 
 @search.route('/get_html/lessons_list', methods=['POST'])
 def lessons_list():
