@@ -788,12 +788,6 @@ ul.quickswitch li a {
     font-size: 1.1em;
 }
 .day-column {
-background-image:
-        repeating-linear-gradient(to bottom,
-            transparent 1px,
-            transparent 47px,
-            silver 48px);
-    background-size: 100% 100%;
     min-height: 420px;      /* IMPORTANT */
     position: relative;
 }
