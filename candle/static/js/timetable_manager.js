@@ -103,8 +103,13 @@ function lesson_checkbox_handler(checkbox, subject_id) {
                 "action": action,
                 "window_pathname": window.location.pathname}
     ).done(function (data){
+        if (data['success'] === 0){
+            $(checkbox).prop('checked', false);
+            alert("Cannot add more neighbour lessons to one day!");
+        } else {
             $('#rozvrh').html(data['layout_html']);
             $('#rozvrhList').html(data['list_html']);
+        }
     })
 }
 
@@ -130,7 +135,7 @@ function subject_checkbox_handler(checkbox) {
                 "action": action,
                 "window_pathname": window.location.pathname}
     ).done(function (data){
-            $('#rozvrh').html(data['layout_html']);
-            $('#rozvrhList').html(data['list_html']);
+        $('#rozvrh').html(data['layout_html']);
+        $('#rozvrhList').html(data['list_html']);
     })
 }

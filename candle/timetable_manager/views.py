@@ -3,7 +3,7 @@ from flask_login import current_user, login_required
 from candle import db
 from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Subject
 import re
-from candle.timetable.timetable import Timetable
+from candle.timetable.timetable import Timetable, TooManyColumnsError
 
 timetable_manager = Blueprint('timetable_manager', __name__)
 
@@ -154,12 +154,16 @@ def add_or_remove_lesson():
     else:
         raise Exception("Bad JSON data format! Value for 'action' should be 'add' or 'remove'.")
     db.session.commit()
-    t = Timetable(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
+
+    try:
+        t = Timetable(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
+    except TooManyColumnsError:
+        return jsonify({'success': 0})
 
     timetable_layout = render_template('timetable/timetable_content.html', timetable=t)
     timetable_list = render_template('timetable/list.html', timetable=t)
 
-    return jsonify({'layout_html': timetable_layout,
+    return jsonify({'success':1, 'layout_html': timetable_layout,
                     'list_html': timetable_list})
 
 

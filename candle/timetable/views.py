@@ -21,7 +21,6 @@ def user_timetable(id_):
     t = Timetable(lessons)
     if t is None:
         raise Exception("Timetable cannot be None")
-
     return render_template('timetable/timetable.html',
                            title=ut.name, web_header=ut.name, timetable=t,
                            user_timetables=user_timetables, selected_timetable_key=id_,

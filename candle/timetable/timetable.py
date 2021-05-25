@@ -2,6 +2,8 @@ from typing import List
 from candle.timetable.placed_lesson import PlacedLesson
 from candle.timetable.component import Component
 
+class TooManyColumnsError(Exception):
+    '''Handle error when there are too many adjacent lessons in one day.'''
 
 class Timetable:
     """Class represents a timetable."""
@@ -93,8 +95,8 @@ class Timetable:
             for lesson in lessons:
                 column_index = 0
                 while True:
-                    if column_index >= 6:
-                        raise Exception("Cannot add more than 6 neighbour lessons to one day!")     # TODO flash error message instead of exception & test this code!
+                    if column_index >= 9:
+                        raise TooManyColumnsError()
                     # if we don't have enough columns:
                     if len(self.__layout[day_index]) - 1 <  column_index:
                         # create a new one and place here lesson:
