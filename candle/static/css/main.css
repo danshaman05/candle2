@@ -435,8 +435,8 @@ ul.vysledky_hladania li+li {
 
 #rozvrh .hodina .miestnost {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: 1px;
+    left: 2px;
 }
 
 #rozvrh .hodina .typ {
@@ -764,13 +764,13 @@ ul.quickswitch li a {
 .row1.day-header{
     max-height: 2em;
     text-align: center;
-    background-color: yellow;  /* P-Light: https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=039BE5 */
-    font-size: 1.25em;
+    background-color: skyblue;  /* P-Light: https://material.io/resources/color/#!/?view.left=0&view.right=0&primary.color=039BE5 */
+    font-size: 1.15em;
     padding: 0.45em;
     border-radius: 5px;
     font-weight: bold;
     border-bottom: 2px solid;
-    color: black;
+    color: darkslategrey;
 }
 .row2 {
     border: 1px solid;
