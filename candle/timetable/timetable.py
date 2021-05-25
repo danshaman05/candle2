@@ -67,7 +67,7 @@ class Timetable:
             self.__layout.append([first_column])
 
     def __get_lessons_sorted_by_days(self):
-        """Sorts all lessons by the days in the week. Each day is a list of lessons."""
+        """ Sort all lessons by days in the week. Each day is a list of lessons."""
         if self.__lessons is None:
             raise Exception("Attribute __lessons cannot be None")
         days: List[List] = []
@@ -78,16 +78,17 @@ class Timetable:
         return days
 
     def __set_layout(self):
-        # TODO docstring
-        """ Nastavi atribut self.__layout. Vlozi lessons do , tak, ze pre kazdy den vytvori
-         pozadovany pocet stlpcov. Kazdy stlpec je OrderedDict. Algoritmus sa vzdy snazi pridavat hodiny
-         do co "najviac laveho" stlpca. """
-        lessons_sorted_by_days = self.__get_lessons_sorted_by_days()
+        """ Set the self.__layout class attribute.
+
+        For each day create sub-columns and components and place there lessons.
+        The algorithm always tries to add hours to the "most left" column."""
 
         # Sort lessons into days of the week:
+        lessons_sorted_by_days = self.__get_lessons_sorted_by_days()
+
         # for each day:
         for day_index, lessons in enumerate(lessons_sorted_by_days):
-            # for each lesson in the day:
+            # for each lesson in that day:
             # create a list of components and insert the first component
             components = []
             comp_ind = -1    # component index
@@ -107,27 +108,29 @@ class Timetable:
                     if self.__can_add_lesson(lesson, self.__layout[day_index][column_index]):
                         placed_lesson = PlacedLesson(timetable=self, lesson=lesson, column=column_index)
                         self.__add_neighbours(placed_lesson, day_index)
-                        # ak prave ziadna ina hodina nebezi - ide o dalsi komponent:
+                        # if there isn't any other ongoing lesson - we have a new component:
                         if placed_lesson.has_neigs() == False:
-                            # staremu komponentu este nastavme sirku:
+                            # first set the width of previous component:
                             if len(components) > 0:
                                 components[comp_ind].set_width(max_component_width + 1)
                                 max_component_width = 0
 
+                            # create a new component:
+                            components.append(Component())
                             comp_ind += 1
-                            components.append(Component())      # create new component
 
+                        # Add the placed_lesson to the component and to the layout:
                         self.__layout[day_index][column_index].append(placed_lesson)
-                        components[comp_ind].add(placed_lesson)  # add placed_lesson to component
-                        # finding the maximum: column used in this component = component width:
+                        components[-1].add(placed_lesson)
+
+                        # find the maximum column used in this component = component width:
                         if placed_lesson.column > max_component_width:
                             max_component_width = placed_lesson.column
                         break
                     column_index += 1
 
-            # set component width for all lessons in the component:
+            # set the component width for all lessons in the last component:
             if components:
-                # set width for last component also:
                 components[-1].set_width(max_component_width + 1)
                 for c in components:
                     c.set_lessons_width()

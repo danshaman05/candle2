@@ -128,7 +128,7 @@ def lessons_list():
     pathname = request.form.get('pathname')
     pathname_list = pathname.split('/')
 
-    #Let's check, if we can show add/remove checkboxes:
+    # Check, if we can show add/remove checkboxes:
     show_checkboxes, timetable_lessons = False, []     # init variables
     if "moj-rozvrh" in pathname_list:   # if we are on the user's timetable route:
         show_checkboxes = True
