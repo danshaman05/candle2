@@ -1,11 +1,13 @@
 class Component:
-    """Component consists of PlacedLesson class objects."""
+    """Component consists of PlacedLesson class objects.
 
-    # TODO docstrings
+    This class represents a component of PlacedLesson objects (PL). Each PL is linked to its
+     sibling PLs in the same column (day)."""
+
     def __init__(self):
         self.placed_lessons = []
         self.width = None
-        """width is the number of columns needed for fitting the component into a day"""
+        """width is the number of sub-columns needed for fitting the component into a day"""
 
     def add(self, placed_lesson):
         self.placed_lessons.append(placed_lesson)

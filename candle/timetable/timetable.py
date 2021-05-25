@@ -80,16 +80,16 @@ class Timetable:
         """ Nastavi atribut self.__layout. Vlozi lessons do , tak, ze pre kazdy den vytvori
          pozadovany pocet stlpcov. Kazdy stlpec je OrderedDict. Algoritmus sa vzdy snazi pridavat hodiny
          do co "najviac laveho" stlpca. """
-        lessons_sorted_by_days = self.__get_lessons_sorted_by_days()  # usporiadame si hodiny podla dni v tyzdni
+        lessons_sorted_by_days = self.__get_lessons_sorted_by_days()
 
-        # Rozdelime hodiny do stlpcov:
-        # pre kazdy den v tyzdni
+        # Sort lessons into days of the week:
+        # for each day:
         for day_index, lessons in enumerate(lessons_sorted_by_days):
-            # pre kazdu hodinu v danom dni:
+            # for each lesson in the day:
             # create a list of components and insert the first component
             components = []
             comp_ind = -1    # component index
-            max_component_column = 0
+            max_component_width = 0
             for lesson in lessons:
                 column_index = 0
                 while True:
@@ -109,8 +109,8 @@ class Timetable:
                         if placed_lesson.has_neigs() == False:
                             # staremu komponentu este nastavme sirku:
                             if len(components) > 0:
-                                components[comp_ind].set_width(max_component_column + 1)
-                                max_component_column = 0
+                                components[comp_ind].set_width(max_component_width + 1)
+                                max_component_width = 0
 
                             comp_ind += 1
                             components.append(Component())      # create new component
@@ -118,15 +118,15 @@ class Timetable:
                         self.__layout[day_index][column_index].append(placed_lesson)
                         components[comp_ind].add(placed_lesson)  # add placed_lesson to component
                         # finding the maximum: column used in this component = component width:
-                        if placed_lesson.column > max_component_column:
-                            max_component_column = placed_lesson.column
+                        if placed_lesson.column > max_component_width:
+                            max_component_width = placed_lesson.column
                         break
                     column_index += 1
 
             # set component width for all lessons in the component:
             if components:
                 # set width for last component also:
-                components[-1].set_width(max_component_column + 1)
+                components[-1].set_width(max_component_width + 1)
                 for c in components:
                     c.set_lessons_width()
 
