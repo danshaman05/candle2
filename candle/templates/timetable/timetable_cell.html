@@ -35,9 +35,7 @@
 <div class="hodina {{ print_lesson_type(placed_lesson.lesson) }}" style="{{ placed_lesson.get_css_style }}" title="{{ print_lesson_title(placed_lesson.lesson) }}">
     <div class="wrap">
         <div class="predmet_wrap">
-            <div class="predmet">
-                <a class="subjectName" href="{{ timetable.get_infolist_url(placed_lesson.lesson.subject.short_code) }}">{{ placed_lesson.lesson.subject.name }}</a>
-            </div>
+            <div class="predmet">{{ placed_lesson.lesson.subject.name }}</div>
         </div>
         <div class="hodina_info">
             <div class="miestnost">
@@ -46,6 +44,10 @@
             <div class="typ">
                 <abbr title="{{ placed_lesson.lesson.type.name }}">{{ placed_lesson.lesson.type.code| upper()}}</abbr>
             </div>
+            <div class="infolist">
+                <a href="{{ timetable.get_infolist_url(placed_lesson.lesson.subject.short_code) }}" title="Prejsť na informačný list."><i class="fa fa-info-circle" aria-hidden="true"></i></a>
+            </div>
         </div>
+
     </div>
 </div>

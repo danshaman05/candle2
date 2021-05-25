@@ -805,7 +805,15 @@ background-image:
     overflow: hidden;
 }
 
+.hodina .infolist {
+    position: absolute;
+    bottom: 2px;
+    left: 3px;
+}
 
+.hodina .infolist > a > i{
+    color: silver;
+}
 /* ****************** ERRORS  ******************* */
 .error {
     text-align: center;
