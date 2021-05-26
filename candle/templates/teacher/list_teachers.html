@@ -15,7 +15,7 @@
         <h2 id="{{ category_key }}">{{ category_key }}</h2>
             <ul>
                 {% for teacher in teachers_dict[category_key] -%}
-                    <li><a href="{{ url_for('teachers.show_timetable', teacher_slug=teacher.slug) }}">{{ teacher.family_name }}
+                    <li><a href="{{ url_for('teacher.show_timetable', teacher_slug=teacher.slug) }}">{{ teacher.family_name }}
                     {%- if teacher.given_name -%}
                         {{ ', ' }}{{ teacher.given_name }}
                     {%- endif -%}

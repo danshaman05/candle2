@@ -35,18 +35,18 @@ def create_app(config_class=Config):
 
 def register_blueprints(app):
     from candle.timetable.views import timetable
-    from candle.rooms.views import rooms
-    from candle.student_groups.views import student_groups
-    from candle.teachers.views import teachers
+    from candle.entities.room.views import room
+    from candle.entities.student_group.views import student_group
+    from candle.entities.teacher.views import teacher
     from candle.auth.views import auth
-    from candle.timetable_manager.views import timetable_manager
-    from candle.search.routes import search
+    from candle.timetable_manager.handlers import timetable_manager
+    from candle.search.handlers import search
     from candle.errors.handlers import errors
 
     app.register_blueprint(timetable)
-    app.register_blueprint(rooms)
-    app.register_blueprint(student_groups)
-    app.register_blueprint(teachers)
+    app.register_blueprint(room)
+    app.register_blueprint(student_group)
+    app.register_blueprint(teacher)
     app.register_blueprint(auth)
     app.register_blueprint(timetable_manager)
     app.register_blueprint(search)

@@ -8,20 +8,20 @@ from candle.helpers import get_ordered_dict, string_starts_with_ch
 import unidecode
 
 
-teachers = Blueprint('teachers', __name__)
+teacher = Blueprint('teacher', __name__)
 
 
-@teachers.route('/ucitelia')
+@teacher.route('/ucitelia')
 def list_teachers():
     """Show all teachers in the list."""
     teachers_list = Teacher.query.order_by(Teacher.family_name).all()
     teachers_dict = get_teachers_sorted_by_family_name(teachers_list)
     title = "Rozvrhy učiteľov"
-    return render_template('teachers/list_teachers.html', teachers_dict=teachers_dict, title=title,
+    return render_template('teacher/list_teachers.html', teachers_dict=teachers_dict, title=title,
                            web_header=title)
 
 
-@teachers.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
+@teacher.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
 def show_timetable(teacher_slug):
     """Show a timetable for a teacher."""
     teacher = Teacher.query.filter(Teacher.slug==teacher_slug).first_or_404()

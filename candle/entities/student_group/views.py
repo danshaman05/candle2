@@ -5,21 +5,21 @@ from flask_login import current_user
 from candle.models import StudentGroup, Lesson
 from candle.timetable import timetable
 
-student_groups = Blueprint('student_groups', __name__)
+student_group = Blueprint('student_group', __name__)
 
 
 
-@student_groups.route('/kruzky')
+@student_group.route('/kruzky')
 def list_student_groups():
     """Show all student groups."""
     groups_list = StudentGroup.query.order_by(StudentGroup.name).all()
     student_groups_dict = get_student_groups_sorted_by_first_letter(groups_list)
     title = "Rozvrhy krúžkov"
-    return render_template('student_groups/list_student_groups.html', student_groups_dict=student_groups_dict,
+    return render_template('student_group/list_student_groups.html', student_groups_dict=student_groups_dict,
                            title=title, web_header=title)
 
 
-@student_groups.route('/kruzky/<group_url_id>', methods=['GET'])
+@student_group.route('/kruzky/<group_url_id>', methods=['GET'])
 def show_timetable(group_url_id: str):
     """Show a timetable for a student-group."""
 

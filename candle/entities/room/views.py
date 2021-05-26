@@ -7,20 +7,20 @@ from candle.timetable import timetable
 from typing import Dict
 
 
-rooms = Blueprint('rooms', __name__)
+room = Blueprint('room', __name__)
 
 
-@rooms.route('/miestnosti')
+@room.route('/miestnosti')
 def list_rooms():
     """Show all rooms."""
     rooms_list = Room.query.order_by(Room.name).all()
     rooms_dict = get_rooms_sorted_by_dashes(rooms_list)  # rooms are in the dictionary sorted by prefix
     title = "Rozvrhy miestností"
-    return render_template('rooms/list_rooms.html', rooms_dict=rooms_dict, title=title,
+    return render_template('room/list_rooms.html', rooms_dict=rooms_dict, title=title,
                            web_header=title)
 
 
-@rooms.route('/miestnosti/<room_url_id>')
+@room.route('/miestnosti/<room_url_id>')
 def show_timetable(room_url_id):
     """Show a timetable for a room."""
     if room_url_id.isnumeric():

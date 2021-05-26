@@ -14,7 +14,7 @@
         <td>{{ lesson.day_abbreviated }}</td>
         <td>{{ lesson.start_formatted }}</td>
         <td>{{ lesson.end_formatted }}</td>
-        <td><a href="{{ url_for('rooms.show_timetable', room_url_id=lesson.room.name) }}">{{ lesson.room.name }}</a></td>
+        <td><a href="{{ url_for('room.show_timetable', room_url_id=lesson.room.name) }}">{{ lesson.room.name }}</a></td>
         <td>{{ lesson.type }}</td>
         <td>{{ lesson.subject.short_code }}</td>
         <td>
@@ -27,7 +27,7 @@
         <td>
             {%- for teacher in lesson.teachers -%}
                 {%- if teacher.slug -%}
-                    <a href="{{ url_for('teachers.show_timetable', teacher_slug=teacher.slug) }}">{{ teacher.short_name }}</a>
+                    <a href="{{ url_for('teacher.show_timetable', teacher_slug=teacher.slug) }}">{{ teacher.short_name }}</a>
                     {%- if not loop.last -%}
                         {{ ', ' }}
                     {%- endif -%}
