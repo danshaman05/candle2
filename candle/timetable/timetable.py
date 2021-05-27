@@ -80,12 +80,11 @@ class Timetable:
     def __set_layout(self):
         """ Set the self.__layout class attribute.
 
-        For each day create sub-columns and components and place there lessons.
-        The algorithm always tries to add hours to the "most left" column."""
+        For each day sort lessons to sub-columns and components.
+        The algorithm always tries to add hours to the most left column."""
 
         # Sort lessons into days of the week:
         lessons_sorted_by_days = self.__get_lessons_sorted_by_days()
-
         # for each day:
         for day_index, lessons in enumerate(lessons_sorted_by_days):
             # for each lesson in that day:

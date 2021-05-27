@@ -39,24 +39,24 @@ def show_timetable(teacher_slug):
 
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:
-    """
-    Vrati dictionary ucitelov zotriedenych podla zaciatocneho pismena v priezvisku.
-    vstup: zoznam objektov triedy models.Teacher zoradenych podla priezviska (family_name)
-    vystup: dictionary { string, List objektov Teacher}, kde klucom je zac. pismeno priezviska
-    a hodnoty su objekty triedy Teacher
+    """Return a dictionary that contains teachers sorted by the first letter of the family_name.
+
+    input: list of objects of model Teacher sorted by the family_name
+    output: dictionary (string: List[Teacher]), where the key is the first letter of family_name
+    and values are objects of model Teacher
     """
     d = {}
-    others = []    # specialna kategoria
+    others = []    # special category
     for teacher in teachers:
         if teacher.family_name is None or teacher.family_name == '':
             continue
 
-        first_letter = (teacher.family_name[0])     # ziskame prve pismeno family_name (priezviska)
-        if first_letter.isalpha() == False:    # niektore mena mozu zacinat na '.', alebo '/', (a pod.), tieto osetrime samostatne v kategorii Ostatne
+        first_letter = (teacher.family_name[0])
+        if first_letter.isalpha() == False:    # some names starts with dot '.', or forwardslash '/', (etc.)
             others.append(teacher)
             continue
-        first_letter = unidecode.unidecode(first_letter)    # zmenime ho na pismeno bez diakritiky (napr. Č zmeni na C)
-        if string_starts_with_ch(teacher.family_name):     # family_name zacinajuce na CH je samostatna kategoria.
+        first_letter = unidecode.unidecode(first_letter)    # get rid of diacritics  (Č change to C)
+        if string_starts_with_ch(teacher.family_name):     # family_name that starts on a "CH" is a special category
             first_letter = 'Ch'
         if first_letter not in d:
             d[first_letter] = []
