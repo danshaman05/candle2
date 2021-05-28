@@ -5,7 +5,10 @@ from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Su
 import re
 from candle.timetable.timetable import Timetable, TooManyColumnsError
 
-timetable_manager = Blueprint('timetable_manager', __name__)
+timetable_manager = Blueprint('timetable_manager',
+                              __name__,
+                              static_folder='static',
+                              static_url_path='/timetable_manager/static')
 
 
 @login_required

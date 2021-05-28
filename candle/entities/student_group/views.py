@@ -5,7 +5,9 @@ from flask_login import current_user
 from candle.models import StudentGroup, Lesson
 from candle.timetable import timetable
 
-student_group = Blueprint('student_group', __name__)
+student_group = Blueprint('student_group',
+                          __name__,
+                          template_folder='templates')
 
 
 

@@ -284,13 +284,13 @@ form {
 }
 /* ****************** Button Icon: ******************* */
 .panel_cast_button:after {
-    content: url("../images/expand_vertical_more.png");
+    content: url("../../panel/static/expand_vertical_more.png");
     float: right;
     margin-left: 5px;
     transform: scale(.8);
 }
 .panel_cast_button.active:after {
-    content: url("../images/expand_vertical_less.png");
+    content: url("../../panel/static/expand_vertical_less.png");
     transform: scale(.8);
 }
 .panel_cast_button.active, .panel_cast_button:hover {

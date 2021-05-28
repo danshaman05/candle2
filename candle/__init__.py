@@ -8,6 +8,7 @@ from flask_jsglue import JSGlue
 from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.wrappers import Response
 
+
 login_manager = LoginManager()  # keeps session data
 login_manager.login_view = 'auth.login'
 # login_manager.login_message_category = 'info'  # flash message category (not yet implemented)
@@ -34,21 +35,23 @@ def create_app(config_class=Config):
 
 
 def register_blueprints(app):
+    from candle.auth.views import auth
     from candle.timetable.views import timetable
+    from candle.timetable_manager.handlers import timetable_manager
     from candle.entities.room.views import room
     from candle.entities.student_group.views import student_group
     from candle.entities.teacher.views import teacher
-    from candle.auth.views import auth
-    from candle.timetable_manager.handlers import timetable_manager
+    from candle.panel.panel import panel
     from candle.search.handlers import search
     from candle.errors.handlers import errors
 
+    app.register_blueprint(auth)
     app.register_blueprint(timetable)
+    app.register_blueprint(timetable_manager)
     app.register_blueprint(room)
     app.register_blueprint(student_group)
     app.register_blueprint(teacher)
-    app.register_blueprint(auth)
-    app.register_blueprint(timetable_manager)
+    app.register_blueprint(panel)
     app.register_blueprint(search)
     app.register_blueprint(errors)
 

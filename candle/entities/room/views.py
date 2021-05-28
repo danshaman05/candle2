@@ -1,13 +1,15 @@
 from flask import render_template, Blueprint
 from flask_login import current_user
 
-from candle.helpers import get_ordered_dict
+from candle.entities.helpers import get_ordered_dict
 from candle.models import Room, Lesson, Subject
 from candle.timetable import timetable
 from typing import Dict
 
 
-room = Blueprint('room', __name__)
+room = Blueprint('room',
+                 __name__,
+                 template_folder='templates')
 
 
 @room.route('/miestnosti')

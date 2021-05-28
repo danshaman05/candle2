@@ -5,7 +5,10 @@ from candle import db
 from candle.models import UserTimetable, Lesson
 from candle.timetable.timetable import Timetable
 
-timetable = Blueprint('timetable', __name__)
+timetable = Blueprint('timetable',
+                      __name__,
+                      template_folder='templates',
+                      static_folder='static')
 
 
 @timetable.route('/moj-rozvrh/<id_>')

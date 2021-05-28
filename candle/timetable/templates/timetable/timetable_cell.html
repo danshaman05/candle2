@@ -3,7 +3,7 @@
     {{ "lesson-type-" + lesson.type.code| upper()}}
 {%- endmacro %}
 
-{#TODO We will use this macro later, when we will no more use 1:1 testing with old Candle.#}
+{#TODO Fixed title. We will use this macro later, when we will no more use 1:1 testing with old Candle.#}
 {#{% macro print_lesson_title(lesson) -%}#}
 {#    {{ lesson.room.name }}, {{ lesson.get_day_abbr() }} {{ lesson.get_start() }}-{{ lesson.get_end() }}#}
 {#    {%- if lesson.subject.short_code -%}#}
@@ -48,6 +48,5 @@
                 <a href="{{ timetable.get_infolist_url(placed_lesson.lesson.subject.short_code) }}" title="Prejsť na informačný list."><i class="fa fa-info-circle" aria-hidden="true"></i></a>
             </div>
         </div>
-
     </div>
 </div>

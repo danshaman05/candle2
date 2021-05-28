@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template
 from flask_wtf.csrf import CSRFError
 
-errors = Blueprint('errors', __name__)
+errors = Blueprint('errors',
+                   __name__,
+                   template_folder='templates')
 
 @errors.app_errorhandler(404)
 def error_404(error):

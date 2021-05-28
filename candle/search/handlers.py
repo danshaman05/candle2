@@ -3,7 +3,11 @@
 from flask import Blueprint, request, jsonify, render_template
 from candle.models import Teacher, Room, StudentGroup, Lesson, teacher_lessons, Subject, UserTimetable
 
-search = Blueprint('search', __name__)
+search = Blueprint('search',
+                   __name__,
+                   template_folder='templates',
+                   static_folder='static',
+                   static_url_path='/search/static')
 
 
 @search.route('/get_data/teachers')
@@ -156,6 +160,6 @@ def lessons_list():
             .order_by(Subject.short_code).all()
 
 
-    return render_template('panel/lessons-search_results.html', subjects=subjects,
+    return render_template('search/lessons-search_results.html', subjects=subjects,
                            show_checkboxes=show_checkboxes, timetable_lessons=timetable_lessons)
 

@@ -30,7 +30,7 @@
 
 {% block script %}
     {{ super() }}
-    <script src={{ url_for('static', filename='js/timetable_manager.js') }}></script>
-    <script src={{ url_for('static', filename='js/panel.js') }}></script>
-    <script src={{ url_for('static', filename='js/search.js') }}></script>
+    <script src={{ url_for('timetable_manager.static', filename='timetable_manager.js') }}></script>
+    <script src={{ url_for('panel.static', filename='panel.js') }}></script>
+        <script src={{ url_for('search.static', filename='search.js') }}></script>
 {% endblock %}

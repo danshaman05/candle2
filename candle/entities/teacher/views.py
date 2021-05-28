@@ -4,11 +4,13 @@ from flask_login import current_user
 from typing import Dict
 from candle.models import Lesson, Teacher
 from candle.timetable import timetable
-from candle.helpers import get_ordered_dict, string_starts_with_ch
+from candle.entities.helpers import get_ordered_dict, string_starts_with_ch
 import unidecode
 
 
-teacher = Blueprint('teacher', __name__)
+teacher = Blueprint('teacher',
+                    __name__,
+                    template_folder='templates')
 
 
 @teacher.route('/ucitelia')
