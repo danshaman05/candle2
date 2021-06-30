@@ -12,7 +12,7 @@ class Entity(db.Model):
 
     @property
     def url_id(self) -> Union[str, int]:
-        if '.' in self.name or '_' in self.name:     # TODO add more problematic characters
+        if '.' in self.name or '_' in self.name:     # TODO add more problematic characters if necessary
             return self.id_
         return self.name
 
