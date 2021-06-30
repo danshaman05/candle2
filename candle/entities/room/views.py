@@ -1,7 +1,6 @@
 from flask import render_template, Blueprint
 from flask_login import current_user
 
-from candle.entities.helpers import get_ordered_dict
 from candle.models import Room, Lesson, Subject
 from candle.timetable import timetable
 from typing import Dict
@@ -64,5 +63,5 @@ def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
             d[prefix] = []
         d[prefix].append(room)
 
-    return get_ordered_dict(d)
+    return d
 
