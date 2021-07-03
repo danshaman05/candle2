@@ -19,7 +19,7 @@ def require_remote_user(func):
     return wrapper
 
 
-@auth.route('/prihlasit', methods=['GET'])
+@auth.route('/prihlasit')
 @require_remote_user
 def login():
     ais_login = request.environ.get('REMOTE_USER')
@@ -36,7 +36,7 @@ def login():
         return redirect(url_for("timetable.home"))
 
 
-@auth.route('/odhlasit', methods=['GET'])
+@auth.route('/odhlasit')
 @require_remote_user
 def logout():
     logout_user()

@@ -21,7 +21,7 @@ def list_student_groups():
                            title=title, web_header=title)
 
 
-@student_group.route('/kruzky/<group_url_id>', methods=['GET'])
+@student_group.route('/kruzky/<group_url_id>')
 def show_timetable(group_url_id: str):
     """Show a timetable for a student-group."""
 
