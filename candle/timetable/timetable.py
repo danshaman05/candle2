@@ -95,7 +95,7 @@ class Timetable:
             for lesson in lessons:
                 column_index = 0
                 while True:
-                    if column_index >= 9:
+                    if column_index >= 6:
                         raise TooManyColumnsError()
                     # if we don't have enough columns:
                     if len(self.__layout[day_index]) - 1 <  column_index:
