@@ -23,7 +23,7 @@ def list_teachers():
                            web_header=title)
 
 
-@teacher.route('/ucitelia/<teacher_slug>', methods=['GET', 'POST'])
+@teacher.route('/ucitelia/<teacher_slug>')
 def show_timetable(teacher_slug):
     """Show a timetable for a teacher."""
     teacher = Teacher.query.filter(Teacher.slug==teacher_slug).first_or_404()
