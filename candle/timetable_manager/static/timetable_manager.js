@@ -6,7 +6,7 @@ $(function(){
     if (name == null){
         return;
     }
-    $.post($SCRIPT_ROOT + Flask.url_for('timetable.new_timetable'),{"name": name})
+    $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.new_timetable'),{"name": name})
         .done(function (data){
           window.location.replace(data);
         })
@@ -80,8 +80,9 @@ function lesson_checkbox_handler(checkbox, subject_id) {
 
     // CSS selector for subject's checkbox:
     let subject_cb_selector = `input[class='predmet_check'][value='${subject_id}']`;
-    // CSS selector for subject's lessons checkboxes:
+    // CSS selector for all subject's lessons checkboxes:
     let lessons_cbs_selector = `input[name=${subject_id}]`;
+    let lesson_id = checkbox.value;
 
     let action = "";
     if (checkbox.checked){
@@ -91,17 +92,19 @@ function lesson_checkbox_handler(checkbox, subject_id) {
             // set subject's checkbox to "checked" also:
             $(subject_cb_selector).prop("checked", true) ;
         }
+
     } else {
        action = "remove"
         // uncheck subject's checkbox:
         $(subject_cb_selector).prop("checked", false) ;
     }
-    $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.add_or_remove_lesson'),
-    {"lesson_id": checkbox.value,
-                "action": action,
-                "window_pathname": window.location.pathname}
-    ).done(function (data){
-        if (data['success'] === 0){
+    $.ajax(
+    {
+        url: window.location.href + `/${action}/${lesson_id}`,
+        type: 'POST'
+    })
+    .done(function (data) {
+        if (data['success'] === false){
             $(checkbox).prop('checked', false);
             alert("Cannot add more neighbour lessons to one day!");
         } else {
