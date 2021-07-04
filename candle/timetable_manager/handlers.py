@@ -11,16 +11,6 @@ timetable_manager = Blueprint('timetable_manager',
                               static_url_path='/timetable_manager/static')
 
 
-@login_required
-@timetable_manager.route("/new_timetable", methods=['POST'])
-def new_timetable():
-    name = request.form['name']
-    name = getUniqueName(name)
-    ut = UserTimetable(name=name, user_id=current_user.id)
-    db.session.add(ut)
-    db.session.commit()
-    return url_for("timetable.user_timetable", id_=ut.id_)
-
 
 @login_required
 @timetable_manager.route("/delete_timetable", methods=['POST'])
@@ -42,53 +32,6 @@ def delete_timetable():
         timetable_to_show_id = current_user.timetables.order_by(UserTimetable.id_)[-1].id_
     return jsonify({'next_url': url_for("timetable.user_timetable", id_=timetable_to_show_id)})
 
-
-@login_required
-@timetable_manager.route("/duplicate_timetable", methods=['POST'])
-def duplicate_timetable():
-    timetable_url = request.form['data']
-    """Examples of URL:
-     /ucitelia/Stanislav-Antalic
-     /miestnosti/B1-302
-     /kruzky/1mFAA
-     /moj-rozvrh/751
-    """
-    url_list = timetable_url.split('/')
-    if "ucitelia" in url_list:
-        i = url_list.index("ucitelia")
-        slug = url_list[i + 1]  # position of the teacher's slug in the URL
-        old_timetable = Teacher.query.filter_by(slug=slug).first_or_404()
-        new_name = getUniqueName(old_timetable.short_name)
-        new_t = UserTimetable(name=new_name, user_id=current_user.id)
-
-    elif "miestnosti" in url_list:
-        i = url_list.index("miestnosti")
-        name = url_list[i + 1]
-        old_timetable = Room.query.filter_by(name=name).first_or_404()
-        new_name = getUniqueName(old_timetable.name)
-        new_t = UserTimetable(name=new_name, user_id=current_user.id)
-
-    elif "kruzky" in url_list:
-        i = url_list.index("kruzky")
-        name = url_list[i + 1]
-        old_timetable = StudentGroup.query.filter_by(name=name).first_or_404()
-        new_name = getUniqueName(old_timetable.name)
-        new_t = UserTimetable(name=new_name, user_id=current_user.id)
-
-    elif "moj-rozvrh" in url_list:
-        i = url_list.index("moj-rozvrh")
-        id_ = url_list[i + 1]
-        old_timetable = UserTimetable.query.get(id_)
-        new_name = getUniqueName(old_timetable.name)
-        new_t = UserTimetable(name=new_name, user_id=current_user.id)
-    else:
-        raise Exception("BAD URL format!")
-
-    db.session.add(new_t)
-    for lesson in old_timetable.lessons:
-        new_t.lessons.append(lesson)
-    db.session.commit()
-    return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_t.id_)})
 
 
 @login_required
@@ -112,31 +55,6 @@ def rename_timetable():
                     'title': ut.name,
                     'title_html': title_html})
 
-
-def getUniqueName(name) -> str:
-    """Ensure that this timetable will not have the same name as some other one.
-    :param name: name for timetable
-    :return: unique name for timetable
-    """
-    pattern = '^(.*) \(\d+\)$'
-    match = re.match(pattern, name)
-    # if the name is in the format "Name (x)", where x is a number:
-    if match:
-        name = match.group(1)  # get the name before parenthesis (without a number)
-
-    # get the names of the current timetables:
-    timetables_names = [t.name for t in current_user.timetables]
-
-    if name not in timetables_names:
-        return name
-
-    # add "(index)" after the name, and try if it is unique:
-    index = 2
-    while True:
-        new_name = f"{name} ({index})"
-        if new_name not in timetables_names:
-            return new_name
-        index += 1
 
 
 @login_required

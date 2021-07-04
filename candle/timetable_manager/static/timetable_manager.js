@@ -6,7 +6,7 @@ $(function(){
     if (name == null){
         return;
     }
-    $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.new_timetable'),{"name": name})
+    $.post($SCRIPT_ROOT + Flask.url_for('timetable.new_timetable'),{"name": name})
         .done(function (data){
           window.location.replace(data);
         })
@@ -38,14 +38,11 @@ $(function(){
 
 $(function(){
   $("#duplikovat_rozvrh").on('click',function(event) {
-      // event.preventDefault();
-          let rozvrh_url = window.location.href;
-          $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.duplicate_timetable'),
-              {"data": rozvrh_url})
-            .done(function (data) {
-                window.location.href = data['next_url'];
-                // TODO show flask-message, or some informative pop-up
-          })
+      $.post(window.location.href + '/duplicate')
+        .done(function (data) {
+            window.location.href = data['next_url'];
+            // TODO show flask-message, or some informative pop-up
+      })
   });
 });
 
