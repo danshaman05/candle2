@@ -92,7 +92,6 @@ function lesson_checkbox_handler(checkbox, subject_id) {
             // set subject's checkbox to "checked" also:
             $(subject_cb_selector).prop("checked", true) ;
         }
-
     } else {
        action = "remove"
         // uncheck subject's checkbox:
@@ -100,7 +99,7 @@ function lesson_checkbox_handler(checkbox, subject_id) {
     }
     $.ajax(
     {
-        url: window.location.href + `/${action}/${lesson_id}`,
+        url: window.location.href + `/lesson/${lesson_id}/${action}`,
         type: 'POST'
     })
     .done(function (data) {
@@ -130,12 +129,10 @@ function subject_checkbox_handler(checkbox) {
        action = "remove";
        $(lessons_cbs_selector).prop("checked", false) ;
     }
-
-    $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.add_or_remove_subject'),
-    {"subject_id": checkbox.value,
-                "action": action,
-                "window_pathname": window.location.pathname}
-    ).done(function (data){
+    $.ajax({
+        url: window.location.href + `/subject/${subject_id}/${action}`,
+        type: 'POST'
+    }).done(function (data){
         $('#rozvrh').html(data['layout_html']);
         $('#rozvrhList').html(data['list_html']);
     })

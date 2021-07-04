@@ -134,9 +134,9 @@ def rename_timetable(id_):
 
 
 @login_required
-@timetable_manager.route('/moj-rozvrh/<timetable_id>/<action>/<lesson_id>', methods=['POST'])
+@timetable_manager.route('/moj-rozvrh/<timetable_id>/lesson/<lesson_id>/<action>', methods=['POST'])
 def add_or_remove_lesson(timetable_id, lesson_id, action):
-    """Add the lesson to the timetable."""
+    """Add or remove lesson to/from the timetable."""
     ut = UserTimetable.query.get_or_404(timetable_id)
     lesson = Lesson.query.get_or_404(lesson_id)
 
@@ -160,15 +160,10 @@ def add_or_remove_lesson(timetable_id, lesson_id, action):
                     'list_html': timetable_list})
 
 
-
 @login_required
-@timetable_manager.route('/add_or_remove_subject', methods=['POST'])
-def add_or_remove_subject():
+@timetable_manager.route('/moj-rozvrh/<timetable_id>/subject/<subject_id>/<action>', methods=['POST'])
+def add_or_remove_subject(timetable_id, subject_id, action):
     """Add/Remove subject (with all lessons) to/from user's timetable. Return timetable templates (layout & list)."""
-    subject_id = request.form.get('subject_id')
-    action = request.form.get('action')
-    window_pathname = request.form.get('window_pathname')
-    timetable_id = window_pathname.split('/')[-1]  # TODO it's not the best idea to rely just on the URL path... maybe we need state-management
     ut = UserTimetable.query.get(timetable_id)
     subject = Subject.query.get(subject_id)
 
@@ -180,7 +175,7 @@ def add_or_remove_subject():
         for l in subject.lessons:
             ut.lessons.remove(l)
     else:
-        raise Exception("Bad JSON data format! Value for 'action' should be 'add' or 'remove'.")
+        raise Exception("Bad route format! There should be either 'add' or 'remove' action in the URL!")
     db.session.commit()
     t = Timetable(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
 
