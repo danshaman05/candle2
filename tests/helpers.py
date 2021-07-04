@@ -52,15 +52,3 @@ def save_page_locally(page=None):
         raise Exception("response_byte_object cannot be None!")
     with open('candle-saved-page.html', 'w') as f:
         f.write(page)
-
-
-# def get_first_element(url, selector):
-#     """Return first element that matches css selector.
-#     Raise exception if there are more than one matching elements. """
-#     page = get_page(url)
-#     soup = get_bs_soup(page=page)
-#     elements = soup.select(selector)
-#     if len(elements) > 1:
-#         raise Exception("""There are more than one elements for this selector!
-#                         This method should return only one. Use get_list_of_elements method instead.""")
-#     return elements[0]
