@@ -46,7 +46,7 @@ def duplicate_student_group_timetable(group_url_id):
 @login_required
 @timetable_manager.route("/moj-rozvrh/<id_>/duplicate", methods=['POST'])
 def duplicate_my_timetable(id_):
-    old_timetable = UserTimetable.query.get(id_)
+    old_timetable = UserTimetable.query.get_or_404(id_)
     new_timetable_id = duplicate_timetable(old_timetable)
     return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_timetable_id)})
 
@@ -76,10 +76,8 @@ def getUniqueName(name) -> str:
     # if the name is in the format "Name (x)", where x is a number:
     if match:
         name = match.group(1)  # get the name before parenthesis (without a number)
-
     # get the names of the current timetables:
     timetables_names = [t.name for t in current_user.timetables]
-
     if name not in timetables_names:
         return name
 
@@ -164,8 +162,8 @@ def add_or_remove_lesson(timetable_id, lesson_id, action):
 @timetable_manager.route('/moj-rozvrh/<timetable_id>/subject/<subject_id>/<action>', methods=['POST'])
 def add_or_remove_subject(timetable_id, subject_id, action):
     """Add/Remove subject (with all lessons) to/from user's timetable. Return timetable templates (layout & list)."""
-    ut = UserTimetable.query.get(timetable_id)
-    subject = Subject.query.get(subject_id)
+    ut = UserTimetable.query.get_or_404(timetable_id)
+    subject = Subject.query.get_or_404(subject_id)
 
     if action == 'add':
         for l in subject.lessons:

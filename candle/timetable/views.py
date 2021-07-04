@@ -37,7 +37,7 @@ def home():
 def user_timetable(id_):
     id_ = int(id_)
     user_timetables = current_user.timetables
-    ut = UserTimetable.query.get(id_)
+    ut = UserTimetable.query.get_or_404(id_)
     if ut is None:
         return render_template('errors/404.html'), 404
 
