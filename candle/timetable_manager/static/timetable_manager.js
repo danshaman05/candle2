@@ -19,15 +19,12 @@ $(function(){
       let rozvrh_name = rozvrh_tag.text();
       if (confirm(`Naozaj chcete zmazať rozvrh s názvom "${rozvrh_name}"?`)) {
           // Zmazeme rozvrh
-          let rozvrh_url = rozvrh_tag.attr("href");
-          $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.delete_timetable'),
-              {"url": rozvrh_url})
-            .done(function (data) {
-                // if (data['error']){      // TODO implement errors
-                //     alert(data['error']);
-                // } else {
+          $.ajax({
+              url: window.location.href + '/delete',
+              type: 'DELETE',
+              success: function (data) {
                   window.location.replace(data['next_url']);
-                // }
+              }
           })
       } else {
           // Nothing to do.
@@ -53,13 +50,17 @@ $(function(){
     if (name == null){
         return;
     }
-    if (old_name == name){
+    if (old_name === name){
         alert("Chyba: Zadali ste rovnaký názov!");
         return;
     }
-    $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.rename_timetable'),
-        {"url": document.URL, "new_name": name}
-        ).done(function (data){
+    $.ajax(
+        {
+            url: window.location.href + '/rename',
+            type: 'PATCH',
+            data: {"new_name": name}
+        }
+    ).done(function (data){
             const taby_selector = '#rozvrh_taby';
             const web_header_selector = '#web_header'
 

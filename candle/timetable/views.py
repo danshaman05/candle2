@@ -132,3 +132,43 @@ def getUniqueName(name) -> str:
         if new_name not in timetables_names:
             return new_name
         index += 1
+
+
+@login_required
+@timetable.route("/moj-rozvrh/<id_>/delete", methods=['DELETE'])
+def delete_timetable(id_):
+    ut = UserTimetable.query.get_or_404(id_)
+    db.session.delete(ut)
+    db.session.commit()
+
+    # if there is no timetable left, create a new one:
+    if len(list(current_user.timetables)) == 0:
+        new_ut = UserTimetable(name="Rozvrh", user_id=current_user.id)
+        db.session.add(new_ut)
+        db.session.commit()
+        timetable_to_show_id = new_ut.id_
+    else:
+        # id of last added timetable:
+        timetable_to_show_id = current_user.timetables.order_by(UserTimetable.id_)[-1].id_
+    return jsonify({'next_url': url_for("timetable.user_timetable", id_=timetable_to_show_id)})
+
+
+
+@login_required
+@timetable.route("/moj-rozvrh/<id_>/rename", methods=['PATCH'])
+def rename_timetable(id_):
+    new_name = request.form['new_name']
+    new_name = getUniqueName(new_name)
+    ut = UserTimetable.query.get_or_404(id_)
+    ut.name = new_name
+    db.session.commit()
+
+    # render new parts of the webpage:
+    tabs_html = render_template("timetable/tabs.html", user_timetables=current_user.timetables, selected_timetable_key=ut.id_, title=ut.name)
+    web_header_html = f"<h1>{ut.name}</h1>"
+    title_html = render_template('title.html', title=ut.name)
+
+    return jsonify({'tabs_html': tabs_html,
+                    'web_header_html': web_header_html,
+                    'title': ut.name,
+                    'title_html': title_html})

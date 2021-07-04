@@ -11,52 +11,6 @@ timetable_manager = Blueprint('timetable_manager',
                               static_url_path='/timetable_manager/static')
 
 
-
-@login_required
-@timetable_manager.route("/delete_timetable", methods=['POST'])
-def delete_timetable():
-    rozvrh_url = request.form['url']
-    id_ = int(rozvrh_url.split('/')[-1])  # get id from the URL
-    ut = UserTimetable.query.get(id_)
-    db.session.delete(ut)
-    db.session.commit()
-
-    # if there is no timetable left, create a new one:
-    if len(list(current_user.timetables)) == 0:
-        new_ut = UserTimetable(name="Rozvrh", user_id=current_user.id)
-        db.session.add(new_ut)
-        db.session.commit()
-        timetable_to_show_id = new_ut.id_
-    else:
-        # id of last added timetable:
-        timetable_to_show_id = current_user.timetables.order_by(UserTimetable.id_)[-1].id_
-    return jsonify({'next_url': url_for("timetable.user_timetable", id_=timetable_to_show_id)})
-
-
-
-@login_required
-@timetable_manager.route("/rename_timetable", methods=['POST'])
-def rename_timetable():
-    rozvrh_url = request.form['url']
-    new_name = request.form['new_name']
-    new_name = getUniqueName(new_name)
-    id_ = int(rozvrh_url.split('/')[-1])  # get id from the URL
-    ut = UserTimetable.query.get(id_)
-    ut.name = new_name
-    db.session.commit()
-
-    # render new parts of the webpage:
-    tabs_html = render_template("timetable/tabs.html", user_timetables=current_user.timetables, selected_timetable_key=ut.id_, title=ut.name)
-    web_header_html = f"<h1>{ut.name}</h1>"
-    title_html = render_template('title.html', title=ut.name)
-
-    return jsonify({'tabs_html': tabs_html,
-                    'web_header_html': web_header_html,
-                    'title': ut.name,
-                    'title_html': title_html})
-
-
-
 @login_required
 @timetable_manager.route('/add_or_remove_lesson', methods=['POST'])
 def add_or_remove_lesson():
@@ -86,6 +40,7 @@ def add_or_remove_lesson():
 
     return jsonify({'success':1, 'layout_html': timetable_layout,
                     'list_html': timetable_list})
+
 
 
 @login_required
