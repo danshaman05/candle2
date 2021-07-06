@@ -111,7 +111,7 @@ def delete_timetable(id_):
 
 
 @login_required
-@timetable_manager.route("/moj-rozvrh/<id_>/rename", methods=['PATCH'])
+@timetable_manager.route("/moj-rozvrh/<id_>/rename", methods=['PUT'])
 def rename_timetable(id_):
     new_name = request.form['new_name']
     new_name = getUniqueName(new_name)

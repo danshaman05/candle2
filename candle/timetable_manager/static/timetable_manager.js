@@ -57,7 +57,7 @@ $(function(){
     $.ajax(
         {
             url: window.location.href + '/rename',
-            type: 'PATCH',
+            type: 'PUT',
             data: {"new_name": name}
         }
     ).done(function (data){

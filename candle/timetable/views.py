@@ -24,10 +24,8 @@ def home():
         else:
             # select the latest one (with the highest id):
             ut = user_timetables.order_by(UserTimetable.id_)[-1]
-
         # redirect to user's timetable view:
         return redirect(url_for('timetable.user_timetable', id_=ut.id_) )
-
     else:  # user is logged out, show welcome-info:
         return render_template('timetable/timetable.html', title='Rozvrh', show_welcome=True)
 
