@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, request, url_for, flash, current_app
 
+from candle import db
 from candle.models import User
 from flask_login import login_user, logout_user
 from functools import wraps
@@ -26,14 +27,17 @@ def login():
     user = User.query.filter_by(login=ais_login).first()
     if user:
         login_user(user, remember=True)
-        #flash('Prihlasovanie prebehlo uspesne.')
-
-        return redirect(url_for("timetable.home"))
+        # flash('Prihlasovanie prebehlo uspesne.')
 
     else:
-        ...
-        #flash('Prihlasenie bolo neuspesne.')
-        return redirect(url_for("timetable.home"))
+        # vytvori takeho uzivatela v DB:
+        user = User()
+        db.session.add(user)
+        db.session.commit()
+        # flash('Prihlasenie bolo neuspesne.')
+
+    login_user(user, remember=True)
+    return redirect(url_for("timetable.home"))
 
 
 @auth.route('/odhlasit')
