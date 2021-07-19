@@ -1,6 +1,6 @@
 import pytest
 from bs4 import NavigableString
-from tests.helpers import get_page, get_bs_soup, get_list_of_elements
+from tests.helpers import get_list_of_elements
 
 resources = [
     '/miestnosti',
