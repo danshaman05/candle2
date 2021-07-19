@@ -1,6 +1,6 @@
 from typing import List
 from candle.timetable.placed_lesson import PlacedLesson
-from candle.timetable.component import Component
+from candle.timetable.timetable_component import TimetableComponent
 
 class TooManyColumnsError(Exception):
     '''Handle error when there are too many adjacent lessons in one day.'''
@@ -115,7 +115,7 @@ class Timetable:
                                 max_component_width = 0
 
                             # create a new component:
-                            components.append(Component())
+                            components.append(TimetableComponent())
                             comp_ind += 1
 
                         # Add the placed_lesson to the component and to the layout:

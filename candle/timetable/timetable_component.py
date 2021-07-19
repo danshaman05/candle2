@@ -1,4 +1,6 @@
-class Component:
+
+
+class TimetableComponent:
     """Component consists of PlacedLesson class objects.
 
     This class represents a component of PlacedLesson objects (PL). Each PL is linked to its
@@ -17,7 +19,7 @@ class Component:
 
     def set_lessons_width(self):
         if not self.placed_lessons:
-            raise Exception("Component needs to be filled with lessons first!")
+            raise Exception("TimetableComponent needs to be filled with lessons!")
         if not self.width:
             raise Exception("Set the component width first!")
         for pl in self.placed_lessons:
