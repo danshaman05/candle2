@@ -35,9 +35,10 @@ def create_app(config_class=Config):
 
 
 def register_blueprints(app):
+    from candle.main.main import main
     from candle.auth.auth import auth
-    from candle.timetable.views import timetable
-    from candle.timetable_manager.handlers import timetable_manager
+    from candle.timetable.timetable import timetable
+    from candle.my_timetable.my_timetable import my_timetable
     from candle.entities.room.room import room
     from candle.entities.student_group.student_group import student_group
     from candle.entities.teacher.teacher import teacher
@@ -45,9 +46,10 @@ def register_blueprints(app):
     from candle.search.search import search
     from candle.errors.errors import errors
 
+    app.register_blueprint(main)
     app.register_blueprint(auth)
     app.register_blueprint(timetable)
-    app.register_blueprint(timetable_manager)
+    app.register_blueprint(my_timetable)
     app.register_blueprint(room)
     app.register_blueprint(student_group)
     app.register_blueprint(teacher)

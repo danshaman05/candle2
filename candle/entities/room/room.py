@@ -2,7 +2,7 @@ from flask import render_template, Blueprint
 from flask_login import current_user
 
 from candle.models import Room, Lesson, Subject
-from candle.timetable import timetable
+from candle.timetable import layout
 from typing import Dict
 
 
@@ -31,13 +31,13 @@ def show_timetable(room_url_id):
     web_header = "Rozvrh miestnosti " + room.name
 
     lessons = room.lessons.join(Subject).order_by(Lesson.day, Lesson.start, Subject.name).all()
-    t = timetable.Timetable(lessons)
+    t = layout.Layout(lessons)
     if current_user.is_authenticated:
-        user_timetables = current_user.timetables
+        my_timetables = current_user.timetables
     else:
-        user_timetables = None
+        my_timetables = None
     return render_template('timetable/timetable.html', room_name=room.name, title=room.name,
-                           timetable=t, user_timetables=user_timetables, show_welcome=False,
+                           timetable=t, my_timetables=my_timetables, show_welcome=False,
                            web_header=web_header)
 
 

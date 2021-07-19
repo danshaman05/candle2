@@ -1,7 +1,7 @@
 
 
-class TimetableComponent:
-    """Component consists of PlacedLesson class objects.
+class LayoutComponent:
+    """LayoutComponent consists of PlacedLesson class objects.
 
     This class represents a component of PlacedLesson objects (PL). Each PL is linked to its
      sibling PLs in the same column (day)."""
@@ -19,7 +19,7 @@ class TimetableComponent:
 
     def set_lessons_width(self):
         if not self.placed_lessons:
-            raise Exception("TimetableComponent needs to be filled with lessons!")
+            raise Exception("LayoutComponent needs to be filled with lessons!")
         if not self.width:
             raise Exception("Set the component width first!")
         for pl in self.placed_lessons:

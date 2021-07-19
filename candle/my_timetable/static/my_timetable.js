@@ -6,7 +6,7 @@ $(function(){
     if (name == null){
         return;
     }
-    $.post($SCRIPT_ROOT + Flask.url_for('timetable_manager.new_timetable'),{"name": name})
+    $.post($SCRIPT_ROOT + Flask.url_for('my_timetable.new_timetable'),{"name": name})
         .done(function (data){
           window.location.replace(data);
         })
@@ -38,7 +38,6 @@ $(function(){
       $.post(window.location.href + '/duplicate')
         .done(function (data) {
             window.location.href = data['next_url'];
-            // TODO show flask-message, or some informative pop-up
       })
   });
 });

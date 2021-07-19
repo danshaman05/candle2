@@ -3,14 +3,36 @@ from flask_login import current_user, login_required
 from candle import db
 from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Subject
 import re
-from candle.timetable.timetable import Timetable, TooManyColumnsError
+from candle.timetable.layout import Layout, TooManyColumnsError
 
-timetable_manager = Blueprint('timetable_manager',
-                              __name__,
-                              static_folder='static',
-                              static_url_path='/timetable_manager/static')
+my_timetable = Blueprint('my_timetable',
+                         __name__,
+                         static_folder='static',
+                         static_url_path='/my_timetable/static')
 
-@timetable_manager.route('/moj-rozvrh', methods=['POST'])
+
+
+@my_timetable.route('/moj-rozvrh/<id_>')
+@login_required
+def show_timetable(id_):
+    id_ = int(id_)
+    my_timetables = current_user.timetables
+    ut = UserTimetable.query.get_or_404(id_)
+    if ut is None:
+        return render_template('errors/404.html'), 404
+
+    lessons = ut.lessons.order_by(Lesson.day, Lesson.start).all()
+    t = Layout(lessons)
+    if t is None:
+        raise Exception("Timetable cannot be None")
+    return render_template('timetable/timetable.html',
+                           title=ut.name, web_header=ut.name, timetable=t,
+                           my_timetables=my_timetables, selected_timetable_key=id_,
+                           show_welcome=False, editable=True)
+
+
+
+@my_timetable.route('/moj-rozvrh', methods=['POST'])
 @login_required
 def new_timetable():
     """Create a new timetable"""
@@ -19,36 +41,36 @@ def new_timetable():
     ut = UserTimetable(name=name, user_id=current_user.id)
     db.session.add(ut)
     db.session.commit()
-    return url_for("timetable.user_timetable", id_=ut.id_)
+    return url_for("my_timetable.show_timetable", id_=ut.id_)
 
 
 @login_required
-@timetable_manager.route("/ucitelia/<teacher_slug>/duplicate", methods=['POST'])
+@my_timetable.route("/ucitelia/<teacher_slug>/duplicate", methods=['POST'])
 def duplicate_teacher_timetable(teacher_slug):
     old_timetable = Teacher.query.filter_by(slug=teacher_slug).first_or_404()
     new_timetable_id = duplicate_timetable(old_timetable)
-    return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_timetable_id)})
+    return jsonify({'next_url': url_for("my_timetable.show_timetable", id_=new_timetable_id)})
 
 @login_required
-@timetable_manager.route("/miestnosti/<room_url_id>/duplicate", methods=['POST'])
+@my_timetable.route("/miestnosti/<room_url_id>/duplicate", methods=['POST'])
 def duplicate_room_timetable(room_url_id):
     old_timetable = Room.query.filter_by(name=room_url_id).first_or_404()
     new_timetable_id = duplicate_timetable(old_timetable)
-    return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_timetable_id)})
+    return jsonify({'next_url': url_for("my_timetable.show_timetable", id_=new_timetable_id)})
 
 @login_required
-@timetable_manager.route("/kruzky/<group_url_id>/duplicate", methods=['POST'])
+@my_timetable.route("/kruzky/<group_url_id>/duplicate", methods=['POST'])
 def duplicate_student_group_timetable(group_url_id):
     old_timetable = StudentGroup.query.filter_by(name=group_url_id).first_or_404()
     new_timetable_id = duplicate_timetable(old_timetable)
-    return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_timetable_id)})
+    return jsonify({'next_url': url_for("my_timetable.show_timetable", id_=new_timetable_id)})
 
 @login_required
-@timetable_manager.route("/moj-rozvrh/<id_>/duplicate", methods=['POST'])
+@my_timetable.route("/moj-rozvrh/<id_>/duplicate", methods=['POST'])
 def duplicate_my_timetable(id_):
     old_timetable = UserTimetable.query.get_or_404(id_)
     new_timetable_id = duplicate_timetable(old_timetable)
-    return jsonify({'next_url': url_for("timetable.user_timetable", id_=new_timetable_id)})
+    return jsonify({'next_url': url_for("my_timetable.show_timetable", id_=new_timetable_id)})
 
 
 def duplicate_timetable(old_timetable):
@@ -91,7 +113,7 @@ def getUniqueName(name) -> str:
 
 
 @login_required
-@timetable_manager.route("/moj-rozvrh/<id_>/delete", methods=['DELETE'])
+@my_timetable.route("/moj-rozvrh/<id_>/delete", methods=['DELETE'])
 def delete_timetable(id_):
     ut = UserTimetable.query.get_or_404(id_)
     db.session.delete(ut)
@@ -106,12 +128,12 @@ def delete_timetable(id_):
     else:
         # id of last added timetable:
         timetable_to_show_id = current_user.timetables.order_by(UserTimetable.id_)[-1].id_
-    return jsonify({'next_url': url_for("timetable.user_timetable", id_=timetable_to_show_id)})
+    return jsonify({'next_url': url_for("my_timetable.show_timetable", id_=timetable_to_show_id)})
 
 
 
 @login_required
-@timetable_manager.route("/moj-rozvrh/<id_>/rename", methods=['PUT'])
+@my_timetable.route("/moj-rozvrh/<id_>/rename", methods=['PUT'])
 def rename_timetable(id_):
     new_name = request.form['new_name']
     new_name = getUniqueName(new_name)
@@ -120,9 +142,9 @@ def rename_timetable(id_):
     db.session.commit()
 
     # render new parts of the webpage:
-    tabs_html = render_template("timetable/tabs.html", user_timetables=current_user.timetables, selected_timetable_key=ut.id_, title=ut.name)
+    tabs_html = render_template("timetable/tabs.html", my_timetables=current_user.timetables, selected_timetable_key=ut.id_, title=ut.name)
     web_header_html = f"<h1>{ut.name}</h1>"
-    title_html = render_template('title.html', title=ut.name)
+    title_html = render_template('main/title.html', title=ut.name)
 
     return jsonify({'tabs_html': tabs_html,
                     'web_header_html': web_header_html,
@@ -132,7 +154,7 @@ def rename_timetable(id_):
 
 
 @login_required
-@timetable_manager.route('/moj-rozvrh/<timetable_id>/lesson/<lesson_id>/<action>', methods=['POST'])
+@my_timetable.route('/moj-rozvrh/<timetable_id>/lesson/<lesson_id>/<action>', methods=['POST'])
 def add_or_remove_lesson(timetable_id, lesson_id, action):
     """Add or remove lesson to/from the timetable."""
     ut = UserTimetable.query.get_or_404(timetable_id)
@@ -146,7 +168,7 @@ def add_or_remove_lesson(timetable_id, lesson_id, action):
         raise Exception("Bad route format! There should be either 'add' or 'remove' action in the URL!")
     db.session.commit()
     try:
-        t = Timetable(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
+        t = Layout(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
     except TooManyColumnsError:
         return jsonify({'success': False})
 
@@ -159,7 +181,7 @@ def add_or_remove_lesson(timetable_id, lesson_id, action):
 
 
 @login_required
-@timetable_manager.route('/moj-rozvrh/<timetable_id>/subject/<subject_id>/<action>', methods=['POST'])
+@my_timetable.route('/moj-rozvrh/<timetable_id>/subject/<subject_id>/<action>', methods=['POST'])
 def add_or_remove_subject(timetable_id, subject_id, action):
     """Add/Remove subject (with all lessons) to/from user's timetable. Return timetable templates (layout & list)."""
     ut = UserTimetable.query.get_or_404(timetable_id)
@@ -175,7 +197,7 @@ def add_or_remove_subject(timetable_id, subject_id, action):
     else:
         raise Exception("Bad route format! There should be either 'add' or 'remove' action in the URL!")
     db.session.commit()
-    t = Timetable(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
+    t = Layout(lessons=ut.lessons.order_by(Lesson.day, Lesson.start).all())
 
     timetable_layout = render_template('timetable/timetable_content.html', timetable=t)
     timetable_list = render_template('timetable/list.html', timetable=t)

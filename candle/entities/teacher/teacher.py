@@ -3,7 +3,7 @@ from flask_login import current_user
 
 from typing import Dict
 from candle.models import Lesson, Teacher
-from candle.timetable import timetable
+from candle.timetable import layout
 from candle.entities.helpers import  string_starts_with_ch
 import unidecode
 
@@ -29,15 +29,15 @@ def show_timetable(teacher_slug):
     teacher = Teacher.query.filter(Teacher.slug==teacher_slug).first_or_404()
     teacher_name = teacher.given_name + " " + teacher.family_name
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
-    t = timetable.Timetable(lessons)
+    t = layout.Layout(lessons)
     if current_user.is_authenticated:
-        user_timetables = current_user.timetables
+        my_timetables = current_user.timetables
     else:
-        user_timetables = None
+        my_timetables = None
     return render_template('timetable/timetable.html',
                            teacher_name=teacher_name, title=teacher_name,
                            web_header=teacher_name, timetable=t,
-                           user_timetables=user_timetables, show_welcome=False)
+                           my_timetables=my_timetables, show_welcome=False)
 
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:

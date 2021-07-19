@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" class="panel_active">
     <head>
-        {% include('head.html') %}
+        {% include('main/head.html') %}
     </head>
 
     <body>
         <div id="vrch">
-            <div id="vrch_logo"><a href="{{ url_for('timetable.home') }}">Rozvrh</a></div>
+            <div id="vrch_logo"><a href="{{ url_for('main.home') }}">Rozvrh</a></div>
         </div>
 
-        {% include('first_row.html') %}
+        {% include('main/first_row.html') %}
 
         {% block timetable_menu %}{% endblock %}
 

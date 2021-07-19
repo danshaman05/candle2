@@ -4,7 +4,7 @@ from flask_login import UserMixin
 from sqlalchemy.ext.hybrid import hybrid_property
 
 from candle import db, login_manager
-from candle.timetable.timetable import Timetable
+from candle.timetable.layout import Layout
 
 class Entity(db.Model):
     """Abstract class for Room, Student-Group and Teacher."""
@@ -110,21 +110,21 @@ class Lesson(db.Model):
 
     @property
     def start_formatted(self):
-        return Timetable.minutes_2_time(self.start)
+        return Layout.minutes_2_time(self.start)
 
     @property
     def end_formatted(self):
-        return Timetable.minutes_2_time(self.end)
+        return Layout.minutes_2_time(self.end)
 
     @property
     def breaktime(self) -> int:
         hours_count = self.rowspan
-        return int(Timetable.get_shortest_breaktime() * hours_count)
+        return int(Layout.get_shortest_breaktime() * hours_count)
 
     @property
     def rowspan(self) -> int:
         """Return how many rows takes lesson in the timetable."""
-        return (self.end - self.start) // Timetable.get_shortest_lesson()
+        return (self.end - self.start) // Layout.get_shortest_lesson()
 
     def get_teachers_formatted(self):
         """ Return teachers separated by commas.

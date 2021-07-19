@@ -1,7 +1,7 @@
 
 
 class PlacedLesson:
-    """This class deals with how the lesson is positioned in the timetable.
+    """This class deals with how the lesson is positioned in the layout.
     PlacedLesson is positioned by CSS position:absolute property."""
 
     def __init__(self, timetable, lesson, column=0):
