@@ -2,7 +2,7 @@ import pytest
 
 # _url_candle= "http://danshaman.eu.pythonanywhere.com"
 _url_candle = "https://candle.fmph.uniba.sk"
-_url_localhost = "http://127.0.0.1:5000"
+_url_localhost = "http://danshaman.eu.pythonanywhere.com"
 _path_2016zima = "/2016-2017-zima"  # remove or edit if testing with newer Candle instance
 
 
