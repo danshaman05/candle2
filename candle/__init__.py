@@ -36,6 +36,7 @@ def create_app(config_class=Config):
 
 def register_blueprints(app):
     from candle.main.main import main
+    from candle.api.api import api
     from candle.auth.auth import auth
     from candle.timetable.timetable import timetable
     from candle.my_timetable.my_timetable import my_timetable
@@ -47,6 +48,7 @@ def register_blueprints(app):
     from candle.errors.errors import errors
 
     app.register_blueprint(main)
+    app.register_blueprint(api)
     app.register_blueprint(auth)
     app.register_blueprint(timetable)
     app.register_blueprint(my_timetable)
