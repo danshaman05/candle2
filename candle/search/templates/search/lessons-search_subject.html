@@ -2,7 +2,7 @@
     <div class="predmet_header">
         {% if show_checkboxes -%}
             {# Subject-checkbox #}
-            {#   For each subject we need to find out, if all his lessons were added to the timetable.#}
+            {#   For each subject we need to find out, if all its lessons were added to the timetable.#}
             {% set ns = namespace() %}
             {% set ns.chked = 'checked' %}
             {% for l in subject.lessons %}
@@ -13,8 +13,8 @@
             {% endfor %}
             <input id="panel_subject_cb_{{ subject.id_ }}" class="predmet_check" type="checkbox"
                    value="{{ subject.id_ }}" {{ ns.chked }} title="Zobraziť predmet" onclick="subject_checkbox_handler(this)">
-             <label for="panel_subject_cb_{{ subject.id_ }}" class="predmet_nazov">{{ subject.name }}</label>
         {% endif %}
+        <span class="predmet_nazov">{{ subject.name }}</span>
         <div class="predmet_info">
             <table>
                 <thead class="pristupnost">
