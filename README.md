@@ -32,7 +32,7 @@ Generate a Flask Secret key. It's easy with Python:
 >>> secrets.token_urlsafe(16)
 ```
 
-Setup a MySQL database with corresponding tables (check [DB model diagram](db_model.png)). 
+Setup a MySQL database with corresponding tables (check [DB model diagram](diagrams/db_model.png)). 
 Email us at <fmfi-svt@googlegroups.com> and we will send you a MySQL dump-file 
 from old Candle instance you can work with. 
 
