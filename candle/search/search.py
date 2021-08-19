@@ -50,6 +50,6 @@ def lessons_list():
             .order_by(Subject.short_code).all()
 
 
-    return render_template('search/lessons-search_results.html', subjects=subjects,
+    return render_template('search/subject_search-results.html', subjects=subjects,
                            show_checkboxes=show_checkboxes, timetable_lessons=timetable_lessons)
 

@@ -6,25 +6,15 @@
     <div class="panel_cast" id="panel_cast_hodiny">
         <button class="panel_cast_button"><i class="fa fa-book" aria-hidden="true"></i>  Predmety a hodiny</button>
         <div class="panel_cast_obsah">
-                <div class="panel_search">
-                    <p class="hint">Názov/kód predmetu, učiteľ, miestnosť:</p>
-                    <input type="search" name="showLessons" id="showLessons" title="Hľadať hodiny" placeholder="Hľadať..." role="searchbox">
-                    <label for="showLessons">Hľadať hodiny</label>
-                </div>
-            <div id="list_lessons_box"></div>
+            {% include('search/subject_search.html') %}
         </div>
     </div>
 
     {# TEACHERS #}
     <div class="panel_cast" id="panel_cast_ucitelia">
-        <button class="panel_cast_button"><i class="fa fa-user-circle-o" aria-hidden="true"></i>
-  Učitelia</button>
+        <button class="panel_cast_button"><i class="fa fa-user-circle-o" aria-hidden="true"></i>  Učitelia</button>
         <div class="panel_cast_obsah">
-                <div class="panel_search">
-                    <p class="hint">Zadajte meno a/alebo priezvisko učiteľa:</p>
-                    <input type="search" id="showTeachers" name="showTeachers" title="Hľadať učiteľa." placeholder="Hľadať..." role="searchbox">
-                    <label for="showTeachers">Hľadať učiteľov</label>
-                </div>
+            {% include('search/teacher_search.html') %}
             <div class="other_links">
                 <a href="{{ url_for('teacher.list_teachers') }}">Rozvrhy všetkých učiteľov</a>
             </div>
@@ -37,11 +27,7 @@
         <button class="panel_cast_button"><i class="fa fa-institution" aria-hidden="true"></i>
   Miestnosti</button>
         <div class="panel_cast_obsah">
-                <div class="panel_search">
-                    <p class="hint">Zadajte názov miestnosti:</p>
-                    <input type="search" id="showRooms" name="showRooms" title="Hľadať miestnosť." placeholder="Hľadať...">
-                    <label for="showStudentGroups">Hľadať miestnosti</label>
-                </div>
+                {% include('search/room_search.html') %}
             <div class="other_links">
                 <a href="{{ url_for('room.list_rooms') }}">Rozvrhy všetkých miestností</a>
             </div>
@@ -53,11 +39,7 @@
         <button class="panel_cast_button"><i class="fa fa-users" aria-hidden="true"></i>
   Krúžky</button>
         <div class="panel_cast_obsah">
-                <div class="panel_search">
-                    <p class="hint">Zadajte názov krúžku:</p>
-                    <input type="search" id="showGroups" name="showGroups" title="Hľadať krúžok." placeholder="Hľadať..." >
-                    <label for="showStudentGroups">Hľadať krúžky</label>
-                </div>
+            {% include('search/group_search.html') %}
             <div class="other_links">
                 <a href="{{ url_for('student_group.list_student_groups') }}">Rozvrhy všetkých krúžkov</a>
             </div>
