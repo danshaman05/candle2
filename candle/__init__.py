@@ -20,6 +20,7 @@ jsglue = JSGlue()
 
 def create_app(config_class=Config):
     app = Flask(__name__)
+    app.config.from_object(config_class)
 
     # Use middleware for 2016 path-prefix. Used for testing.  Source: https://dlukes.github.io/flask-wsgi-url-prefix.html#mwe
     if app.config['ENV'] == "development":
@@ -28,7 +29,6 @@ def create_app(config_class=Config):
             {'/2016-2017-zima': app.wsgi_app}
         )
 
-    app.config.from_object(config_class)
     init_extensions(app)
     register_blueprints(app)
     return app
