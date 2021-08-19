@@ -61,11 +61,11 @@ html, body {
 }
 
 #panel_schovat {
-    background: #808080 url("../../panel/static/bg-schovavac-panelu.png") top left no-repeat;
+    background: #808080 url("../../../panel/static/bg-schovavac-panelu.png") top left no-repeat;
 }
 
 .panel_hidden #panel_schovat {
-    background-image: url("../../panel/static/bg-zobrazovac-panelu.png");
+    background-image: url("../../../panel/static/bg-zobrazovac-panelu.png");
 }
 
 #panel_cast_nastroje a {

@@ -5,8 +5,11 @@ from candle import db
 from candle.models import UserTimetable
 
 main = Blueprint('main',
-                      __name__,
-                      template_folder='templates')
+                __name__,
+                template_folder='templates',
+                static_folder='static',
+                static_url_path='/main/static'
+                )
 
 @main.route('/')
 def home():
