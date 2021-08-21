@@ -74,7 +74,7 @@ $( function() {
         });
 
     $( "#showLessons" ).catcomplete({
-        source: $SCRIPT_ROOT + Flask.url_for('api.get_subjects'),
+        source: $SCRIPT_ROOT + Flask.url_for('search.subject_search_handler'),
         delay: 400,     // in miliseconds
         minLength: 1,
         select: function( event, ui ) {

@@ -12,6 +12,56 @@ search = Blueprint('search',
                    static_url_path='/search/static')
 
 
+@search.route('/subject_search_handler')
+def subject_search_handler():
+    """Find and return all subjects by subject name or short-code, teachers by name (also reversed name) and rooms by room name.
+
+    Request URL format: /subject_search_handler?term=query, where query is a substring from a one of above listed choices.
+    Respond JSON format: list, where every element is a subject, subject's short-code, teacher's name or a room's name.
+    """
+    query_string = request.args.get('term')
+    query_string = query_string.replace(" ", "%")
+    query_string = "%{}%".format(query_string)
+
+    # Select unique subject names (each subject must have at least one lesson, so we join with Lessons):
+    subjects = Subject.query.join(Lesson).filter(Subject.name.ilike(query_string))\
+        .with_entities(Subject.name).distinct()\
+        .order_by(Subject.name)\
+        .limit(20).all()
+
+    # Search in subject short-codes:
+    subjects_c = Subject.query.join(Lesson).filter(Subject.short_code.ilike(query_string))\
+        .with_entities(Subject.short_code).distinct()\
+        .order_by(Subject.short_code)\
+        .limit(20).all()
+
+    # Search in teachers who have at least one lesson (filter out those who don't have a given_name):
+    teachers = Teacher.query.join(teacher_lessons).join(Lesson) \
+        .filter(Teacher.given_name != '') \
+        .filter(Teacher.fullname.ilike(query_string) | Teacher.fullname_reversed.ilike(query_string))\
+        .order_by(Teacher.family_name) \
+        .limit(20).all()
+
+    # Search in rooms that have at least one lesson:
+    rooms = Room.query.join(Lesson)\
+        .with_entities(Room.name).distinct()\
+        .filter(Room.name.ilike(query_string))\
+        .order_by(Room.name)\
+        .limit(20).all()
+
+    array = []
+    for s in subjects:
+        array.append({'id': s.name, 'label': s.name, 'category': 'Predmety'})
+    for s in subjects_c:
+        array.append({'id': s.short_code, 'label': s.short_code, 'category': 'Kódy predmetov'})
+    for t in teachers:
+        array.append({'id': t.slug, 'label': t.fullname, 'category': 'Učitelia'})
+    for r in rooms:
+        array.append({'id': r.name, 'label': r.name, 'category': 'Miestnosti'})
+
+    return jsonify(array)
+
+
 @search.route('/get_html/lessons_list', methods=['POST'])
 def lessons_list():
     """
