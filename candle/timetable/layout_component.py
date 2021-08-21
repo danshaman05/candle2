@@ -21,6 +21,6 @@ class LayoutComponent:
         if not self.placed_lessons:
             raise Exception("LayoutComponent needs to be filled with lessons!")
         if not self.width:
-            raise Exception("Set the component width first!")
+            raise Exception("Set the component's width first!")
         for pl in self.placed_lessons:
             pl.set_horizontal_position(self.width)

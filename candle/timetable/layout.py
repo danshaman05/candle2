@@ -122,13 +122,13 @@ class Layout:
                         self.__layout[day_index][column_index].append(placed_lesson)
                         components[-1].add(placed_lesson)
 
-                        # find the maximum column used in this component = component width:
+                        # remember the maximum column used in this component - we call it component's width:
                         if placed_lesson.column > max_component_width:
                             max_component_width = placed_lesson.column
                         break
                     column_index += 1
 
-            # set the component width for all lessons in the last component:
+            # set the component's width for all lessons in the last component:
             if components:
                 components[-1].set_width(max_component_width + 1)
                 for c in components:
