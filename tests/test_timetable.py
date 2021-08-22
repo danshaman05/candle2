@@ -11,20 +11,20 @@ resources = [
 ]
 
 @pytest.mark.parametrize("path", resources)
-def test_timetable_list(path, url_localhost_2016, url_candle, url_localhost):
+def test_timetable_list(path, url_root_localhost_2016, url_root_candle, url_root_localhost):
     """All teachers, rooms and student-groups must have same timetable-list (#rozvrhList in the DOM)."""
 
     # get links for each timetable from new Candle's list (list of teachers, rooms or student-groups)
-    a_tags_new = get_list_of_elements(url=url_localhost_2016 + path, selector="#obsah_in li > a")
+    a_tags_new = get_list_of_elements(url=url_root_localhost_2016 + path, selector="#obsah_in li > a")
 
     # for each link:
     for a in a_tags_new:
         relative_url = a['href']
-        #print(url_localhost + relative_url)
+        #print(url_root_localhost + relative_url)
 
         # get timetable-list's row:
-        tr_elements1 = get_list_of_elements(url=url_localhost + relative_url, selector="#rozvrhList > tr")
-        tr_elements2 = get_list_of_elements(url=url_candle + relative_url, selector="#rozvrhList > tr")
+        tr_elements1 = get_list_of_elements(url=url_root_localhost + relative_url, selector="#rozvrhList > tr")
+        tr_elements2 = get_list_of_elements(url=url_root_candle + relative_url, selector="#rozvrhList > tr")
 
         #Tables must be sorted, otherwise we will get different results:
         assert get_sorted_table_rows(tr_elements1) == get_sorted_table_rows(tr_elements2)
