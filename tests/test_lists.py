@@ -3,6 +3,8 @@ import pytest
 from tests.helpers import print_elements_count, get_list_of_elements, get_href_links_sorted, \
     get_texts_sorted
 
+"""This module tests all lists of school timetables."""
+
 resources = [
     '/miestnosti',
     '/ucitelia',

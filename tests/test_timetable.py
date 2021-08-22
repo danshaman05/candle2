@@ -2,6 +2,8 @@ import pytest
 from bs4 import NavigableString
 from tests.helpers import get_list_of_elements
 
+"""This module tests all lists of lessons in all timetables."""
+
 resources = [
     '/miestnosti',
     '/ucitelia',
