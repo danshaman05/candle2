@@ -8,22 +8,17 @@ def get_page(url=None):
     """return HTML as string"""
     if url is None:
         raise Exception("URL cannot be None!")
-    response = urllib.request.urlopen(url)
-    if response.code != 200:
-        raise Exception("Response code is not 200!")
-    page = response.read().decode("UTF-8")
-    return page
-
-
-def get_bs_soup(page):
-    soup = BeautifulSoup(page, 'html.parser')
-    return soup
+    with urllib.request.urlopen(url) as response:
+        if response.code != 200:
+            raise Exception("Response code is not 200!")
+        page = response.read().decode("UTF-8")
+        return page
 
 
 def get_list_of_elements(url, selector):
     print(url)
     page = get_page(url)
-    soup = get_bs_soup(page=page)
+    soup = BeautifulSoup(page, 'html.parser')
     elements = soup.select(selector)
     return [e for e in elements]
 
