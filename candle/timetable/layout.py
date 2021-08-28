@@ -200,6 +200,10 @@ class Layout:
     def get_lessons(self):
         return self.__lessons
 
+    def get_list_headers(self):
+        headers = """Deň Od Do Miestnosť Typ Kód Predmet Vyučujúci Poznámka"""
+        return headers.split()
+
     def get_layout(self):
         return self.__layout
 

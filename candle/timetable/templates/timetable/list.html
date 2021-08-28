@@ -1,13 +1,7 @@
 <tr>
-    <th>Deň</th>
-    <th>Od</th>
-    <th>Do</th>
-    <th>Miestnosť</th>
-    <th>Typ</th>
-    <th>Kód</th>
-    <th>Predmet</th>
-    <th>Vyučujúci</th>
-    <th>Poznámka</th>
+    {%- for header in timetable.get_list_headers() -%}
+    <th>{{ header }}</th>
+    {%- endfor -%}
 </tr>
 {%- for lesson in timetable.get_lessons() -%}
     <tr>
