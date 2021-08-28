@@ -1,5 +1,9 @@
-from flask import Blueprint, redirect, request, url_for, flash, current_app
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
 
+from flask import Blueprint, redirect, request, url_for, flash, current_app
 from candle import db
 from candle.models import User
 from flask_login import login_user, logout_user

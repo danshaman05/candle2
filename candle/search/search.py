@@ -1,4 +1,9 @@
-"""This blueprint contains AJAX routes that corresponds to the search function."""
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+
+This blueprint contains AJAX routes that corresponds to the search function.
+'''
 
 from flask import Blueprint, request, jsonify, render_template
 from flask_login import current_user

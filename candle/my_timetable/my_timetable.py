@@ -1,3 +1,8 @@
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
+
 from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
 from candle import db

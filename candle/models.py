@@ -1,3 +1,8 @@
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
+
 from typing import Union
 
 from flask_login import UserMixin

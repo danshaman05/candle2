@@ -1,5 +1,10 @@
-from flask import Blueprint, request, jsonify
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
 
+
+from flask import Blueprint, request, jsonify
 from candle.models import Teacher, Room, StudentGroup, Subject, Lesson, teacher_lessons
 
 api = Blueprint('api', __name__)

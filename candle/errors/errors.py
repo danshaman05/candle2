@@ -1,3 +1,8 @@
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol
+'''
+
 from flask import Blueprint, render_template
 from flask_wtf.csrf import CSRFError
 

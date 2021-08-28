@@ -1,3 +1,8 @@
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
+
 from typing import List
 from candle.timetable.placed_lesson import PlacedLesson
 from candle.timetable.layout_component import LayoutComponent

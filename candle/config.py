@@ -1,5 +1,9 @@
-import os
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
 
+import os
 from dotenv import load_dotenv
 
 

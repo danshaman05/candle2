@@ -3,6 +3,7 @@ from typing import List
 
 from bs4 import BeautifulSoup
 
+
 def get_page(url=None):
     """return HTML as string"""
     if url is None:

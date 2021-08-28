@@ -1,4 +1,7 @@
-
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
 
 class LayoutComponent:
     """LayoutComponent consists of PlacedLesson class objects.

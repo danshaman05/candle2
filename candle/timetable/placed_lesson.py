@@ -1,4 +1,7 @@
-
+'''
+Project: Candle (New Generation): Candle rewrite from PHP to Python.
+Author: Daniel Grohol, FMFI UK
+'''
 
 class PlacedLesson:
     """This class deals with how the lesson is positioned in the layout.

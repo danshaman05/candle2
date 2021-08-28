@@ -1,3 +1,4 @@
+-- Author: Martin Sucha 
 CREATE TABLE data_update
   (
      id              BIGINT auto_increment,
