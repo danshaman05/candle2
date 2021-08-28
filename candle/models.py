@@ -11,7 +11,7 @@ from sqlalchemy.ext.hybrid import hybrid_property
 from candle import db, login_manager
 from candle.timetable.layout import Layout
 
-class Entity(db.Model):
+class SchoolTimetable(db.Model):
     """Abstract class for Room, Student-Group and Teacher."""
     __abstract__ = True
 
@@ -22,7 +22,7 @@ class Entity(db.Model):
         return self.name
 
 
-class Room(Entity):
+class Room(SchoolTimetable):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column('name', db.String(30), nullable=False)
     room_type_id = db.Column(db.Integer, db.ForeignKey('room_type.id'), nullable=False)
@@ -50,7 +50,7 @@ teacher_lessons = db.Table('teacher_lessons',
                            db.Column('teacher_id', db.Integer, db.ForeignKey('teacher.id')),
                            db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')))
 
-class Teacher(Entity):
+class Teacher(SchoolTimetable):
     id_ = db.Column('id', db.Integer, primary_key=True)
     given_name = db.Column(db.String(50), nullable=True)
     family_name = db.Column(db.String(50), nullable=False)
@@ -86,7 +86,7 @@ student_group_lessons = db.Table('student_group_lessons',
                                  db.Column('lesson_id', db.Integer, db.ForeignKey('lesson.id')))
 
 
-class StudentGroup(Entity):
+class StudentGroup(SchoolTimetable):
     id_ = db.Column('id', db.Integer, primary_key=True)
     name = db.Column(db.String(30), nullable=False)
     lessons = db.relationship('Lesson', secondary=student_group_lessons, lazy='dynamic')
