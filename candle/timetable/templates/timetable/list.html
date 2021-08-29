@@ -28,10 +28,6 @@
                 {%- endif -%}
             {%- endfor -%}
         </td>
-        {%- if lesson.note -%}
-            <td>{{ lesson.note }}</td>
-        {%- else %}
-            <td></td>
-        {%- endif -%}
+        <td>{{ lesson.get_note() }}</td>
     </tr>
 {%- endfor -%}

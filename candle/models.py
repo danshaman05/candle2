@@ -131,12 +131,14 @@ class Lesson(db.Model):
         """Return how many rows takes lesson in the timetable."""
         return (self.end - self.start) // Layout.get_shortest_lesson()
 
-    def get_teachers_formatted(self):
+    def get_teachers_formatted(self) -> str:
         """ Return teachers separated by commas.
         E.g.: "A. Blaho, D. Bezáková, A. Hrušecká"
         """
         return ', '.join([t.short_name for t in self.teachers])
 
+    def get_note(self) -> str:
+        return self.note if self.note else ""
 
 class LessonType(db.Model):
     id_ = db.Column('id', db.Integer, primary_key=True)
