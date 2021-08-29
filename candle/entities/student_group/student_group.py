@@ -45,7 +45,8 @@ def show_timetable(group_url_id: str):
     return render_template('timetable/timetable.html', title=student_group.name,
                            student_group_name=student_group.name,
                            web_header=web_header, timetable=t,
-                           my_timetables=my_timetables, show_welcome=False)
+                           my_timetables=my_timetables, show_welcome=False,
+                           editable=False)
 
 
 def get_student_groups_sorted_by_first_letter(student_groups) -> Dict:

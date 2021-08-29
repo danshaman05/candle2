@@ -42,7 +42,8 @@ def show_timetable(teacher_slug):
     return render_template('timetable/timetable.html',
                            teacher_name=teacher_name, title=teacher_name,
                            web_header=teacher_name, timetable=t,
-                           my_timetables=my_timetables, show_welcome=False)
+                           my_timetables=my_timetables, show_welcome=False,
+                           editable=False)
 
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:
