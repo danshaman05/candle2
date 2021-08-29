@@ -9,6 +9,8 @@ from flask_login import current_user
 
 from candle.models import StudentGroup, Lesson
 from candle.timetable import layout
+from timetable.layout import Layout
+from timetable.timetable import get_lessons_as_csv_response
 
 student_group = Blueprint('student_group',
                           __name__,
@@ -30,10 +32,7 @@ def list_student_groups():
 def show_timetable(group_url_id: str):
     """Show a timetable for a student-group."""
 
-    if group_url_id.isnumeric():
-        student_group = StudentGroup.query.filter_by(id_=group_url_id).first_or_404()
-    else:
-        student_group = StudentGroup.query.filter_by(name=group_url_id).first_or_404()
+    student_group = get_group(group_url_id)
     web_header = "Rozvrh krúžku " + student_group.name
     lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
     t = layout.Layout(lessons)
@@ -47,6 +46,25 @@ def show_timetable(group_url_id: str):
                            web_header=web_header, timetable=t,
                            my_timetables=my_timetables, show_welcome=False,
                            editable=False)
+
+
+def get_group(group_url_id):
+    if group_url_id.isnumeric():
+        student_group = StudentGroup.query.filter_by(id_=group_url_id).first_or_404()
+    else:
+        student_group = StudentGroup.query.filter_by(name=group_url_id).first_or_404()
+    return student_group
+
+
+@student_group.route('/kruzky/<group_url_id>/export')
+def export_timetable(group_url_id):
+    """Return timetable as a CSV. Data are separated by a semicolon (;)."""
+    student_group = get_group(group_url_id)
+    lessons = student_group.lessons.order_by(Lesson.day, Lesson.start).all()
+    timetable_layout = Layout(lessons)
+    if timetable_layout is None:
+        raise Exception("Timetable cannot be None")
+    return get_lessons_as_csv_response(timetable_layout, filename=student_group.name)
 
 
 def get_student_groups_sorted_by_first_letter(student_groups) -> Dict:

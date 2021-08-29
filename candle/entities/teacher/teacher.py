@@ -12,6 +12,8 @@ from candle.timetable import layout
 from candle.entities.helpers import  string_starts_with_ch
 import unidecode
 
+from timetable.layout import Layout
+from timetable.timetable import get_lessons_as_csv_response
 
 teacher = Blueprint('teacher',
                     __name__,
@@ -32,7 +34,7 @@ def list_teachers():
 def show_timetable(teacher_slug):
     """Show a timetable for a teacher."""
     teacher = Teacher.query.filter(Teacher.slug==teacher_slug).first_or_404()
-    teacher_name = teacher.given_name + " " + teacher.family_name
+    teacher_name = teacher.fullname
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
     t = layout.Layout(lessons)
     if current_user.is_authenticated:
@@ -45,6 +47,16 @@ def show_timetable(teacher_slug):
                            my_timetables=my_timetables, show_welcome=False,
                            editable=False)
 
+@teacher.route('/ucitelia/<teacher_slug>/export')
+def export_timetable(teacher_slug):
+    """Return timetable as a CSV. Data are separated by a semicolon (;)."""
+    teacher = Teacher.query.filter(Teacher.slug==teacher_slug).first_or_404()
+    teacher_name = teacher.fullname
+    lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
+    timetable_layout = Layout(lessons)
+    if timetable_layout is None:
+        raise Exception("Timetable cannot be None")
+    return get_lessons_as_csv_response(timetable_layout, filename=teacher_name)
 
 def get_teachers_sorted_by_family_name(teachers) -> Dict:
     """Return a dictionary that contains teachers sorted by the first letter of the family_name.
