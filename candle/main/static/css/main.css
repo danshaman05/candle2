@@ -132,12 +132,8 @@ form {
     text-align: right;
 }
 
-#rozvrh_akcie li {
-    padding: 0.3em;
-}
-
 #rozvrh_akcie li+li {
-    margin-left: 0.3em;
+    margin-left: 2px;
 }
 
 #vrch_logo {
