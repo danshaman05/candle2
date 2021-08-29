@@ -2,7 +2,7 @@
 
 
 $(function(){
-  $("#novy_rozvrh").on('click',function(){
+  $("#timetable_new_btn").on('click',function(){
     let name = prompt('Zadajte nazov noveho rozvrhu:');
     if (name == null){
         return;
@@ -15,7 +15,7 @@ $(function(){
 });
 
 $(function(){
-  $("#zmazat_rozvrh").on('click',function(event) {
+  $("#timetable_delete_btn").on('click',function(event) {
       let rozvrh_tag = $("#rozvrh_taby li a.selected");
       let rozvrh_name = rozvrh_tag.text();
       if (confirm(`Naozaj chcete zmazať rozvrh s názvom "${rozvrh_name}"?`)) {
@@ -35,7 +35,7 @@ $(function(){
 
 
 $(function(){
-  $("#duplikovat_rozvrh").on('click',function(event) {
+  $("#timetable_duplicate_btn").on('click',function(event) {
       $.post(window.location.href + '/duplicate')
         .done(function (data) {
             window.location.href = data['next_url'];
@@ -44,7 +44,7 @@ $(function(){
 });
 
 $(function(){
-  $("#premenovat_rozvrh").on('click',function(){
+  $("#timetable_rename_btn").on('click',function(){
     let old_name = $("#rozvrh_taby li a.selected").text();
     let name = prompt(`Zadajte nový názov pre rozrvh "${old_name}"`);
     if (name == null){
