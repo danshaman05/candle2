@@ -1,9 +1,7 @@
 {% extends "main/base.html" %}
 
 {% block timetable_menu %}
-    {% if current_user.is_authenticated %}
         {% include('timetable/tabs_and_actions.html') %}
-    {% endif %}
 {% endblock %}
 
 {% block obsah %}
@@ -32,5 +30,6 @@
     {{ super() }}
     <script src={{ url_for('my_timetable.static', filename='my_timetable.js') }}></script>
     <script src={{ url_for('panel.static', filename='panel.js') }}></script>
-        <script src={{ url_for('search.static', filename='search.js') }}></script>
+    <script src={{ url_for('search.static', filename='search.js') }}></script>
+    <script src={{ url_for('timetable.static', filename='timetable.js') }}></script>
 {% endblock %}

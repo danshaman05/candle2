@@ -9,6 +9,7 @@ from candle import db
 from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Subject
 import re
 from candle.timetable.layout import Layout, TooManyColumnsError
+from timetable.timetable import get_lessons_as_csv_response
 
 my_timetable = Blueprint('my_timetable',
                          __name__,
@@ -47,6 +48,21 @@ def new_timetable():
     db.session.add(ut)
     db.session.commit()
     return url_for("my_timetable.show_timetable", id_=ut.id_)
+
+
+@my_timetable.route('/moj-rozvrh/<id_>/export')
+@login_required
+def export_my_timetable(id_):
+    """Return CSV for user's timetable. Data are separated by a semicolon (;)."""
+    id_ = int(id_)
+    ut = UserTimetable.query.get_or_404(id_)
+    lessons = ut.lessons.order_by(Lesson.day, Lesson.start).all()
+    timetable_layout = Layout(lessons)
+    if timetable_layout is None:
+        raise Exception("Timetable cannot be None")
+    return get_lessons_as_csv_response(timetable_layout, filename=ut.name)
+
+
 
 
 @login_required
@@ -91,6 +107,7 @@ def duplicate_timetable(old_timetable):
         new_t.lessons.append(lesson)
     db.session.commit()
     return new_t.id_
+
 
 
 def getUniqueName(name) -> str:

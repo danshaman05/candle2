@@ -9,6 +9,8 @@ from candle.models import Room, Lesson, Subject
 from candle.timetable import layout
 from typing import Dict
 
+from timetable.layout import Layout
+from timetable.timetable import get_lessons_as_csv_response
 
 room = Blueprint('room',
                  __name__,
@@ -28,10 +30,7 @@ def list_rooms():
 @room.route('/miestnosti/<room_url_id>')
 def show_timetable(room_url_id):
     """Show a timetable for a room."""
-    if room_url_id.isnumeric():
-        room = Room.query.filter_by(id_=room_url_id).first_or_404()
-    else:
-        room = Room.query.filter_by(name=room_url_id).first_or_404()
+    room = get_room_by_id(room_url_id)
     web_header = "Rozvrh miestnosti " + room.name
 
     lessons = room.lessons.join(Subject).order_by(Lesson.day, Lesson.start, Subject.name).all()
@@ -43,6 +42,25 @@ def show_timetable(room_url_id):
     return render_template('timetable/timetable.html', room_name=room.name, title=room.name,
                            timetable=t, my_timetables=my_timetables, show_welcome=False,
                            web_header=web_header, editable=False)
+
+
+@room.route('/miestnosti/<room_url_id>/export')
+def export_timetable(room_url_id):
+    """Return timetable as a CSV. Data are separated by a semicolon (;)."""
+    room = get_room_by_id(room_url_id)
+    lessons = room.lessons.order_by(Lesson.day, Lesson.start).all()
+    timetable_layout = Layout(lessons)
+    if timetable_layout is None:
+        raise Exception("Timetable cannot be None")
+    return get_lessons_as_csv_response(timetable_layout, filename=room.name)
+
+
+def get_room_by_id(room_url_id):
+    if room_url_id.isnumeric():
+        room = Room.query.filter_by(id_=room_url_id).first_or_404()
+    else:
+        room = Room.query.filter_by(name=room_url_id).first_or_404()
+    return room
 
 
 def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
@@ -66,6 +84,4 @@ def get_rooms_sorted_by_dashes(rooms_lst) -> Dict:
         if prefix not in d:
             d[prefix] = []
         d[prefix].append(room)
-
     return d
-

@@ -1,8 +1,11 @@
 {# <li><a href="/rozvrh/453fyytyyyyyyyyyyyyyyttttttttt">453fyytyyyyyyyyyyyyyyttttttttt</a></li><li><a rel="nofollow" href="/moj/rozvrh/1/nezdielat">Nezdieľať</a></li><!--#}
-{% if editable %}
-    <li><button class="btn" id="premenovat_rozvrh"><i class="fa fa-pencil" aria-hidden="true"></i> Premenovať</button></li>
+{# We use Font Awesome 4.7 for generating following icons: #}
+{% if current_user.is_authenticated %}
+    <li><button class="btn" id="duplikovat_rozvrh"><i class="fa fa-files-o" aria-hidden="true"></i> Duplikovať</button></li>
+    {#    We cannot edit school timetables. So we need variable "editable" to distinguish these cases.#}
+    {% if editable %}
+        <li><button class="btn" id="premenovat_rozvrh"><i class="fa fa-pencil" aria-hidden="true"></i> Premenovať</button></li>
+        <li><button class="btn" id="zmazat_rozvrh"><i class="fa fa-trash-o" aria-hidden="true"></i> Zmazať</button></li>
+    {% endif %}
 {% endif %}
-<li><button class="btn" id="duplikovat_rozvrh"><i class="fa fa-files-o" aria-hidden="true"></i> Duplikovať</button></li>
-{% if editable %}
-    <li><button class="btn" id="zmazat_rozvrh"><i class="fa fa-trash-o" aria-hidden="true"></i> Zmazať</button></li>
-{% endif %}
+<li><button class="btn" id="exportovat_rozvrh"><i class="fa fa-file-o" aria-hidden="true"></i> Exportovať</button></li>

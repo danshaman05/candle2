@@ -1,5 +1,6 @@
 'use strict';
 
+
 $(function(){
   $("#novy_rozvrh").on('click',function(){
     let name = prompt('Zadajte nazov noveho rozvrhu:');
