@@ -5,11 +5,11 @@ Author: Daniel Grohol, FMFI UK
 
 from flask import Blueprint, request, url_for, jsonify, render_template
 from flask_login import current_user, login_required
+import re
 from candle import db
 from candle.models import UserTimetable, Teacher, Room, StudentGroup, Lesson, Subject
-import re
 from candle.timetable.layout import Layout, TooManyColumnsError
-from timetable.timetable import get_lessons_as_csv_response
+from candle.timetable.timetable import get_lessons_as_csv_response
 
 my_timetable = Blueprint('my_timetable',
                          __name__,

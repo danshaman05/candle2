@@ -223,7 +223,6 @@ class Layout:
         """Return how much time in minutes teaching lasts for a whole day."""
         return self.__TIME_MAX - self.__TIME_MIN
 
-
     @classmethod
     def get_infolist_url(cls, endpoint):
         return cls.__INFOLIST_URL + endpoint

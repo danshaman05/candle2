@@ -8,12 +8,11 @@ from flask_login import current_user
 
 from typing import Dict
 from candle.models import Lesson, Teacher
-from candle.timetable import layout
 from candle.entities.helpers import  string_starts_with_ch
 import unidecode
 
-from timetable.layout import Layout
-from timetable.timetable import get_lessons_as_csv_response
+from candle.timetable.layout import Layout
+from candle.timetable.timetable import get_lessons_as_csv_response
 
 teacher = Blueprint('teacher',
                     __name__,
@@ -36,7 +35,7 @@ def show_timetable(teacher_slug):
     teacher = Teacher.query.filter(Teacher.slug==teacher_slug).first_or_404()
     teacher_name = teacher.fullname
     lessons = teacher.lessons.order_by(Lesson.day, Lesson.start).all()
-    t = layout.Layout(lessons)
+    t = Layout(lessons)
     if current_user.is_authenticated:
         my_timetables = current_user.timetables
     else:

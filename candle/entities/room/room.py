@@ -6,11 +6,10 @@ Author: Daniel Grohol, FMFI UK
 from flask import render_template, Blueprint
 from flask_login import current_user
 from candle.models import Room, Lesson, Subject
-from candle.timetable import layout
 from typing import Dict
 
-from timetable.layout import Layout
-from timetable.timetable import get_lessons_as_csv_response
+from candle.timetable.layout import Layout
+from candle.timetable.timetable import get_lessons_as_csv_response
 
 room = Blueprint('room',
                  __name__,
@@ -34,7 +33,7 @@ def show_timetable(room_url_id):
     web_header = "Rozvrh miestnosti " + room.name
 
     lessons = room.lessons.join(Subject).order_by(Lesson.day, Lesson.start, Subject.name).all()
-    t = layout.Layout(lessons)
+    t = Layout(lessons)
     if current_user.is_authenticated:
         my_timetables = current_user.timetables
     else:
