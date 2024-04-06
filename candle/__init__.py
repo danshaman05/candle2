@@ -14,15 +14,6 @@ from werkzeug.middleware.dispatcher import DispatcherMiddleware
 from werkzeug.wrappers import Response
 
 
-login_manager = LoginManager()  # keeps session data
-login_manager.login_view = 'auth.login'
-# login_manager.login_message_category = 'info'  # flash message category (not yet implemented)
-
-csrf = CSRFProtect()    # We need CSRF protection for our AJAX calls. More info: https://stackoverflow.com/questions/31888316/how-to-use-flask-wtforms-csrf-protection-with-ajax
-db = SQLAlchemy()
-jsglue = JSGlue()
-
-
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
@@ -66,8 +57,16 @@ def register_blueprints(app):
 
 
 def init_extensions(app):
+    csrf = CSRFProtect()  # We need CSRF protection for our AJAX calls. More info: https://stackoverflow.com/questions/31888316/how-to-use-flask-wtforms-csrf-protection-with-ajax
+
+    db = SQLAlchemy()
     db.init_app(app)
+
+    login_manager = LoginManager()  # keeps session data
+    # login_manager.login_message_category = 'info'  # flash message category (not yet implemented)
+    login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
+
     csrf.init_app(app)
 
     app.jinja_env.trim_blocks = True
@@ -75,4 +74,5 @@ def init_extensions(app):
     app.jinja_env.add_extension('jinja2.ext.loopcontrols')
     app.jinja_env.add_extension('jinja2.ext.do')
 
+    jsglue = JSGlue()
     jsglue.init_app(app)
